@@ -50,6 +50,8 @@ _bmad/config.user.toml
 _bmad/custom/*.user.toml
 _bmad/render/
 .claude/settings.local.json
+# .agents/ er en identisk kopi av .claude/skills (generert for Codex m.fl.)
+.agents/
 
 # Operating system / editors
 .DS_Store
