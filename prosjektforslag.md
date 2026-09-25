@@ -1,23 +1,57 @@
-Executive Summary
+# Prosjektforslag — Sambandet
+
+## Executive Summary
+
 Vi utvikler en felles planleggingsløsning for ledere og planleggingsteam som håndterer mange parallelle aktiviteter og informasjonskilder, med operative ledere i Forsvaret som første målgruppe. Målet er å redusere tiden som brukes på å finne, sammenstille og manuelt overføre informasjon mellom Excel-ark, dokumenter og andre arbeidsflater, slik at mer tid kan brukes på ledelse, prioritering og oppdragsløsning.
+
 Løsningen skal gjøre relevant planleggingsinformasjon samlet, visuelt tilgjengelig og anvendbar på ulike detaljnivåer, samtidig som KI kan bidra til å hente ut og strukturere informasjon fra eksisterende dokumenter. Behovet er aktuelt fordi dagens fragmenterte arbeidsform fortsatt binder betydelig tid til administrativ dokumenthåndtering, samtidig som KI gir nye muligheter til å redusere dette manuelle arbeidet og skape et mer oppdatert felles planbilde.
-The Problem
+
+## The Problem
+
 Ledere med reelt planleggingsansvar, som seksjonssjefer, avdelingssjefer, troppsjefer og kompanisjefer i Forsvaret, bruker mye arbeidstid på å holde oversikt over informasjon som allerede finnes, fremfor på ledelse og planlegging. Informasjonen er spredt i frittstående Excel-ark og dokumenter, ofte lokalt lagret eller skrivebeskyttet og uten felles struktur, slik at planlegging krever manuell navigering mellom filer og gjeninntasting av data. I møter går tid tapt til lasting og leting etter dokumenter, samtidig som et samlet og oppdatert planbilde mangler. Resultatet er at arbeidskraft og planleggingshorisont bindes opp i dokumenthåndtering fremfor ledelse og oppdragsløsning.
-The Solution
+
+## The Solution
+
 Løsningen endrer hvordan planleggingsinformasjon samles, vises og deles: fra spredte dokumenter til ett felles sted med relevant og visuelt tilgjengelig informasjon. Informasjon fra eksterne kilder som ordre, direktiver og instrukser kan hentes inn og synliggjøres der den skal brukes, uten manuell overføring. Brukerne deler samme oppdaterte planbilde på tvers av roller og nivåer og kan bevege seg fra overordnet nivå til uke- eller dagsnivå uten ny bearbeiding. Dette gir raskere informasjonsflyt, bedre felles situasjonsforståelse og mer tid til ledelse.
-What Makes This Different
-De viktigste alternativene er Excel, separate dokumenter og eksisterende årshjul. Excel er fleksibelt, men kan spre informasjon mellom flere filer og kreve manuell bearbeiding. Eksisterende årshjul gir visuell oversikt, men kombinerer ikke nødvendigvis et felles planbilde med ulike detaljnivåer. Produktet skiller seg ut gjennom kombinasjonen av visuell planlegging, ett felles informasjonsgrunnlag og fleksibelt detaljnivå, utviklet for målgruppens konkrete planleggingsbehov.
-Who This Serves
+
+## What Makes This Different
+
+De viktigste alternativene er Excel, separate dokumenter og eksisterende årshjul.
+
+- **Excel** er fleksibelt, men kan spre informasjon mellom flere filer og kreve manuell bearbeiding.
+- **Eksisterende årshjul** gir visuell oversikt, men kombinerer ikke nødvendigvis et felles planbilde med ulike detaljnivåer.
+
+Produktet skiller seg ut gjennom kombinasjonen av visuell planlegging, ett felles informasjonsgrunnlag og fleksibelt detaljnivå, utviklet for målgruppens konkrete planleggingsbehov.
+
+## Who This Serves
+
 Primærbrukeren er en leder eller et planleggingsteam med behov for å strukturere aktiviteter, frister og informasjon over tid. Første målgruppe er operative ledere i Forsvaret og personell som støtter dem i planleggingen, samtidig som løsningen også kan være relevant for ledere med tilsvarende behov i andre organisasjoner. Felles for brukerne er parallelle aktiviteter, informasjon fra flere kilder og behov for å dele et felles planbilde.
 
-Success Criteria
+## Success Criteria
+
 Produktet lykkes dersom planleggingsarbeidet blir enklere, raskere og mer oversiktlig i én felles planleggingsløsning.
-User outcome: Brukeren skal bruke mindre tid på å finne, sammenstille og manuelt overføre informasjon mellom dokumenter og verktøy. Informasjon fra eksterne kilder skal kunne omformes til strukturert og anvendbar planleggingsinformasjon med mindre manuelt arbeid enn i dag.
-Behavior: Løsningen skal brukes som et primært verktøy for planlegging og oppfølging fremfor separate dokumenter, regneark og lokale filer. Aktiv bruk i møter til å presentere, diskutere og oppdatere planleggingsinformasjon skal vise at den fungerer som et felles informasjonsgrunnlag. I brukertesting skal den sentrale arbeidsflyten fra innhenting av informasjon til oppdatert plan kunne gjennomføres uten omfattende veiledning.
-Quality: Informasjonen skal være relevant, forståelig og plassert der brukeren forventer å finne den. KI-genererte forslag skal være presise nok til å redusere manuelt arbeid, samtidig som brukeren kan kontrollere, endre eller avvise dem. Løsningen skal gi et oppdatert planbilde og enkel overgang mellom overordnet og detaljert informasjon.
-Business / mission: Produktet skal demonstrere at én samlet planleggingsløsning kan redusere manuell dokumenthåndtering og fragmenterte arbeidsprosesser. Første versjon lykkes dersom brukertesting viser bedre oversikt, raskere tilgang til relevant informasjon og mindre manuelt planleggingsarbeid enn dagens arbeidsmåte.
-Scope
-IN – first version: Løsningen skal samle planleggingsinformasjon på ett sted, der brukeren kan registrere, redigere og arbeide med informasjon. KI skal kunne hente ut, strukturere og kategorisere relevant innhold fra dokumenter, mens brukeren kan kontrollere, endre, godkjenne eller avvise KI-generert informasjon før den inngår i planen. Informasjonen skal kunne visualiseres fra overordnet til detaljert nivå, samt lagres, vedlikeholdes og brukes som et aktivt arbeidsgrunnlag over tid.
-OUT: Direkte integrasjon med applikasjoner, automatisk innhenting og synkronisering med eksterne systemer; avansert flerbrukersamarbeid med sømløs deling, sanntidssamarbeid og omfattende endringshistorikk; omfattende tilpasning av format, layout, farger og planleggingsstrukturer; KI-basert prioritering, beslutningstaking og automatisk gjennomføring av endringer; samt prediksjon, konfliktanalyse, optimalisering og annen avansert analyse og beslutningsstøtte.
-Vision
+
+- **User outcome** — Brukeren skal bruke mindre tid på å finne, sammenstille og manuelt overføre informasjon mellom dokumenter og verktøy. Informasjon fra eksterne kilder skal kunne omformes til strukturert og anvendbar planleggingsinformasjon med mindre manuelt arbeid enn i dag.
+- **Behavior** — Løsningen skal brukes som et primært verktøy for planlegging og oppfølging fremfor separate dokumenter, regneark og lokale filer. Aktiv bruk i møter til å presentere, diskutere og oppdatere planleggingsinformasjon skal vise at den fungerer som et felles informasjonsgrunnlag. I brukertesting skal den sentrale arbeidsflyten fra innhenting av informasjon til oppdatert plan kunne gjennomføres uten omfattende veiledning.
+- **Quality** — Informasjonen skal være relevant, forståelig og plassert der brukeren forventer å finne den. KI-genererte forslag skal være presise nok til å redusere manuelt arbeid, samtidig som brukeren kan kontrollere, endre eller avvise dem. Løsningen skal gi et oppdatert planbilde og enkel overgang mellom overordnet og detaljert informasjon.
+- **Business / mission** — Produktet skal demonstrere at én samlet planleggingsløsning kan redusere manuell dokumenthåndtering og fragmenterte arbeidsprosesser. Første versjon lykkes dersom brukertesting viser bedre oversikt, raskere tilgang til relevant informasjon og mindre manuelt planleggingsarbeid enn dagens arbeidsmåte.
+
+## Scope
+
+### IN – first version
+
+- Løsningen skal samle planleggingsinformasjon på ett sted, der brukeren kan registrere, redigere og arbeide med informasjon.
+- KI skal kunne hente ut, strukturere og kategorisere relevant innhold fra dokumenter, mens brukeren kan kontrollere, endre, godkjenne eller avvise KI-generert informasjon før den inngår i planen.
+- Informasjonen skal kunne visualiseres fra overordnet til detaljert nivå, samt lagres, vedlikeholdes og brukes som et aktivt arbeidsgrunnlag over tid.
+
+### OUT
+
+- Direkte integrasjon med applikasjoner, automatisk innhenting og synkronisering med eksterne systemer.
+- Avansert flerbrukersamarbeid med sømløs deling, sanntidssamarbeid og omfattende endringshistorikk.
+- Omfattende tilpasning av format, layout, farger og planleggingsstrukturer.
+- KI-basert prioritering, beslutningstaking og automatisk gjennomføring av endringer.
+- Prediksjon, konfliktanalyse, optimalisering og annen avansert analyse og beslutningsstøtte.
+
+## Vision
+
 Vår visjon er en arbeidshverdag der ledere bruker mindre tid på administrasjon og informasjonsleting og mer tid på ledelse, prioritering og oppdragsløsning. Planlegging skal være oversiktlig, effektiv og basert på et felles og oppdatert situasjonsbilde, og på sikt bidra til bedre informasjonsflyt, raskere beslutninger og mer effektiv bruk av tid og personell.
