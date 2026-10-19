@@ -22,8 +22,6 @@ Løsningen er et interaktivt årshjul. Kjerneflyten består av fem steg:
 
 Alle visningene bygger på de samme aktivitetene. Brukeren kan også opprette, redigere og slette aktiviteter manuelt.
 
-**Eksempel (fiktivt):** Troppssjefen mottar en øvingsordre for «Øvelse Testfjell». Ordren beskriver en skytedag 12. mars, en feltøvelse 24.–26. mars og en frist 1. mars for innmelding av materiellbehov. Etter opplasting foreslår KI aktiviteter basert på ordren. For feltøvelsen står ansvarsområde ikke i ordren, så det markeres som manglende. Troppssjefen fyller inn ansvarsområdet, godkjenner forslagene og ser aktivitetene i mars i årshjulet.
-
 ## 3. What Makes This Different
 
 Relevante alternativer er Excel, eksisterende årshjul og planleggingsverktøy som Microsoft Planner, Trello og Teams-kalender. Disse dekker ulike planleggingsbehov, men krever ofte at informasjon fra ordre og dokumenter overføres manuelt til planen.
