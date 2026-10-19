@@ -15,7 +15,7 @@ Troppssjefer i Forsvaret bruker mye arbeidstid på å holde oversikt over inform
 Løsningen er et interaktivt årshjul. Kjerneflyten består av fem steg:
 
 1. **Last opp dokument:** Brukeren laster opp en ordre eller et annet dokument (.docx eller tekstbasert PDF).
-2. Få aktivitetsforslag: KI analyserer dokumentet og foreslår aktiviteter med tittel, startdato, eventuell sluttdato, kategori og ansvarsområde. Informasjon som mangler eller er usikker, markeres i forslaget
+2. **Få aktivitetsforslag:** KI analyserer dokumentet og foreslår aktiviteter med tittel, startdato, eventuell sluttdato, kategori og ansvarsområde. Informasjon som mangler eller er usikker, markeres i forslaget.
 3. **Kontroller forslagene:** Brukeren går gjennom forslagene, kompletterer eller endrer dem ved behov, og godkjenner eller avviser hvert forslag.
 4. **Legg inn i planen:** Godkjente aktiviteter lagres og legges inn i årshjulet.
 5. **Få oversikt:** Brukeren ser planen i årsvisning, zoomer inn til månedsvisning med ukeinndeling og åpner enkeltaktiviteter for utfyllende informasjon.
@@ -40,7 +40,7 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 
 **Behavior:** Brukeren skal kunne opprette, redigere og slette aktiviteter, navigere mellom års- og månedsvisning og kontrollere, endre, godkjenne eller avvise KI-genererte aktivitetsforslag. I brukertest skal hele arbeidsflyten fra dokumentopplasting til oppdatert plan kunne gjennomføres uten veiledning.
 
-**Quality:** KI-genererte aktivitetsforslag skal testes mot 3–4 fiktive dokumenter med forhåndsdefinert fasit. Testene skal kontrollere om relevante aktiviteter og tilhørende datoer identifiseres korrekt, og om manglende eller usikker informasjon markeres tydelig. 
+**Quality:** KI-genererte aktivitetsforslag skal testes mot 3–4 fiktive dokumenter med forhåndsdefinert fasit. Testene skal kontrollere om relevante aktiviteter og tilhørende datoer identifiseres korrekt, og om manglende eller usikker informasjon markeres tydelig.
 
 **Business / mission:** Samme planleggingsoppgave skal gjennomføres både manuelt i Excel og ved bruk av applikasjonen. Tidsbruken sammenlignes for å undersøke om løsningen effektiviserer planleggingsarbeidet.
 
@@ -48,24 +48,18 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 
 ### IN – First version
 
-### IN – First version
-
 1. **Interaktivt årshjul:** Løsningen skal ha en interaktiv årsvisning med 12 måneder, mulighet for å velge kalenderår, zoome inn til månedsvisning med ukeinndeling og åpne enkeltaktiviteter for mer detaljert informasjon.
-
 2. **Aktivitetshåndtering:** Løsningen skal være en enkeltbrukerløsning der brukeren kan opprette, redigere og slette aktiviteter. Hver aktivitet skal inneholde tittel, startdato, kategori og ansvarsområde, samt sluttdato ved flerdagsaktiviteter.
-
 3. **Dokumentopplasting:** Brukeren skal kunne laste opp Word-dokumenter (.docx) og tekstbaserte PDF-dokumenter som grunnlag for KI-assistert aktivitetsgenerering.
-
 4. **KI-assistert aktivitetsgenerering:** KI skal analysere opplastede dokumenter og foreslå relevante aktiviteter med tittel, startdato, eventuell sluttdato, kategori og ansvarsområde basert på tilgjengelig informasjon. Manglende eller usikker informasjon skal markeres tydelig.
-
 5. **Brukerkontroll og lagring:** Brukeren skal kunne kontrollere, redigere, komplettere, godkjenne eller avvise hvert KI-genererte aktivitetsforslag. Obligatoriske opplysninger må være utfylt før godkjenning, og ingen KI-genererte aktiviteter skal legges inn uten brukerens eksplisitte godkjenning. Alle aktiviteter skal lagres og være tilgjengelige når applikasjonen åpnes på nytt.
 
 ### OUT – First version
 
 - Direkte integrasjon med eksterne applikasjoner, inkludert automatisk innhenting og synkronisering av informasjon.
-- Flerbrukerfunksjonalitet, inkludert deling av årshjul, rolle- og tilgangsstyring, og sanntidssamarbeid.
+- Flerbrukerfunksjonalitet, inkludert deling av årshjul, rolle- og tilgangsstyring og sanntidssamarbeid.
 - Mulighet for flere konsentriske ringer i årshjulet.
-- Muligheten til å zoome inn på en enkelt uke og se aktivitetene fordelt på ukedager (mandag–søndag).
+- Mulighet for å zoome inn på en enkelt uke og se aktivitetene fordelt på ukedager (mandag–søndag).
 - OCR og analyse av skannede dokumenter eller bilder.
 - Omfattende tilpasning av format, layout, farger og planleggingsstrukturer.
 - KI-basert prioritering, beslutningstaking og automatisk gjennomføring av endringer uten brukerens godkjenning.
