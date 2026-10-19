@@ -1,4 +1,4 @@
-# Product Brief – KI-assistert interaktivt årshjul
+# Product Brief – AI-Assisted Interactive Annual Planning Wheel
 
 ## 1. Executive Summary
 
