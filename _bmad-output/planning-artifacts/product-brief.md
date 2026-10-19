@@ -6,11 +6,11 @@ Vi utvikler en interaktiv planleggingsløsning med KI-støtte for troppssjefer i
 
 I dag er informasjon spredt mellom Excel-ark, ordre og andre dokumenter, noe som krever mye manuelt arbeid og gjør planleggingen mindre effektiv. Ved å kombinere visuell planlegging med KI-assistert dokumentbehandling skal løsningen redusere dette arbeidet og gi bedre oversikt, samtidig som brukeren beholder kontrollen over hva som legges inn i planen. Utviklingen innen KI gjør det nå mulig å automatisere deler av dette manuelle arbeidet.
 
-### The Problem
+## 2. The Problem
 
 Troppssjefer i Forsvaret bruker mye arbeidstid på å holde oversikt over informasjon som allerede finnes, fremfor på ledelse og planlegging. De mangler en effektiv måte å omsette informasjon fra ordre og dokumenter til en samlet og oppdatert aktivitetsplan. Informasjonen er spredt i frittstående Excel-ark og dokumenter, ofte lokalt lagret og uten felles struktur, slik at planlegging krever manuell navigering mellom filer og gjeninntasting av data. I møter går tid tapt til lasting og leting etter dokumenter. Resultatet er at arbeidstid og planleggingskapasitet bindes opp i dokumenthåndtering fremfor ledelse og oppdragsløsning.
 
-## 2. The Solution
+## 3. The Solution
 
 Løsningen er et interaktivt årshjul. Kjerneflyten består av fem steg:
 
@@ -22,17 +22,17 @@ Løsningen er et interaktivt årshjul. Kjerneflyten består av fem steg:
 
 Alle visningene bygger på de samme aktivitetene. Brukeren kan også opprette, redigere og slette aktiviteter manuelt.
 
-## 3. What Makes This Different
+## 4. What Makes This Different
 
 Relevante alternativer er Excel, eksisterende årshjul og planleggingsverktøy som Microsoft Planner, Trello og Teams-kalender. Disse dekker ulike planleggingsbehov, men krever ofte at informasjon fra ordre og dokumenter overføres manuelt til planen.
 
 Løsningens særpreg er kombinasjonen av et interaktivt årshjul, KI-assistert aktivitetsgenerering og brukergodkjenning i én sammenhengende arbeidsflyt, tilpasset troppssjefens planleggingsbehov.
 
-## 4. Who This Serves
+## 5. Who This Serves
 
 Primærbrukeren i første versjon er troppssjefen i Forsvaret, som skal planlegge og følge opp øvelser, utdanning og frister basert på informasjon fra flere kilder. I en typisk uke mottar troppssjefen ordre fra overordnet ledd og bruker informasjonen til å planlegge og koordinere troppens aktiviteter. Brukeren har behov for et samlet og oppdatert planbilde som også kan benyttes i planleggingsmøter. Andre lederroller er aktuelle målgrupper på sikt.
 
-## 5. Success Criteria
+## 6. Success Criteria
 
 Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en oppdatert plan i én samlet løsning, med mindre behov for manuelt planleggingsarbeid.
 
@@ -44,7 +44,7 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 
 **Business / mission:** Samme planleggingsoppgave skal gjennomføres både manuelt i Excel og ved bruk av applikasjonen. Tidsbruken sammenlignes for å undersøke om løsningen effektiviserer planleggingsarbeidet.
 
-## 6. Scope
+## 7. Scope
 
 ### IN – First version
 
@@ -66,7 +66,7 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 - Prediksjon, konfliktanalyse, optimalisering og beslutningsstøtte.
 - Separat oppgavestyring (Task Manager), inkludert oppgavestatus, fremdriftsoppfølging og fullføring av oppgaver.
 
-## 7. Security & Testing
+## 8. Security & Testing
 
 - Kun fiktive dokumenter og testdata skal benyttes under utvikling, testing og demonstrasjon. Ingen ekte dokumenter fra Forsvaret skal legges i repoet, lastes opp i applikasjonen eller sendes til eksterne språkmodeller.
 - Løsningen skal benytte én ekstern språkmodell via API for å analysere dokumenter og foreslå aktiviteter. Valg av modell og leverandør skal dokumenteres og begrunnes i arkitekturen.
@@ -74,6 +74,6 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 - Applikasjonen skal kunne kjøres og demonstreres uten betalt KI-tilgang gjennom en mock/demo-modus med forhåndsdefinerte KI-svar. Demo-modusen skal støtte den samme brukerflyten for gjennomgang, redigering, godkjenning og avvisning av aktivitetsforslag som ved bruk av en ekstern språkmodell.
 - Kjernefunksjonaliteten skal testes med fiktive dokumenter der forventede aktiviteter er definert på forhånd, slik at resultatene fra KI-uttrekket kan sammenlignes med en kjent fasit.
 
-## 8. Vision
+## 9. Vision
 
 Planlegging skal være oversiktlig, effektiv og basert på et samlet og oppdatert planbilde. På sikt skal løsningen legge til rette for et felles planbilde og gjøre det mulig for brukeren å bevege seg sømløst mellom års-, måneds-, uke- og dagsvisning etter behov. Løsningen skal også bidra til bedre informasjonsflyt, raskere beslutninger og mer effektiv bruk av tid og personell.
