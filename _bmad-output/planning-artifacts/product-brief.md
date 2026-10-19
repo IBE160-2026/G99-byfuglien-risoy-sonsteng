@@ -8,14 +8,14 @@ I dag er informasjon spredt mellom Excel-ark, ordre og andre dokumenter, noe som
 
 ### The Problem
 
-Troppssjefer i Forsvaret bruker mye arbeidstid på å holde oversikt over informasjon som allerede finnes, fremfor på ledelse og planlegging. Informasjonen er spredt i frittstående Excel-ark og dokumenter, ofte lokalt lagret eller skrivebeskyttet og uten felles struktur, slik at planlegging krever manuell navigering mellom filer og gjeninntasting av data. I møter går tid tapt til lasting og leting etter dokumenter, samtidig som et samlet og oppdatert planbilde mangler. Resultatet er at arbeidskraft og planleggingshorisont bindes opp i dokumenthåndtering fremfor ledelse og oppdragsløsning.
+Troppssjefer i Forsvaret bruker mye arbeidstid på å holde oversikt over informasjon som allerede finnes, fremfor på ledelse og planlegging. De mangler en effektiv måte å omsette informasjon fra ordre og dokumenter til en samlet og oppdatert aktivitetsplan. Informasjonen er spredt i frittstående Excel-ark og dokumenter, ofte lokalt lagret og uten felles struktur, slik at planlegging krever manuell navigering mellom filer og gjeninntasting av data. I møter går tid tapt til lasting og leting etter dokumenter. Resultatet er at arbeidstid og planleggingskapasitet bindes opp i dokumenthåndtering fremfor ledelse og oppdragsløsning.
 
 ## 2. The Solution
 
 Løsningen er et interaktivt årshjul. Kjerneflyten består av fem steg:
 
 1. **Last opp dokument:** Brukeren laster opp en ordre eller et annet dokument (.docx eller tekstbasert PDF).
-2. **Få aktivitetsforslag:** KI analyserer dokumentet og foreslår aktiviteter med tittel, dato, varighet, kategori og ansvarsområde. Informasjon som mangler eller er usikker, markeres i forslaget.
+2. Få aktivitetsforslag: KI analyserer dokumentet og foreslår aktiviteter med tittel, startdato, eventuell sluttdato, kategori og ansvarsområde. Informasjon som mangler eller er usikker, markeres i forslaget
 3. **Kontroller forslagene:** Brukeren går gjennom forslagene, kompletterer eller endrer dem ved behov, og godkjenner eller avviser hvert forslag.
 4. **Legg inn i planen:** Godkjente aktiviteter lagres og legges inn i årshjulet.
 5. **Få oversikt:** Brukeren ser planen i årsvisning, zoomer inn til månedsvisning med ukeinndeling og åpner enkeltaktiviteter for utfyllende informasjon.
@@ -32,7 +32,7 @@ Løsningens særpreg er kombinasjonen av et interaktivt årshjul, KI-assistert a
 
 ## 4. Who This Serves
 
-Primærbrukeren i første versjon er troppssjefen i Forsvaret, som skal planlegge og følge opp øvelser, utdanning og frister basert på informasjon fra flere kilder. I en typisk uke mottar troppssjefen ordre fra overordnet ledd og omsetter dem til ukeplaner for troppen. Brukeren har behov for et samlet og oppdatert planbilde som også kan benyttes i planleggingsmøter. Andre lederroller er aktuelle målgrupper på sikt.
+Primærbrukeren i første versjon er troppssjefen i Forsvaret, som skal planlegge og følge opp øvelser, utdanning og frister basert på informasjon fra flere kilder. I en typisk uke mottar troppssjefen ordre fra overordnet ledd og bruker informasjonen til å planlegge og koordinere troppens aktiviteter. Brukeren har behov for et samlet og oppdatert planbilde som også kan benyttes i planleggingsmøter. Andre lederroller er aktuelle målgrupper på sikt.
 
 ## 5. Success Criteria
 
@@ -42,7 +42,7 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 
 **Behavior:** Brukeren skal kunne opprette, redigere og slette aktiviteter, navigere mellom års- og månedsvisning og kontrollere, endre, godkjenne eller avvise KI-genererte aktivitetsforslag. I brukertest skal hele arbeidsflyten fra dokumentopplasting til oppdatert plan kunne gjennomføres uten veiledning.
 
-**Quality:** KI-genererte aktivitetsforslag skal testes mot 3–4 fiktive dokumenter med kjent fasit for å kontrollere om relevante aktiviteter og datoer identifiseres korrekt.
+**Quality:** KI-genererte aktivitetsforslag skal testes mot 3–4 fiktive dokumenter med forhåndsdefinert fasit. Testene skal kontrollere om relevante aktiviteter og tilhørende datoer identifiseres korrekt, og om manglende eller usikker informasjon markeres tydelig. 
 
 **Business / mission:** Samme planleggingsoppgave skal gjennomføres både manuelt i Excel og ved bruk av applikasjonen. Tidsbruken sammenlignes for å undersøke om løsningen effektiviserer planleggingsarbeidet.
 
@@ -50,11 +50,17 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 
 ### IN – First version
 
-1. Interaktivt årshjul: Løsningen skal visualisere aktiviteter i et interaktivt årshjul med hele kalenderåret og dets 12 måneder som hovedvisning (årsvisning). Brukeren skal kunne zoome inn på en enkelt måned for å se aktivitetene fordelt på uker (månedsvisning med ukeinndeling), og åpne enkeltaktiviteter for mer detaljert informasjon. Brukeren skal kunne velge hvilket kalenderår som vises.
-2. Aktivitetshåndtering: Løsningen skal være en enkeltbrukerløsning der brukeren manuelt kan opprette, redigere og slette aktiviteter. Hver aktivitet skal minimum inneholde tittel, dato, varighet, kategori og tilknyttet ansvarsområde.
-3. Dokumentopplasting: Brukeren skal kunne laste opp Word-dokumenter (.docx) og tekstbaserte PDF-dokumenter som grunnlag for KI-assistert aktivitetsgenerering.
-4. KI-assistert aktivitetsgenerering: KI skal analysere innholdet i opplastede dokumenter og foreslå relevante aktiviteter med tittel, dato, varighet, kategori og ansvarsområde når informasjonen kan utledes av dokumentet. Dersom nødvendig informasjon mangler eller er usikker, skal dette tydelig fremgå av forslaget, slik at brukeren kan komplettere informasjonen før godkjenning.
-5. Brukerkontroll og lagring: KI-genererte aktivitetsforslag skal presenteres for brukeren, som kan redigere, godkjenne eller avvise hvert forslag før det legges inn i årshjulet. Ingen KI-genererte aktiviteter skal legges inn i planen uten eksplisitt godkjenning fra brukeren. Godkjente og manuelt opprettede aktiviteter skal lagres og være tilgjengelige ved senere bruk.
+### IN – First version
+
+1. **Interaktivt årshjul:** Løsningen skal ha en interaktiv årsvisning med 12 måneder, mulighet for å velge kalenderår, zoome inn til månedsvisning med ukeinndeling og åpne enkeltaktiviteter for mer detaljert informasjon.
+
+2. **Aktivitetshåndtering:** Løsningen skal være en enkeltbrukerløsning der brukeren kan opprette, redigere og slette aktiviteter. Hver aktivitet skal inneholde tittel, startdato, kategori og ansvarsområde, samt sluttdato ved flerdagsaktiviteter.
+
+3. **Dokumentopplasting:** Brukeren skal kunne laste opp Word-dokumenter (.docx) og tekstbaserte PDF-dokumenter som grunnlag for KI-assistert aktivitetsgenerering.
+
+4. **KI-assistert aktivitetsgenerering:** KI skal analysere opplastede dokumenter og foreslå relevante aktiviteter med tittel, startdato, eventuell sluttdato, kategori og ansvarsområde basert på tilgjengelig informasjon. Manglende eller usikker informasjon skal markeres tydelig.
+
+5. **Brukerkontroll og lagring:** Brukeren skal kunne kontrollere, redigere, komplettere, godkjenne eller avvise hvert KI-genererte aktivitetsforslag. Obligatoriske opplysninger må være utfylt før godkjenning, og ingen KI-genererte aktiviteter skal legges inn uten brukerens eksplisitte godkjenning. Alle aktiviteter skal lagres og være tilgjengelige når applikasjonen åpnes på nytt.
 
 ### OUT – First version
 
@@ -78,4 +84,4 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 
 ## 8. Vision
 
-Vår visjon er en arbeidshverdag der ledere bruker mindre tid på administrasjon og informasjonsleting og mer tid på ledelse, prioritering og oppdragsløsning. Planlegging skal være oversiktlig, effektiv og basert på et felles og oppdatert planbilde, der brukeren kan bevege seg sømløst mellom års-, måneds-, uke- og dagsvisning etter behov. På sikt skal løsningen bidra til bedre informasjonsflyt, raskere beslutninger og mer effektiv bruk av tid og personell.
+Planlegging skal være oversiktlig, effektiv og basert på et samlet og oppdatert planbilde. På sikt skal løsningen legge til rette for et felles planbilde og gjøre det mulig for brukeren å bevege seg sømløst mellom års-, måneds-, uke- og dagsvisning etter behov. Løsningen skal også bidra til bedre informasjonsflyt, raskere beslutninger og mer effektiv bruk av tid og personell.
