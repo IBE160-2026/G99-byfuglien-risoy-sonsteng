@@ -15,8 +15,8 @@ Troppssjefer i Forsvaret bruker mye arbeidstid på å holde oversikt over inform
 Løsningen er et interaktivt årshjul. Kjerneflyten består av fem steg:
 
 1. **Last opp dokument:** Brukeren laster opp en ordre eller et annet dokument (.docx eller tekstbasert PDF).
-2. **Få aktivitetsforslag:** KI analyserer dokumentet og foreslår aktiviteter med tittel, startdato, eventuell sluttdato, kategori og ansvarsområde. Informasjon som mangler eller er usikker, markeres i forslaget.
-3. **Kontroller forslagene:** Brukeren går gjennom forslagene, kompletterer eller endrer dem ved behov, og godkjenner eller avviser hvert forslag.
+2. **Få aktivitetsforslag:** KI analyserer dokumentet og foreslår aktiviteter med tittel, startdato, sluttdato, kategori og ansvarsområde. Informasjon som mangler eller er usikker, markeres i forslaget.
+3. **Kontroller forslagene:** Brukeren går gjennom forslagene, kontrollerer dem mot tilgjengelige kildeutdrag fra dokumentet, kompletterer eller endrer dem ved behov, og godkjenner eller avviser hvert forslag.
 4. **Legg inn i planen:** Godkjente aktiviteter lagres og legges inn i årshjulet.
 5. **Få oversikt:** Brukeren ser planen i årsvisning, zoomer inn til månedsvisning med ukeinndeling og åpner enkeltaktiviteter for utfyllende informasjon.
 
@@ -49,9 +49,9 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 ### IN – First version
 
 1. **Interaktivt årshjul:** Løsningen skal ha en interaktiv årsvisning med 12 måneder, mulighet for å velge kalenderår, zoome inn til månedsvisning med ukeinndeling og åpne enkeltaktiviteter for mer detaljert informasjon.
-2. **Aktivitetshåndtering:** Løsningen skal være en enkeltbrukerløsning der brukeren kan opprette, redigere og slette aktiviteter. Hver aktivitet skal inneholde tittel, startdato, kategori og ansvarsområde, samt sluttdato ved flerdagsaktiviteter.
+2. **Aktivitetshåndtering:** Løsningen skal være en enkeltbrukerløsning der brukeren kan opprette, redigere og slette aktiviteter. Hver aktivitet skal inneholde tittel, startdato, sluttdato, kategori og ansvarsområde.
 3. **Dokumentopplasting:** Brukeren skal kunne laste opp Word-dokumenter (.docx) og tekstbaserte PDF-dokumenter som grunnlag for KI-assistert aktivitetsgenerering.
-4. **KI-assistert aktivitetsgenerering:** KI skal analysere opplastede dokumenter og foreslå relevante aktiviteter med tittel, startdato, eventuell sluttdato, kategori og ansvarsområde basert på tilgjengelig informasjon. Manglende eller usikker informasjon skal markeres tydelig.
+4. **KI-assistert aktivitetsgenerering:** KI skal analysere opplastede dokumenter og foreslå relevante aktiviteter med tittel, startdato, sluttdato, kategori og ansvarsområde basert på tilgjengelig informasjon. Manglende eller usikker informasjon skal markeres tydelig.
 5. **Brukerkontroll og lagring:** Brukeren skal kunne kontrollere, redigere, komplettere, godkjenne eller avvise hvert KI-genererte aktivitetsforslag. Obligatoriske opplysninger må være utfylt før godkjenning, og ingen KI-genererte aktiviteter skal legges inn uten brukerens eksplisitte godkjenning. Alle aktiviteter skal lagres og være tilgjengelige når applikasjonen åpnes på nytt.
 
 ### OUT – First version
@@ -71,7 +71,7 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 - Kun fiktive dokumenter og testdata skal benyttes under utvikling, testing og demonstrasjon. Ingen ekte dokumenter fra Forsvaret skal legges i repoet, lastes opp i applikasjonen eller sendes til eksterne språkmodeller.
 - Løsningen skal benytte én ekstern språkmodell via API for å analysere dokumenter og foreslå aktiviteter. Valg av modell og leverandør skal dokumenteres og begrunnes i arkitekturen.
 - API-nøkler og andre hemmeligheter skal lagres i miljøvariabler og holdes utenfor Git.
-- Applikasjonen skal kunne kjøres og demonstreres uten betalt KI-tilgang gjennom en mock/demo-modus med forhåndsdefinerte KI-svar. Demo-modusen skal støtte den samme brukerflyten for gjennomgang, redigering, godkjenning og avvisning av aktivitetsforslag som ved bruk av en ekstern språkmodell.
+- Applikasjonen skal kunne kjøres og demonstreres uten betalt KI-tilgang gjennom en mock/demo-modus med forhåndsdefinerte aktivitetsforslag. Demo-modusen skal støtte den samme brukerflyten for gjennomgang, redigering, godkjenning og avvisning av aktivitetsforslag som ved bruk av en ekstern språkmodell.
 - Kjernefunksjonaliteten skal testes med fiktive dokumenter der forventede aktiviteter er definert på forhånd, slik at resultatene fra KI-uttrekket kan sammenlignes med en kjent fasit.
 
 ## 9. Vision
