@@ -38,7 +38,7 @@ Det som skiller løsningen fra Excel og vanlige planleggingsverktøy, er at års
 
 ### 2.1 Jobs To Be Done
 
-*Behovene bygger på Product Brief §1, §2 og §4, og realiseres i UJ-1 til UJ-3.*
+*Behovene bygger på Product Brief §1–§3 og §5, og realiseres i UJ-1 til UJ-3.*
 
 - **Når jeg mottar en ordre**, vil jeg få aktivitetene og fristene inn i planen uten å skrive dem inn på nytt, slik at jeg bruker tiden på planlegging og ikke på dokumenthåndtering.
 - **Når KI foreslår aktiviteter**, vil jeg kunne kontrollere dem mot det som faktisk står i dokumentet, slik at jeg kan stole på planen.
@@ -633,7 +633,7 @@ Sentrale, deterministiske regler dekkes av automatiske tester som kan kjøres ut
 **Grunnleggende produktprinsipp** *(gjelder også utover v1)*
 - **Menneskelig kontroll:** KI kan ikke opprette, endre eller slette aktiviteter i planen uten brukerens eksplisitte godkjenning (FR-25). Prinsippet gjelder selvstendige handlinger fra KI. Det utelukker ikke at KI senere kan gi analyse, prioritering eller beslutningsstøtte.
 
-**Utenfor v1, men del av produktvisjonen** *(Product Brief §8)*
+**Utenfor v1, men del av produktvisjonen** *(Product Brief §9)*
 - Felles planbilde med flere brukere.
 - Ukevisning og dagsvisning, inkludert aktiviteter fordelt på mandag–søndag.
 
