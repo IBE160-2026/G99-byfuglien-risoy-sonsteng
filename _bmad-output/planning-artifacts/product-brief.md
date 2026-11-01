@@ -8,7 +8,7 @@ I dag er informasjon spredt mellom Excel-ark, ordre og andre dokumenter, noe som
 
 ## 2. The Problem
 
-Troppssjefer i Forsvaret bruker mye arbeidstid på å holde oversikt over informasjon som allerede finnes, fremfor på ledelse og planlegging. De mangler en effektiv måte å omsette informasjon fra ordre og dokumenter til en samlet og oppdatert aktivitetsplan. Informasjonen er spredt i frittstående Excel-ark og dokumenter, ofte lokalt lagret og uten felles struktur, slik at planlegging krever manuell navigering mellom filer og gjeninntasting av data. I møter går tid tapt til lasting og leting etter dokumenter. Resultatet er at arbeidstid og planleggingskapasitet bindes opp i dokumenthåndtering fremfor ledelse og oppdragsløsning.
+Troppssjefer i Forsvaret bruker mye arbeidstid på å holde oversikt over informasjon som allerede finnes, fremfor på ledelse og planlegging. De mangler en effektiv måte å omsette informasjon fra ordre og dokumenter til en samlet og oppdatert aktivitetsplan. Informasjonen er spredt i frittstående Excel-ark og dokumenter, ofte lokalt lagret og uten felles struktur, slik at planlegging krever manuell navigering mellom filer og gjeninntasting av data. I møter går tid tapt til lasting og leting etter dokumenter. Resultatet er at arbeidstid og planleggingskapasitet bindes opp i dokumenthåndtering fremfor ledelse og oppdragsløsning. Problemforståelsen bygger på gruppemedlemmenes samlede erfaringer og observasjoner fra over ett års tjeneste som troppssjefer i Forsvaret.
 
 ## 3. The Solution
 
@@ -24,7 +24,7 @@ Alle visningene bygger på de samme aktivitetene. Brukeren kan også opprette, r
 
 ## 4. What Makes This Different
 
-Relevante alternativer er Excel, eksisterende årshjul og planleggingsverktøy som Microsoft Planner, Trello og Teams-kalender. Disse dekker ulike planleggingsbehov, men krever ofte at informasjon fra ordre og dokumenter overføres manuelt til planen.
+Relevante alternativer er Excel, eksisterende årshjul og planleggingsverktøy som Microsoft Planner, Trello og Teams-kalender. I den aktuelle planleggingsprosessen må informasjon fra ordre og dokumenter ofte bearbeides og overføres manuelt til aktivitetsplanen.
 
 Løsningens særpreg er kombinasjonen av et interaktivt årshjul, KI-assistert aktivitetsgenerering og brukergodkjenning i én sammenhengende arbeidsflyt, tilpasset troppssjefens planleggingsbehov.
 
@@ -36,23 +36,23 @@ Primærbrukeren i første versjon er troppssjefen i Forsvaret, som skal planlegg
 
 Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en oppdatert plan i én samlet løsning, med mindre behov for manuelt planleggingsarbeid.
 
-**User outcome:** Brukeren får bedre oversikt over aktiviteter og frister gjennom et samlet årshjul, samtidig som KI-assistert dokumentbehandling reduserer behovet for manuell registrering.
+**User outcome:** Brukeren får bedre oversikt over aktiviteter og frister gjennom et samlet årshjul, samtidig som KI-assistert dokumentbehandling reduserer behovet for manuell registrering. I brukertest kan brukeren finne ut når en aktivitet skjer og hvem som har ansvaret, uten å åpne andre filer.
 
 **Behavior:** Brukeren skal kunne opprette, redigere og slette aktiviteter, navigere mellom års- og månedsvisning og kontrollere, endre, godkjenne eller avvise KI-genererte aktivitetsforslag. I brukertest skal hele arbeidsflyten fra dokumentopplasting til oppdatert plan kunne gjennomføres uten veiledning.
 
 **Quality:** KI-genererte aktivitetsforslag skal testes mot 3–4 fiktive dokumenter med forhåndsdefinert fasit. Testene skal kontrollere om relevante aktiviteter og tilhørende datoer identifiseres korrekt, og om manglende eller usikker informasjon markeres tydelig.
 
-**Business / mission:** Samme planleggingsoppgave skal gjennomføres både manuelt i Excel og ved bruk av applikasjonen. Tidsbruken sammenlignes for å undersøke om løsningen effektiviserer planleggingsarbeidet.
+**Business / mission:** Samme planleggingsoppgave skal gjennomføres både manuelt i Excel og ved bruk av applikasjonen. Tidsbruken sammenlignes for å undersøke om løsningen effektiviserer planleggingsarbeidet. Løsningen regnes som mer effektiv dersom oppgaven tar kortere tid uten flere feil sammenlignet med en forhåndsdefinert fasit.
 
 ## 7. Scope
 
 ### IN – First version
 
 1. **Interaktivt årshjul:** Løsningen skal ha en interaktiv årsvisning med 12 måneder, mulighet for å velge kalenderår, zoome inn til månedsvisning med ukeinndeling og åpne enkeltaktiviteter for mer detaljert informasjon.
-2. **Aktivitetshåndtering:** Løsningen skal være en enkeltbrukerløsning der brukeren kan opprette, redigere og slette aktiviteter. Hver aktivitet skal inneholde tittel, startdato, sluttdato, kategori og ansvarsområde.
+2. **Aktivitetshåndtering:** Løsningen skal være en enkeltbrukerløsning der brukeren kan opprette, redigere og slette aktiviteter. Hver aktivitet skal inneholde tittel, startdato, sluttdato, kategori og ansvarsområde. Frister registreres som aktiviteter.
 3. **Dokumentopplasting:** Brukeren skal kunne laste opp Word-dokumenter (.docx) og tekstbaserte PDF-dokumenter som grunnlag for KI-assistert aktivitetsgenerering.
 4. **KI-assistert aktivitetsgenerering:** KI skal analysere opplastede dokumenter og foreslå relevante aktiviteter med tittel, startdato, sluttdato, kategori og ansvarsområde basert på tilgjengelig informasjon. Manglende eller usikker informasjon skal markeres tydelig.
-5. **Brukerkontroll og lagring:** Brukeren skal kunne kontrollere, redigere, komplettere, godkjenne eller avvise hvert KI-genererte aktivitetsforslag. Obligatoriske opplysninger må være utfylt før godkjenning, og ingen KI-genererte aktiviteter skal legges inn uten brukerens eksplisitte godkjenning. Alle aktiviteter skal lagres og være tilgjengelige når applikasjonen åpnes på nytt.
+5. **Brukerkontroll og lagring:** Brukeren skal kunne kontrollere, redigere, komplettere, godkjenne eller avvise hvert KI-genererte aktivitetsforslag. Brukeren skal kunne kontrollere forslagene mot tilgjengelige kildeutdrag fra dokumentet. Obligatoriske opplysninger må være utfylt før godkjenning, og ingen KI-genererte aktiviteter skal legges inn uten brukerens eksplisitte godkjenning. Alle aktiviteter skal lagres og være tilgjengelige når applikasjonen åpnes på nytt.
 
 ### OUT – First version
 
@@ -65,6 +65,7 @@ Løsningen lykkes dersom troppssjefen kan gå fra et opplastet dokument til en o
 - KI-basert prioritering, beslutningstaking og automatisk gjennomføring av endringer uten brukerens godkjenning.
 - Prediksjon, konfliktanalyse, optimalisering og beslutningsstøtte.
 - Separat oppgavestyring (Task Manager), inkludert oppgavestatus, fremdriftsoppfølging og fullføring av oppgaver.
+- Operativ bruk med ekte dokumenter. Første versjon demonstrerer konseptet med fiktive data.
 
 ## 8. Security & Testing
 
