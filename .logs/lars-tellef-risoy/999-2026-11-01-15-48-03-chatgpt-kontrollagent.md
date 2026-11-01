@@ -325,5 +325,3 @@ Be meg kun om manglende grunnlagsdokumenter eller nødvendig status.
 Fastslå deretter hvilken BMAD-fase vi befinner oss i, hvilke dokumenter som gjelder, og hva neste naturlige arbeidsoppgave er.
 Ikke begynn å produsere prosjektleveranser eller utviklingskode.
 Deretter skal du være klar til å motta svar fra Claude Code og fungere som mitt uavhengige kontroll- og beslutningsledd gjennom resten av prosjektet.
-
-Fra <https://chatgpt.com/g/g-p-6a8731a991a881919408455da3a213c8-ibe160-programmering-med-ki/c/6ae740d3-bb78-83ed-99a1-6b5d3e897175> 
