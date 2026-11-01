@@ -176,6 +176,42 @@ er den erstattet med [...].
 
 </details>
 
+<details>
+<summary><strong>Prompt 8 – Kontroll av innlagt masterprompt</strong></summary>
+
+> Jeg har nå selv lagt inn den originale masterprompten direkte i `prompts/chatgpt-kontrollagent.md` på GitHub.
+>
+> Hent siste endringer fra `origin/main`, kontroller at masterprompten ligger riktig, og oppdater det åpne punktet i `.logs/lars-tellef-risoy/issues.md`.
+>
+> Kontroller også om endringen krever en kort oppdatering av KI-loggen eller sesjonsloggen etter gjeldende prosjektinstruksjoner.
+>
+> Ikke gjør andre endringer. Vis meg status og eventuelle foreslåtte endringer før commit eller push.
+
+</details>
+
+<details>
+<summary><strong>Prompt 9 – Opprydding og avslutning</strong></summary>
+
+> Vi avslutter nå kontrollen av masterprompten. Jeg har selv lagt inn og kontrollert riktig innhold, og ChatGPT-lenken er fjernet. Det er ikke nødvendig å sammenligne teksten med originalen på nytt.
+>
+> Gjennomfør kun følgende opprydding:
+>
+> 1. Gjenopprett sesjonsloggen `.logs/lars-tellef-risoy/999-2026-11-01-15-48-03-chatgpt-kontrollagent.md` fra commit `6dc7e75`, slik at den igjen inneholder den opprinnelige sesjonsloggen i stedet for den feilaktig innlimte masterprompten.
+> 2. Dokumenter kort i sesjonsloggen at feil fil ble overskrevet, og at dette er rettet.
+> 3. Oppdater `.logs/lars-tellef-risoy/issues.md` og lukk punktet om sammenligning av masterprompten.
+> 4. Oppdater KI-loggen dersom det er nødvendig for at den skal beskrive hendelsesforløpet korrekt.
+> 5. Du kan forbedre Markdown-formateringen i `prompts/chatgpt-kontrollagent.md` dersom det gir bedre lesbarhet på GitHub. Ikke endre ordlyd, krav eller faglig innhold. Unngå unødvendige formateringsendringer.
+>
+> Ikke gjennomfør flere kontroller av om masterprompten er ordrett gjengitt. Ikke undersøk ChatGPT-lenken videre, og ikke omskriv Git-historikken.
+>
+> Kontroller at endringene er begrenset til denne oppryddingen, og følg gjeldende instruksjoner for logging.
+>
+> Når arbeidet er gjennomført, opprett én commit med en beskrivende melding og push til `origin/main` uten force-push.
+>
+> Vis til slutt commit-hash, endrede filer, push-resultat og `git status -sb`.
+
+</details>
+
 ## Hva KI leverte
 
 - Vurdering av plassering og av hvordan arbeidsmetoden bør loggføres. Claude Code
@@ -183,6 +219,8 @@ er den erstattet med [...].
   BMAD-skills kan lese filer der som prosjektkontekst.
 - `prompts/chatgpt-kontrollagent.md`: en innledende merknad og masterprompten.
 - Utkast til denne loggen.
+- Markdown-formatering av masterprompten for bedre lesbarhet på GitHub.
+- Sesjonslogg i `.logs/lars-tellef-risoy/`, etter den nye instruksen i `CLAUDE.md`.
 
 ## Hva vi endret og hvorfor
 
@@ -195,6 +233,15 @@ er den erstattet med [...].
 - **Innliming:** Lenken til den private ChatGPT-samtalen og en plassholder fulgte med
   innlimingen. Gruppen besluttet at ingen av dem skal være med i filen. Det legges
   heller ikke til et eget versjonsnummer i filen.
+- **Integrering:** Første push ble avvist fordi `origin/main` hadde to nye commits med
+  sesjonslogg-skill og instruks. Disse ble kontrollert, og vår commit ble rebaset oppå dem.
+- **Feil fil overskrevet:** Da originalteksten skulle legges inn direkte på GitHub, ble
+  sesjonsloggen overskrevet i commit `f2426b1`, med den private ChatGPT-lenken. Claude
+  Code oppdaget feilen. Gruppen fjernet lenken fra filen og la inn masterprompten i
+  riktig fil, og sesjonsloggen ble gjenopprettet fra `6dc7e75`. Lenken ligger fortsatt i
+  Git-historikken, fordi gruppen besluttet å ikke skrive den om.
+- **Formatering:** Masterprompten fikk Markdown-overskrifter, lister og tabell, uten
+  endringer i ordlyd, krav eller faglig innhold.
 
 ### Bruk av ChatGPT og Claude Code sammen
 
@@ -217,4 +264,8 @@ kjørt på `prompts/chatgpt-kontrollagent.md`:
 - søk etter de 14 hovedseksjonene: alle overskriftene er med
 - mønstersøk etter hemmeligheter, e-post, URL-er, navn og lange tallrekker: ingen treff
 
-Masterprompten er ikke maskinelt sammenlignet med originalen.
+Masterprompten ble etterpå sammenlignet maskinelt med teksten i commit `f2426b1`:
+ordlyden var identisk, og eneste avvik var tabulator mot fire mellomrom på 158 linjer.
+Lars Tellef Risøy la deretter inn og kontrollerte innholdet selv. Etter
+Markdown-formateringen bekreftet et skript at ordlyden var uendret mot versjonen i
+`4dc6786`.
