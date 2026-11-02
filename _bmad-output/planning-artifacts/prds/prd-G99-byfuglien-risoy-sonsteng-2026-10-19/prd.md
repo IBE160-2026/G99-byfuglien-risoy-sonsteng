@@ -2,7 +2,7 @@
 title: "PRD – KI-assistert interaktivt årshjul"
 status: final
 created: 2026-10-19
-updated: 2026-10-22
+updated: 2026-11-02
 ---
 
 # PRD: KI-assistert interaktivt årshjul
@@ -65,8 +65,10 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
        - I ett forslag viser kildeutdraget at sluttdatoen er feil. Berg retter datoen og godkjenner.
        - Ett forslag har en kategori markert som usikker. Berg kontrollerer den mot kildeutdraget og godkjenner uendret.
        - Ett forslag har en lang merknad foreslått av KI. Berg korter den ned før godkjenning; i et annet forslag fjerner Berg merknaden helt.
-       - Ett forslag er ikke relevant for troppen. Berg avviser det, og det forkastes uten historikk.
-    4. **Legg inn i planen:** Godkjente aktivitetsforslag lagres som aktiviteter og vises i årshjulet. Hvert forslag godkjennes individuelt; det finnes ingen «godkjenn alle».
+       - Ett forslag er ikke relevant for troppen. Berg avviser det, og det lagres ikke.
+
+       Hvert forslag godkjennes eller avvises individuelt; det finnes ingen «godkjenn alle». Valgene er midlertidige under gjennomgangen, og planen er uendret. Fram til «Fullfør og lagre» kan Berg redigere og omgjøre både godkjente og avviste forslag.
+    4. **Legg inn i planen:** Når alle aktivitetsforslagene er godkjent eller avvist, velger Berg å fullføre og lagre. Først da lagres alle godkjente aktivitetsforslag samlet som aktiviteter og vises i årshjulet.
   - **Klimaks:** Berg går tilbake til årsvisningen og ser de nye aktivitetene plassert i riktige måneder. Ordren er omsatt til plan uten gjeninntasting, og hver aktivitet er kontrollert mot det som faktisk står i dokumentet.
   - **Avslutning:** Når Berg åpner applikasjonen neste gang, ligger de godkjente aktivitetene der fortsatt, med eventuelle merknader. De behandles som vanlige aktiviteter, uten lagret KI-opprinnelse eller kildeutdrag. Verken dokumentet eller de avviste aktivitetsforslagene er lagret. Planen er klar til planleggingsmøtet.
   - **Edge cases:**
@@ -75,26 +77,32 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
     - **E2:** Berg laster opp en skannet PDF, et bilde eller et format som ikke støttes. Applikasjonen melder at dokumentet ikke kan leses, og ingen aktivitetsforslag genereres.
     - **E3:** Analysen finner ingen aktiviteter i dokumentet. Applikasjonen melder dette, og planen er uendret.
     - **E4:** Et aktivitetsforslag har et kildeutdrag som ikke er verifisert, eller ingen kildeutdrag. Applikasjonen viser tydelig at verifisering mangler, og presenterer ikke et ikke verifisert kildeutdrag som sikker kilde. Manglende verifisering blokkerer ikke godkjenning: Berg kan redigere og godkjenne forslaget etter egen kontroll, forutsatt at alle obligatoriske felt er gyldige, eller avvise det.
-    - **E5:** Berg går til årshjulet midt i gjennomgangen og kommer tilbake. De ubehandlede aktivitetsforslagene er der fortsatt. Lukker Berg applikasjonen eller laster den på nytt før gjennomgangen er ferdig, går de ubehandlede forslagene tapt, og Berg må laste opp dokumentet på nytt for å fortsette. Aktiviteter som allerede er godkjent, ligger i planen.
-    - **E6:** Dokumentet angir bare én dato for en aktivitet. KI antar ikke at aktiviteten varer én dag bare av den grunn.
-      - Beskriver dokumentet tydelig en éndagsaktivitet, foreslår KI samme dato som startdato og sluttdato.
+    - **E5:** Berg går til årshjulet midt i gjennomgangen og kommer tilbake. Gjennomgangen er fortsatt aktiv, med aktivitetsforslagene og Bergs midlertidige valg. Årshjulet viser bare lagrede aktiviteter. Lukker Berg applikasjonen, krasjer den, eller lastes den på nytt før fullføring, går gjennomgangen tapt, og ingen aktiviteter fra den er lagret. En ny opplasting av dokumentet gir en ny analyse, ikke en fortsettelse.
+    - **E6:** Dokumentet angir bare én dato for en aktivitet. KI antar ikke at aktiviteten varer én dag bare av den grunn. Unntaket er frister.
+      - Beskriver dokumentet tydelig en frist med én dato, eller tydelig en éndagsaktivitet, foreslår KI samme dato som startdato og sluttdato.
       - Gir dokumentet ingen holdepunkter for varigheten, markeres sluttdatoen som manglende. Berg må fylle den inn før forslaget kan godkjennes.
       - Foreslår KI en sluttdato ut fra tvetydige holdepunkter, markeres den som usikker. Berg kontrollerer den og godkjenner den uendret eller retter den.
-    - **E7:** Språkmodellen er ikke tilgjengelig, analysen feiler, eller språkmodellen returnerer et ugyldig svar. Applikasjonen viser en tydelig feilmelding, ingen aktivitetsforslag presenteres som gyldige, og planen er uendret.
-    - **E8:** Berg laster opp et nytt dokument mens det finnes ubehandlede aktivitetsforslag. Applikasjonen opplyser om at de vil forkastes, og Berg må bekrefte før den nye analysen starter. Avbryter Berg, beholdes de ubehandlede forslagene. Godkjente aktiviteter ligger fortsatt i planen.
+    - **E6a:** Dokumentet angir en dato uten årstall eller bare en uke, for eksempel «15. mars» eller «uke 12». Gir dokumentkonteksten tilstrekkelig grunnlag, kan KI foreslå en konkret dato, også i et annet kalenderår enn det årshjulet viser. Er tolkningen tvetydig, markeres datoen som usikker. Uten forsvarlig grunnlag, og ved en ukeangivelse uten konkret dag, markeres feltet som manglende, og Berg må fylle det inn. Det samme gjelder for frister.
+    - **E7:** Språkmodellen er ikke tilgjengelig, analysen feiler, eller språkmodellen returnerer et ugyldig svar. Applikasjonen viser en forståelig feilmelding og opplyser om at demo-modus finnes for støttede testdokumenter. Applikasjonen går ikke automatisk over til demo-modus. Ingen aktivitetsforslag presenteres som gyldige, og planen er uendret.
+    - **E8:** Berg vil laste opp et nytt dokument mens en gjennomgang er aktiv. Ny analyse kan ikke starte før Berg har fullført og lagret gjennomgangen eller forkastet den. Forkaster Berg gjennomgangen, lagres ingen aktiviteter fra den.
+    - **E9:** Berg forsøker å fullføre mens ett eller flere aktivitetsforslag verken er godkjent eller avvist. Fullføringen stoppes, og applikasjonen viser at det gjenstår forslag.
+    - **E10:** Lagringen feiler ved fullføring. Ingen aktiviteter fra gjennomgangen lagres, og Berg får beskjed om at lagringen mislyktes.
+    - **E11:** Berg analyserer et dokument på nytt. Forslagene kan omfatte aktiviteter som allerede finnes i planen, og applikasjonen kontrollerer ikke dette. Det går tydelig fram for Berg.
   - **Capabilities (blir FR-er):**
     - Systemet må ta imot .docx og tekstbasert PDF, og avvise andre formater med en tydelig melding. → FR-15
     - Systemet må bruke dokumentet kun til analyse og ikke lagre det permanent. → FR-16
-    - Systemet må generere aktivitetsforslag med tittel, startdato, sluttdato, kategori, ansvarsområde og eventuelle merknader, og markere feltstatus (manglende, ugyldig eller usikker). Kategori skal hentes fra kategorilisten og kan bare ha status manglende eller usikker. Samme dato som startdato og sluttdato foreslås bare når dokumentet tydelig beskriver en éndagsaktivitet; ellers markeres sluttdatoen som manglende (ingen holdepunkter) eller usikker (tvetydige holdepunkter). → FR-17
+    - Systemet må generere aktivitetsforslag med tittel, startdato, sluttdato, kategori, ansvarsområde og eventuelle merknader, og markere feltstatus (manglende, ugyldig eller usikker). Kategori skal hentes fra kategorilisten og kan bare ha status manglende eller usikker. Samme dato som startdato og sluttdato foreslås bare når dokumentet tydelig beskriver en éndagsaktivitet eller en frist; ellers markeres sluttdatoen som manglende (ingen holdepunkter) eller usikker (tvetydige holdepunkter). Ufullstendige datoer behandles etter E6a. → FR-17
     - Systemet må støtte samme flyt i demo-modus med forhåndsdefinerte aktivitetsforslag. → FR-18, FR-30
     - Systemet må gi tydelig beskjed når analysen ikke finner aktiviteter, og planen er uendret. → FR-19
-    - Systemet må vise en tydelig feilmelding når analysen feiler eller språkmodellen gir et ugyldig svar, uten å presentere aktivitetsforslag som gyldige, og planen er uendret. → FR-20
+    - Systemet må vise en forståelig feilmelding med informasjon om demo-modus når analysen feiler eller språkmodellen gir et ugyldig svar, uten automatisk overgang til demo-modus og uten å presentere aktivitetsforslag som gyldige, og planen er uendret. → FR-20
     - Systemet må vise ett eller flere kildeutdrag per aktivitetsforslag når dette er tilgjengelig, hentet ordrett fra dokumentteksten og verifisert individuelt av applikasjonen mot den etter normalisering av mellomrom og linjeskift. Et kildeutdrag som ikke er verifisert, eller som mangler, skal markeres tydelig og ikke presenteres som sikker kilde, men skal ikke blokkere godkjenning. Ingen full dokumentviser, automatisk navigasjon eller markering i v1. → FR-27, FR-28, FR-29
-    - Systemet må la brukeren redigere, komplettere, godkjenne eller avvise hvert aktivitetsforslag individuelt, inkludert å kontrollere, redigere eller fjerne merknader foreslått av KI før godkjenning. → FR-21, FR-22, FR-23, FR-24
-    - Systemet må forkaste avviste aktivitetsforslag uten historikk. → FR-24
+    - Systemet må la brukeren redigere, komplettere, godkjenne eller avvise hvert aktivitetsforslag individuelt, inkludert å kontrollere, redigere eller fjerne merknader foreslått av KI, og la brukeren redigere og omgjøre godkjente og avviste forslag fram til fullføring. → FR-21, FR-22, FR-23, FR-24
+    - Systemet må ikke lagre avviste aktivitetsforslag og skal forkaste dem uten historikk. → FR-24
     - Systemet må blokkere godkjenning når et obligatorisk felt (tittel, startdato, sluttdato, kategori, ansvarsområde) er manglende eller ugyldig, eller når datoregelen brytes. Et usikkert felt med gyldig verdi kan godkjennes uendret. Samme valideringsregler gjelder som ved manuell opprettelse og redigering (UJ-2). → FR-2, FR-23
-    - Systemet må aldri legge inn en KI-generert aktivitet uten brukerens eksplisitte godkjenning. → FR-25
-    - Systemet må lagre godkjente aktiviteter slik at de er tilgjengelige når applikasjonen åpnes på nytt, og beholde ubehandlede aktivitetsforslag midlertidig i den aktive økten, men ikke lagre dem permanent. → FR-7, FR-26
+    - Systemet må aldri legge inn en KI-generert aktivitet uten brukerens eksplisitte godkjenning og fullføring. → FR-25
+    - Systemet må kreve at alle aktivitetsforslag er godkjent eller avvist før brukeren eksplisitt kan fullføre og lagre, og må da lagre alle godkjente aktivitetsforslag samlet og atomisk. → FR-26, NFR-1
+    - Systemet må beholde en aktiv gjennomgang med brukerens midlertidige valg i økten, uten permanent lagring, la brukeren forkaste den og hindre ny analyse mens den er aktiv. → FR-15, FR-26
+    - Systemet må lagre aktiviteter fra en fullført gjennomgang slik at de er tilgjengelige når applikasjonen åpnes på nytt. → FR-7
     - Systemet må behandle en godkjent aktivitet som en vanlig aktivitet, uten å lagre KI-opprinnelse eller kildeutdrag. → FR-23
 
 - **UJ-2. Troppssjef Berg oppretter, flytter og sletter aktiviteter manuelt**
@@ -135,7 +143,7 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
     - **E1:** En flerdagsaktivitet strekker seg over to måneder (f.eks. 29. september–2. oktober) eller over et årsskifte. Aktiviteten vises i alle måneder og uker den berører, i både årsvisning og månedsvisning og i begge kalenderår, men er lagret som én aktivitet.
     - **E2:** Ukeinndelingen ved årsskifte følger ISO 8601, slik at uker som strekker seg over to kalenderår får riktig ukenummer (f.eks. uke 1 som starter i desember, eller uke 53).
     - **E3:** Berg velger en måned eller et kalenderår uten aktiviteter. Visningen er tom og viser tydelig at ingen aktiviteter er lagt inn.
-    - **E4:** Mange aktiviteter ligger i samme måned. Årsvisningen forblir lesbar og oversiktlig. Visuell løsning avgjøres i UX-workflowen.
+    - **E4:** Mange aktiviteter ligger i samme måned. Årsvisningen forblir lesbar og oversiktlig og kan sammenfatte aktiviteter eller angi at flere finnes, men alle aktivitetene kan finnes og åpnes. Visuell løsning avgjøres i UX-workflowen.
   - **Capabilities (blir FR-er):**
     - Systemet må vise årsvisningen som et sirkulært, interaktivt årshjul med 12 måneder der aktivitetene er plassert i riktig måned. → FR-8
     - Systemet må vise inneværende kalenderår ved oppstart og la brukeren velge et annet kalenderår. → FR-9
@@ -145,7 +153,7 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
     - Systemet må la brukeren åpne en aktivitet fra årsvisning og månedsvisning og se all informasjon om den, inkludert merknader. → FR-3
     - Systemet må vise en flerdagsaktivitet i alle måneder og uker den berører, også over årsskifte, og lagre den som én aktivitet. → FR-11
     - Systemet må gi hver kategori i kategorilisten en fast, konsekvent visuell identitet i årshjulet som ikke er avhengig av farge alene. Brukertilpasning av farger er utenfor v1. → FR-12
-    - Systemet må holde årsvisningen lesbar og oversiktlig når mange aktiviteter ligger i samme måned. → FR-13
+    - Systemet må holde årsvisningen lesbar og oversiktlig når mange aktiviteter ligger i samme måned, og alle aktiviteter må kunne finnes og åpnes. → FR-3, FR-13
     - Systemet må vise en tydelig tom tilstand når det ikke finnes aktiviteter i valgt periode. → FR-14
   - **Utenfor v1 (fra Product Brief, OUT):** flere konsentriske ringer, ukevisning med aktiviteter fordelt på mandag–søndag, og omfattende tilpasning av format, layout og farger.
 
@@ -166,6 +174,7 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
 
 - **Aktivitet** — En planlagt hendelse lagret i planen. Har tittel, startdato, sluttdato, kategori og ansvarsområde, og kan ha merknader. Lagres én gang, selv om den vises i flere perioder. Det skilles ikke mellom aktiviteter som er opprettet manuelt og aktiviteter som kommer fra et godkjent aktivitetsforslag.
 - **Éndagsaktivitet** — Aktivitet der sluttdato er lik startdato.
+- **Frist** — Dato noe må være gjennomført innen. Registreres som en éndagsaktivitet med fristdatoen som startdato og sluttdato. Er ikke en egen datatype.
 - **Flerdagsaktivitet** — Aktivitet der sluttdato er etter startdato.
 - **Datoregel** — Startdato og sluttdato er obligatoriske, og sluttdato kan aldri være tidligere enn startdato. Gjelder ved manuell opprettelse, redigering og godkjenning av aktivitetsforslag.
 - **Obligatoriske felt** — Tittel, startdato, sluttdato, kategori og ansvarsområde.
@@ -181,14 +190,17 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
 - **Analyse** — Prosessen der språkmodellen eller demo-modus genererer aktivitetsforslag fra dokumentteksten.
 - **Språkmodell** — Den ene eksterne KI-tjenesten som brukes via API.
 - **Demo-modus** — Kjøremodus der analysen gir forhåndsdefinerte aktivitetsforslag for støttede testdokumenter i stedet for å kalle språkmodellen, med samme brukerflyt.
-- **Aktivitetsforslag** — En foreslått aktivitet fra analysen. Har de samme feltene som en aktivitet, inkludert eventuelle merknader foreslått av KI, samt ett eller flere tilknyttede kildeutdrag når dette er tilgjengelig. Eksisterer bare under gjennomgangen og lagres ikke permanent. Blir en aktivitet først ved godkjenning.
-- **Feltstatus** — Markering av et felt i et aktivitetsforslag: *manglende* (ingen verdi), *ugyldig* (verdien bryter reglene, f.eks. brudd på datoregelen) eller *usikker* (KI er usikker på verdien). Et felt kan være usikkert uten å være ugyldig. Kategori kan bare ha status *manglende* eller *usikker*. Manglende eller ugyldige obligatoriske felt må rettes før godkjenning; et usikkert felt med gyldig verdi kan godkjennes uendret etter brukerens kontroll.
+- **Aktivitetsforslag** — En foreslått aktivitet fra analysen. Har de samme feltene som en aktivitet, inkludert eventuelle merknader foreslått av KI, samt ett eller flere tilknyttede kildeutdrag når dette er tilgjengelig. Eksisterer bare under gjennomgangen og lagres ikke permanent. Blir en aktivitet først ved fullføring, og bare hvis det er godkjent.
+- **Feltstatus** — Markering av et felt i et aktivitetsforslag: *manglende* (ingen verdi), *ugyldig* (verdien bryter reglene, f.eks. brudd på datoregelen) eller *usikker* (analysen har oppgitt verdien som usikker). Et felt kan være usikkert uten å være ugyldig. Kategori kan bare ha status *manglende* eller *usikker*. Manglende eller ugyldige obligatoriske felt må rettes før godkjenning; et usikkert felt med gyldig verdi kan godkjennes uendret etter brukerens kontroll.
 - **Kildeutdrag** — Tekst hentet ordrett fra dokumentteksten som et aktivitetsforslag bygger på. Er enten *verifisert* (finnes i dokumentteksten etter normalisering av mellomrom og linjeskift) eller *ikke verifisert*. Et aktivitetsforslag kan ha flere kildeutdrag, og applikasjonen verifiserer hvert for seg. Mangler kildeutdrag, eller er det ikke verifisert, markeres manglende verifisering tydelig; forslaget kan likevel godkjennes.
-- **Gjennomgang** — Steget der brukeren kontrollerer, redigerer, godkjenner eller avviser aktivitetsforslagene fra ett dokument. Ubehandlede aktivitetsforslag beholdes i økten, men lagres ikke permanent.
-- **Økt** — Perioden fra applikasjonen åpnes til den lukkes eller lastes på nytt.
-- **Godkjenning** — Brukerens eksplisitte handling som gjør et aktivitetsforslag om til en aktivitet. Krever at alle obligatoriske felt er gyldige og at datoregelen er oppfylt.
-- **Avvisning** — Brukerens handling som forkaster et aktivitetsforslag uten historikk.
-- **Kjerneflyt** — Opplasting av dokument, gjennomgang og godkjenning av aktivitetsforslag, etterfulgt av visning i årshjulet.
+- **Gjennomgang** — Steget der brukeren kontrollerer, redigerer, godkjenner eller avviser aktivitetsforslagene fra ett dokument. Er aktiv fra analysen har gitt aktivitetsforslag til den er fullført eller forkastet, eller økten slutter. Aktivitetsforslag og midlertidige valg beholdes i økten, men lagres ikke permanent. Det kan bare være én aktiv gjennomgang.
+- **Ubehandlet aktivitetsforslag** — Aktivitetsforslag i en aktiv gjennomgang som verken er godkjent eller avvist.
+- **Økt** — Perioden fra applikasjonen åpnes til den lukkes, krasjer eller lastes på nytt.
+- **Godkjenning** — Brukerens eksplisitte, midlertidige valg om at et aktivitetsforslag skal lagres ved fullføring. Krever at alle obligatoriske felt er gyldige og at datoregelen er oppfylt. Kan omgjøres fram til fullføring.
+- **Avvisning** — Brukerens midlertidige valg om at et aktivitetsforslag ikke skal lagres. Kan omgjøres fram til fullføring. Forslaget forkastes uten historikk når gjennomgangen avsluttes.
+- **Fullføring** — Brukerens eksplisitte handling som avslutter gjennomgangen og lagrer alle godkjente aktivitetsforslag samlet som aktiviteter i planen. Krever at alle aktivitetsforslagene er godkjent eller avvist.
+- **Forkasting av gjennomgang** — Brukerens handling som avslutter en aktiv gjennomgang uten at noen aktiviteter fra den lagres.
+- **Kjerneflyt** — Opplasting av dokument, gjennomgang og godkjenning av aktivitetsforslag og fullføring, etterfulgt av visning i årshjulet.
 
 **Kvalitet**
 
@@ -230,6 +242,7 @@ Systemet blokkerer lagring og godkjenning når et obligatorisk felt er manglende
 Brukeren kan åpne en aktivitet fra årsvisningen og månedsvisningen og se alle feltene. Realiserer UJ-2, UJ-3.
 
 **Consequences (testable):**
+- Sammenfatter årsvisningen en måned (FR-13), kan veien til aktiviteten gå via sammenfatningen eller månedsvisningen.
 - Alle felt vises med lagrede verdier.
 - Merknader vises med bevart avsnittsinndeling.
 - Fra en åpnet aktivitet kan brukeren gå videre til redigering (FR-4) eller sletting (FR-5).
@@ -269,6 +282,7 @@ Alle aktiviteter lagres lokalt og er tilgjengelige når applikasjonen åpnes på
 
 **Consequences (testable):**
 - Opprettede, redigerte og slettede aktiviteter har samme tilstand etter at nettleser og applikasjon er startet på nytt.
+- Aktiviteter fra en gjennomgang lagres først ved fullføring (FR-26). Aktivitetsforslag og midlertidige valg finnes ikke etter omstart.
 
 ### 4.2 Årshjul
 
@@ -283,7 +297,7 @@ Systemet viser valgt kalenderår som et sirkulært, interaktivt årshjul med 12 
 **Consequences (testable):**
 - Årsvisningen er sirkulær og viser alle 12 måneder i valgt kalenderår.
 - En aktivitet vises i hver måned der minst én dag mellom startdato og sluttdato faller.
-- Etter opprettelse (FR-1), redigering (FR-4), sletting (FR-5) eller godkjenning (§4.4) viser årsvisningen den oppdaterte planen uten omstart.
+- Etter opprettelse (FR-1), redigering (FR-4), sletting (FR-5) eller fullføring av en gjennomgang (FR-26) viser årsvisningen den oppdaterte planen uten omstart.
 
 #### FR-9: Valg av kalenderår
 
@@ -329,10 +343,11 @@ Hver kategori i kategorilisten har en fast visuell identitet i årshjulet. Reali
 
 #### FR-13: Lesbarhet ved mange aktiviteter
 
-Årsvisningen forblir lesbar og oversiktlig når mange aktiviteter ligger i samme måned. Den visuelle løsningen avgjøres i UX-workflowen, og antall aktiviteter i testscenarioer fastsettes i testplanen. Realiserer UJ-3.
+Årsvisningen forblir lesbar og oversiktlig når mange aktiviteter ligger i samme måned, og ingen aktivitet blir utilgjengelig. Årsvisningen kan sammenfatte aktiviteter eller angi at flere finnes. Den visuelle løsningen avgjøres i UX-workflowen. Realiserer UJ-3.
 
 **Consequences (testable):**
-- Alle aktiviteter kan finnes og åpnes via årsvisningen eller månedsvisningen, også når mange aktiviteter ligger i samme måned.
+- Akseptansescenario: Når 20 aktiviteter ligger i én måned, kan hver av de 20 finnes og åpnes med start fra årsvisningen.
+- I samme scenario går det fram av årsvisningen at måneden har aktiviteter, og teksten som vises, overlapper ikke slik at den blir uleselig.
 - Ingen aktivitet skjules uten at det går tydelig fram at det finnes flere.
 
 #### FR-14: Tom tilstand
@@ -355,7 +370,7 @@ Når valgt periode ikke har aktiviteter, viser årshjulet en tydelig tom tilstan
 Brukeren kan laste opp ett dokument om gangen i formatet .docx eller tekstbasert PDF. Realiserer UJ-1.
 
 **Consequences (testable):**
-- En .docx-fil eller tekstbasert PDF tas imot, og analysen starter. Finnes det ubehandlede aktivitetsforslag, må brukeren først bekrefte at de kan forkastes (FR-26).
+- En .docx-fil eller tekstbasert PDF tas imot, og analysen starter. Er en gjennomgang aktiv, kan ny analyse ikke starte før gjennomgangen er fullført eller forkastet (FR-26).
 - En PDF uten dokumenttekst som kan hentes ut (for eksempel en skannet PDF), et bilde eller et annet format avvises med en tydelig melding.
 - Ved avvisning genereres ingen aktivitetsforslag, og planen er uendret.
 - Flere dokumenter kan analyseres etter hverandre, men ikke lastes opp eller analyseres samtidig.
@@ -369,24 +384,35 @@ Dokumentet og dokumentteksten brukes kun til analyse, inkludert verifisering av 
 
 **Consequences (testable):**
 - Når applikasjonen er startet på nytt, finnes verken dokumentet eller dokumentteksten i applikasjonen.
-- Bare godkjente aktiviteter, med eventuelle merknader, lagres i planen (FR-7).
+- Fra en gjennomgang lagres bare godkjente aktivitetsforslag, med eventuelle merknader, og først ved fullføring (FR-26).
 
 #### FR-17: Generere aktivitetsforslag
 
 Analysen genererer en liste med aktivitetsforslag fra dokumentteksten. Hvert forslag har tittel, startdato, sluttdato, kategori, ansvarsområde og eventuelle merknader foreslått av KI. Hvert felt har feltstatus der det er relevant. Realiserer UJ-1.
 
-**Consequences (testable):**
+**Consequences (testable): applikasjonens behandling av språkmodellens strukturerte svar**
+
+*Deterministisk. Testes reproduserbart med kontrollerte svar, uten å kalle språkmodellen.*
 - Hvert aktivitetsforslag har alle feltene. Felt uten verdi er markert som *manglende*.
-- Kategori foreslås bare fra kategorilisten, og status *ugyldig* brukes ikke for kategori.
-- Kan KI ikke identifisere en passende kategori fra dokumentet, markeres feltet som *manglende*.
-- Foreslår KI en kategori fra kategorilisten, men er usikker på om den er riktig, markeres feltet som *usikker*.
+- Status *ugyldig* brukes ikke for kategori. En kategori fra kategorilisten vises uten avviksstatus, med mindre svaret oppgir den som usikker.
 - Returnerer språkmodellen en kategori som ikke finnes i kategorilisten, presenteres den ikke som en valgbar kategori. Feltet markeres som *manglende*, og brukeren må velge en kategori fra kategorilisten før godkjenning.
-- En kategori fra kategorilisten som KI foreslår uten identifisert usikkerhet, får ingen avviksstatus.
-- Et forslag som bryter datoregelen, får sluttdatoen markert som *ugyldig*.
-- Beskriver dokumentet tydelig en éndagsaktivitet, foreslås samme dato som startdato og sluttdato.
-- KI antar ikke at en aktivitet varer én dag bare fordi dokumentet angir én dato.
-- Gir dokumentet ingen holdepunkter for aktivitetens varighet, markeres sluttdatoen som *manglende*.
-- Foreslår KI en sluttdato ut fra tvetydige holdepunkter i dokumentet, markeres sluttdatoen som *usikker*.
+- Et forslag som bryter datoregelen, får sluttdatoen markert som *ugyldig*. En datoverdi som ikke er en gyldig kalenderdato, markeres som *ugyldig*.
+- En verdi som svaret oppgir som usikker, markeres som *usikker*.
+
+**Ønsket atferd fra språkmodellen**
+
+*Analysen instruerer språkmodellen om dette. Applikasjonen kan ikke garantere feilfri KI. Etterlevelse og kvalitet evalueres mot fasit i SM-3, ikke som bestått eller ikke bestått per kjøring. Brukeren kontrollerer alle forslag.*
+- Kategori foreslås bare fra kategorilisten. Uten passende kategori oppgis feltet som manglende. Ved tvil om en foreslått kategori oppgis den som usikker.
+- Beskriver dokumentet tydelig en éndagsaktivitet eller en frist med én dato, foreslås samme dato som startdato og sluttdato. Fristen er et unntak fra regelen under.
+- KI antar ellers ikke at en aktivitet varer én dag bare fordi dokumentet angir én dato.
+- Gir dokumentet ingen holdepunkter for aktivitetens varighet, oppgis sluttdatoen som manglende.
+- Foreslår KI en sluttdato ut fra tvetydige holdepunkter i dokumentet, oppgis sluttdatoen som usikker.
+- Ufullstendige datoer, også for frister:
+  - KI kan tolke årstall og dato ut fra dokumentkonteksten når det er tilstrekkelig grunnlag.
+  - Er tolkningen tvetydig, oppgis datoen som usikker.
+  - Uten forsvarlig grunnlag for en konkret dato oppgis feltet som manglende.
+  - En ukeangivelse uten konkret dag gjøres ikke automatisk om til en bestemt dato, og feltet oppgis som manglende.
+  - KI antar ikke at dokumentet gjelder kalenderåret som vises i årshjulet.
 - Merknader foreslått av KI kan inneholde informasjon fra dokumentet og er valgfrie.
 
 #### FR-18: Demo-modus
@@ -396,7 +422,7 @@ Applikasjonen kan kjøres i demo-modus med forhåndsdefinerte aktivitetsforslag 
 **Consequences (testable):**
 - Det går tydelig fram for brukeren når applikasjonen kjører i demo-modus.
 - I demo-modus sendes ingen data til språkmodellen, og det kreves ingen API-nøkkel.
-- Gjennomgang, redigering, komplettering, godkjenning og avvisning fungerer på samme måte som med språkmodellen.
+- Gjennomgang, redigering, komplettering, godkjenning, avvisning, fullføring og forkasting fungerer på samme måte som med språkmodellen.
 - For et støttet testdokument gir demo-modus de samme aktivitetsforslagene hver gang, slik at resultatet kan sammenlignes med fasit.
 - Lastes et dokument opp som demo-modus ikke støtter, får brukeren en tydelig melding om dette. Ingen aktivitetsforslag presenteres som om de kommer fra dokumentet, og planen er uendret.
 
@@ -412,13 +438,14 @@ Når analysen ikke finner aktiviteter i dokumentet, får brukeren beskjed om det
 Når analysen feiler, får brukeren en tydelig feilmelding, og planen påvirkes ikke. Realiserer UJ-1.
 
 **Consequences (testable):**
-- Er språkmodellen ikke tilgjengelig, feiler analysen, eller returnerer språkmodellen et ugyldig svar, får brukeren en tydelig feilmelding.
+- Er språkmodellen ikke tilgjengelig, feiler analysen, eller returnerer språkmodellen et ugyldig svar, får brukeren en forståelig feilmelding og informasjon om at demo-modus finnes for støttede testdokumenter.
+- Applikasjonen går ikke automatisk over til demo-modus. Forhåndsdefinerte aktivitetsforslag presenteres aldri som resultat av analyse med språkmodellen.
 - Etter en feilet analyse presenteres ingen aktivitetsforslag som gyldige.
 - Planen er uendret.
 
 ### 4.4 Gjennomgang og godkjenning
 
-**Description:** Brukeren går gjennom aktivitetsforslagene fra ett dokument og kontrollerer, redigerer, kompletterer, godkjenner eller avviser hvert forslag individuelt, i valgfri rekkefølge. Ingen KI-generert aktivitet legges inn i planen uten brukerens eksplisitte godkjenning. Valideringsreglene er de samme som for manuelle aktiviteter (FR-2). Realiserer UJ-1.
+**Description:** Brukeren går gjennom aktivitetsforslagene fra ett dokument og kontrollerer, redigerer, kompletterer, godkjenner eller avviser hvert forslag individuelt, i valgfri rekkefølge. Valgene er midlertidige og kan omgjøres fram til fullføring. Først når brukeren eksplisitt fullfører gjennomgangen, lagres alle godkjente aktivitetsforslag samlet i planen. Ingen KI-generert aktivitet legges inn i planen uten brukerens eksplisitte godkjenning og fullføring. Valideringsreglene er de samme som for manuelle aktiviteter (FR-2). Realiserer UJ-1.
 
 **Functional Requirements:**
 
@@ -428,28 +455,31 @@ Etter analysen vises alle aktivitetsforslagene fra dokumentet, med feltstatus ty
 
 **Consequences (testable):**
 - Alle aktivitetsforslag fra analysen vises.
-- For hvert forslag vises alle feltene. Felt med status *manglende*, *ugyldig* eller *usikker* er tydelig markert.
+- For hvert forslag vises alle feltene, og datoer vises med årstall. Felt med status *manglende*, *ugyldig* eller *usikker* er tydelig markert.
 - Forslagene kan gjennomgås, redigeres, godkjennes og avvises i valgfri rekkefølge.
 - Kildeutdrag vises etter §4.5.
 
 #### FR-22: Redigere og komplettere aktivitetsforslag
 
-Brukeren kan endre og fylle inn alle feltene i et aktivitetsforslag før godkjenning, inkludert merknader foreslått av KI. Realiserer UJ-1.
+Brukeren kan endre og fylle inn alle feltene i et aktivitetsforslag fram til fullføring, også etter at forslaget er godkjent eller avvist, inkludert merknader foreslått av KI. Realiserer UJ-1.
 
 **Consequences (testable):**
 - Alle felt kan endres. Kategori velges fra kategorilisten.
+- Et godkjent forslag som endres, må fortsatt oppfylle FR-2. Fullføring blokkeres så lenge et godkjent forslag har et manglende eller ugyldig obligatorisk felt, eller bryter datoregelen.
 - Merknader foreslått av KI kan kortes ned, endres eller fjernes helt.
 - Når brukeren har endret eller fylt inn et felt, gjelder ikke lenger statusen KI satte for feltet.
 - Feltet valideres etter FR-2, og en verdi som er manglende eller ugyldig, markeres fortsatt.
 
 #### FR-23: Godkjenne aktivitetsforslag
 
-Brukeren godkjenner hvert aktivitetsforslag individuelt. Ved godkjenning blir forslaget en aktivitet i planen. Realiserer UJ-1.
+Brukeren godkjenner hvert aktivitetsforslag individuelt. Godkjenningen er et midlertidig valg under gjennomgangen. Forslaget blir en aktivitet i planen først ved fullføring (FR-26). Realiserer UJ-1.
 
 **Consequences (testable):**
 - Godkjenning blokkeres når et obligatorisk felt er *manglende* eller *ugyldig*, eller når datoregelen brytes. Applikasjonen viser hvilket felt som må rettes, og hvorfor (FR-2).
 - Et felt med status *usikker* og gyldig verdi blokkerer ikke godkjenning.
-- En godkjent aktivitet lagres umiddelbart (FR-7), vises i årshjulet (FR-8) og behandles som en vanlig aktivitet. KI-opprinnelse og kildeutdrag lagres ikke.
+- Godkjenning alene endrer ikke planen.
+- Et godkjent forslag kan omgjøres til avvist fram til fullføring.
+- Etter fullføring er et godkjent aktivitetsforslag lagret (FR-7), vises i årshjulet (FR-8) og behandles som en vanlig aktivitet. KI-opprinnelse og kildeutdrag lagres ikke.
 - Det finnes ingen funksjon for å godkjenne alle forslag samtidig.
 
 #### FR-24: Avvise aktivitetsforslag
@@ -457,32 +487,39 @@ Brukeren godkjenner hvert aktivitetsforslag individuelt. Ved godkjenning blir fo
 Brukeren kan avvise et aktivitetsforslag. Realiserer UJ-1.
 
 **Consequences (testable):**
-- Et avvist forslag forkastes uten historikk, og planen er uendret.
+- Et avvist forslag lagres ikke ved fullføring og forkastes uten historikk når gjennomgangen avsluttes. Planen er uendret.
+- Fram til fullføring kan et avvist forslag redigeres og omgjøres til godkjent, med samme krav som i FR-23.
 
 #### FR-25: Ingen aktivitet uten godkjenning
 
-Ingen KI-generert aktivitet legges inn i planen uten brukerens eksplisitte godkjenning. Realiserer UJ-1.
+Ingen KI-generert aktivitet legges inn i planen uten brukerens eksplisitte godkjenning og fullføring. Realiserer UJ-1.
 
 **Consequences (testable):**
-- Etter en analyse uten godkjenninger er planen uendret.
-- Planen inneholder bare de aktivitetsforslagene brukeren har godkjent.
+- Etter en analyse uten fullføring er planen uendret av analysen og gjennomgangen.
+- Fra en gjennomgang legges bare de aktivitetsforslagene brukeren har godkjent, inn i planen.
 
-#### FR-26: Ubehandlede aktivitetsforslag i økten
+#### FR-26: Fullføring og forkasting av gjennomgang
 
-Ubehandlede aktivitetsforslag beholdes midlertidig i den aktive økten, men lagres ikke permanent. Realiserer UJ-1.
+Godkjente aktivitetsforslag lagres samlet når brukeren eksplisitt fullfører gjennomgangen. Inntil da beholdes aktivitetsforslag og midlertidige valg i økten, men lagres ikke permanent. Brukeren kan også forkaste gjennomgangen. Presentasjon av handlinger, navigasjon og eventuelle bekreftelser avgjøres i UX-workflowen. Realiserer UJ-1.
 
 **Consequences (testable):**
-- Brukeren kan gå fra gjennomgangen til årshjulet og tilbake uten at ubehandlede forslag eller endringer i dem går tapt.
-- Lukkes applikasjonen eller lastes den på nytt, går ubehandlede forslag tapt. Brukeren må laste opp dokumentet på nytt for å fortsette.
-- Aktiviteter som er godkjent, ligger fortsatt i planen.
-- Laster brukeren opp et nytt dokument mens det finnes ubehandlede forslag, får brukeren beskjed om at de vil forkastes, og må bekrefte før analysen starter. Avbryter brukeren, beholdes de ubehandlede forslagene. Presentasjonen av bekreftelsen avgjøres i UX-workflowen.
+- Fullføring blokkeres så lenge et aktivitetsforslag er ubehandlet, og applikasjonen viser at det gjenstår forslag.
+- Ved fullføring lagres alle godkjente aktivitetsforslag samlet som aktiviteter. Er alle forslagene avvist, avsluttes gjennomgangen uten at planen endres.
+- Lagringen er atomisk: enten lagres alle godkjente aktivitetsforslag, eller ingen (NFR-1). Ved lagringsfeil vises ingen melding om vellykket lagring, og gjennomgangen forblir aktiv med brukerens valg.
+- Forkastes gjennomgangen, også når den er ufullstendig, lagres ingen aktiviteter fra den.
+- Lukkes applikasjonen, krasjer den, eller lastes den på nytt før fullføring, går gjennomgangen tapt, og ingen aktiviteter fra den er lagret.
+- Brukeren kan gå fra gjennomgangen til årshjulet og tilbake i samme økt uten at aktivitetsforslag, endringer eller midlertidige valg går tapt. Dette avslutter ikke gjennomgangen. Årshjulet viser bare lagrede aktiviteter.
+- Mens en gjennomgang er aktiv, kan ny analyse ikke starte. Gjennomgangen må først fullføres og lagres eller forkastes.
+- Finner analysen ingen aktiviteter, eller feiler den, blir ingen gjennomgang aktiv (FR-19, FR-20).
+- En ny analyse av samme dokument kan gi aktivitetsforslag som allerede finnes i planen. Dette går tydelig fram for brukeren.
 
 **Out of Scope:**
 - Automatisk konfliktanalyse, inkludert kontroll av duplikater eller overlapp mot eksisterende aktiviteter.
+- Permanent lagring av en gjennomgang for å fortsette senere.
 
 ### 4.5 Kildeutdrag
 
-**Description:** Under gjennomgangen vises kildeutdragene hvert aktivitetsforslag bygger på, slik at brukeren kan kontrollere forslaget mot det som faktisk står i dokumentet. Applikasjonen verifiserer hvert kildeutdrag mot dokumentteksten. Manglende verifisering markeres tydelig, men blokkerer ikke godkjenning. Kildeutdrag lagres ikke. Realiserer UJ-1. *(Gruppegodkjent tillegg utover Product Brief.)*
+**Description:** Under gjennomgangen vises kildeutdragene hvert aktivitetsforslag bygger på, slik at brukeren kan kontrollere forslaget mot det som faktisk står i dokumentet. Applikasjonen verifiserer hvert kildeutdrag mot dokumentteksten. Manglende verifisering markeres tydelig, men blokkerer ikke godkjenning. Kildeutdrag lagres ikke. Realiserer UJ-1. *(Product Brief omtaler kontroll mot tilgjengelige kildeutdrag. Verifisering og øvrige detaljer er gruppegodkjente presiseringer i PRD-en.)*
 
 **Functional Requirements:**
 
@@ -512,7 +549,7 @@ Manglende eller ikke verifiserte kildeutdrag blokkerer ikke godkjenning, og kild
 
 **Consequences (testable):**
 - Et aktivitetsforslag uten kildeutdrag, eller med ett eller flere ikke verifiserte kildeutdrag, kan godkjennes når alle obligatoriske felt er gyldige (FR-23).
-- Etter godkjenning eller avvisning finnes kildeutdragene ikke lenger i applikasjonen (FR-16, FR-23).
+- Når gjennomgangen er fullført, forkastet eller tapt, finnes kildeutdragene ikke lenger i applikasjonen (FR-16, FR-23, FR-26).
 
 #### FR-30: Kildeutdrag i demo-modus
 
@@ -545,7 +582,7 @@ API-nøkler og andre hemmeligheter ligger i miljøvariabler og holdes utenfor Gi
 
 **C-5: Lokal kjørbarhet**
 Applikasjonen kan kjøres lokalt i nettleseren ved å følge README. Det krever ikke gruppens nøkler, betalte kontoer eller egen infrastruktur. Ved analyse med språkmodellen er ingen andre eksterne tjenester nødvendige. Demo-modus fungerer uten eksterne tjenester og uten API-nøkkel (FR-18).
-- *Etterprøving:* En person utenfor gruppen kloner repoet, følger README og gjennomfører kjerneflyten i demo-modus: opplasting av et støttet testdokument, gjennomgang, godkjenning og visning i årshjulet.
+- *Etterprøving:* En person utenfor gruppen kloner repoet, følger README og gjennomfører kjerneflyten i demo-modus: opplasting av et støttet testdokument, gjennomgang, godkjenning, fullføring og visning i årshjulet.
 
 **C-6: Lokal enkeltbrukerløsning**
 Applikasjonen er en lokal enkeltbrukerløsning uten innlogging. Planen lagres lokalt (FR-7).
@@ -561,9 +598,9 @@ Brukergrensesnittet er på norsk bokmål. Tekst og utforming avgjøres i UX-work
 **Pålitelighet og stabilitet**
 
 **NFR-1: Konsistent lagring**
-En lagring fullføres helt eller ikke i det hele tatt. Planen skal aldri bli stående med en halvveis lagret aktivitet. Mislykkes en lagring, får brukeren beskjed, og applikasjonen viser ikke at lagringen var vellykket.
+En lagring fullføres helt eller ikke i det hele tatt. Planen skal aldri bli stående med en halvveis lagret aktivitet. Ved fullføring av en gjennomgang er hele lagringen atomisk: enten lagres alle godkjente aktivitetsforslag, eller ingen (FR-26). Mislykkes en lagring, får brukeren beskjed, og applikasjonen viser ikke at lagringen var vellykket.
 - *Begrunnelse:* Planen er det eneste som lagres permanent (C-7), og brukeren må kunne stole på den.
-- *Etterprøving:* Ved en simulert lagringsfeil er planen uendret, og brukeren får en feilmelding.
+- *Etterprøving:* Ved en simulert lagringsfeil, også midt i lagringen ved fullføring av en gjennomgang med flere godkjente aktivitetsforslag, er planen uendret, og brukeren får en feilmelding.
 
 **NFR-2: Robusthet ved feil**
 Feil ved lesing av dokument, analyse eller lagring får ikke applikasjonen til å krasje, og de påvirker ikke lagrede aktiviteter. Brukeren kan fortsette å bruke applikasjonen etter feilen. Dokumenter som er for store til å behandles, avvises med en tydelig melding. Grensen fastsettes i arkitekturen.
@@ -577,7 +614,7 @@ En analyse som ikke gir svar, avsluttes etter en tidsgrense og behandles som en 
 
 **NFR-4: Forståelige meldinger**
 Feilmeldinger og valideringsmeldinger forteller hva som er galt og hva brukeren kan gjøre. Tekniske feilkoder vises ikke som eneste informasjon.
-- *Etterprøving:* Gjennomgang av alle feilmeldingene i FR-2, FR-15, FR-18, FR-19 og FR-20.
+- *Etterprøving:* Gjennomgang av alle feilmeldingene i FR-2, FR-15, FR-18, FR-19, FR-20 og FR-26.
 
 **NFR-5: Synlig fremdrift under analyse**
 Mens analysen pågår, ser brukeren at den er i gang.
@@ -615,8 +652,8 @@ Tekst fra opplastede dokumenter og svar fra språkmodellen behandles som ubetrod
 - **Prompt injection mot språkmodellen:** Et dokument kan inneholde tekst som forsøker å påvirke språkmodellens svar. Denne risikoen kan ikke fjernes helt. Konsekvensene begrenses fordi svarene bare blir aktivitetsforslag:
   - forslagene valideres (FR-2)
   - applikasjonen verifiserer kildeutdragene selv (FR-28)
-  - ingen aktivitet legges inn uten eksplisitt godkjenning (FR-25)
-- *Etterprøving:* Et testdokument med HTML- eller skriptkode og med instruksjoner rettet til språkmodellen gir ingen kjørt kode. Innholdet vises som tekst, og ingen aktivitet legges inn uten godkjenning.
+  - ingen aktivitet legges inn uten eksplisitt godkjenning og fullføring (FR-25)
+- *Etterprøving:* Et testdokument med HTML- eller skriptkode og med instruksjoner rettet til språkmodellen gir ingen kjørt kode. Innholdet vises som tekst, og ingen aktivitet legges inn uten godkjenning og fullføring.
 
 **Testbarhet**
 
@@ -625,8 +662,12 @@ Sentrale, deterministiske regler dekkes av automatiske tester som kan kjøres ut
 - validering og datoregel (FR-2)
 - ISO-ukenummer og årsskifte (FR-10)
 - visning av flerdagsaktiviteter i flere perioder (FR-11)
+- behandling av språkmodellens strukturerte svar (FR-17, FR-20)
+- eksplisitt fullføring og atomisk lagring (FR-26, NFR-1)
 - verifisering av kildeutdrag (FR-28)
 - demo-modus mot fasit (FR-18, FR-30)
+
+KI-kvalitet er ikke en del av disse testene. Den evalueres i SM-3.
 
 ## 7. Non-Goals
 
@@ -666,16 +707,19 @@ Sentrale, deterministiske regler dekkes av automatiske tester som kan kjøres ut
 | **Oversikt i årshjulet** | Sirkulær årsvisning med 12 måneder og valg av kalenderår. Månedsvisning med ISO-uker og direkte navigasjon mellom måneder. Fast visuell identitet per kategori. Åpning av aktiviteter fra begge visningene. | §4.2, FR-3 |
 | **Manuell aktivitetshåndtering** | Opprette, åpne, redigere og slette aktiviteter med merknader. Felles validering og varig lokal lagring. | §4.1 |
 | **KI-assistert dokumentanalyse** | Opplasting av ett dokument om gangen (.docx eller tekstbasert PDF). Aktivitetsforslag med feltstatus, demo-modus og tydelig feilhåndtering. | §4.3 |
-| **Kontroll og godkjenning** | Individuell gjennomgang i valgfri rekkefølge, med kildeutdrag som applikasjonen verifiserer. Eksplisitt godkjenning eller avvisning av hvert forslag. Ubehandlede forslag beholdes i økten. | §4.4, §4.5 |
+| **Kontroll og godkjenning** | Individuell gjennomgang i valgfri rekkefølge, med kildeutdrag som applikasjonen verifiserer. Eksplisitt godkjenning eller avvisning av hvert forslag, deretter eksplisitt fullføring med samlet, atomisk lagring. Gjennomgangen beholdes i økten og kan forkastes. | §4.4, §4.5 |
 | **Rammer for kjøring og kvalitet** | Lokal kjøring etter README, fiktive testdata, én ekstern språkmodell og hemmeligheter utenfor Git. Norsk grensesnitt, bruk på PC og projektor, grunnleggende tilgjengelighet og automatiske tester av sentrale regler. | §5, §6 |
 
 ### 8.2 Presiseringer og endringer fra Product Brief
 
-1. **Kildeutdrag:** Hvert aktivitetsforslag kan ha ett eller flere kildeutdrag som applikasjonen verifiserer. De er tilgjengelige under gjennomgangen, men lagres ikke permanent (§4.5, FR-16, FR-29).
+*Punkt 1 og 4 er siden tatt inn i gjeldende Product Brief på overordnet nivå. PRD-en har detaljene.*
+
+1. **Kildeutdrag:** Product Brief omtaler kontroll mot tilgjengelige kildeutdrag. PRD-en presiserer at hvert aktivitetsforslag kan ha ett eller flere kildeutdrag som applikasjonen verifiserer. De er tilgjengelige under gjennomgangen, men lagres ikke permanent (§4.5, FR-16, FR-29).
 2. **Visuell identitet per kategori:** Hver kategori har en fast visuell identitet som ikke er avhengig av farge alene (FR-12).
 3. **Merknader:** Valgfritt fritekstfelt på alle aktiviteter (FR-6).
-4. **Sluttdato:** Sluttdato er obligatorisk for alle aktiviteter, ikke bare for flerdagsaktiviteter (FR-2).
+4. **Sluttdato:** Product Brief har sluttdato som felt på alle aktiviteter. PRD-en presiserer at sluttdato er obligatorisk, også for éndagsaktiviteter og frister, og at datoregelen gjelder (FR-2).
 5. **Månedsnavigasjon:** Brukeren kan navigere direkte mellom måneder i månedsvisningen (FR-10).
+6. **Samlet lagring:** «Bare godkjente forslag lagres» (Product Brief §3) er presisert slik at lagringen skjer samlet ved eksplisitt fullføring av gjennomgangen. Fram til da kan godkjente og avviste forslag redigeres og omgjøres (FR-22–FR-24, FR-26). Gruppebeslutning 2026-11-01.
 
 ### 8.3 Out of Scope
 
@@ -683,18 +727,18 @@ Se §7 Non-Goals.
 
 ## 9. Success Metrics
 
-*§9.1 avgjør om MVP-en fungerer. §9.2 og §9.3 måler kvalitet og nytteverdi. Testprosedyrer, antall deltakere og antall kjøringer fastsettes i testplanen.*
+*§9.1 avgjør om MVP-en fungerer. §9.2 og §9.3 måler kvalitet og nytteverdi. Testplanen fastsetter testmetoder, testdata, prosedyrer, testdybde, antall deltakere og antall kjøringer, men kan ikke redusere hvilke MVP-krav som gjelder.*
 
 ### 9.1 MVP-kriterier
 
 **SM-1: Hele arbeidsflyten uten veiledning**
-I en brukertest med fiktive testdokumenter skal deltakerne gjennomføre de sentrale arbeidsflytene i UJ-1, UJ-2 og UJ-3 uten veiledning. Minst én deltaker har ikke vært med på utviklingen. Erfaring med planlegging er en fordel, men ikke et krav.
-- *Oppfylt når:* deltakerne fullfører arbeidsflytene uten veiledning. Steder der en deltaker stoppet opp, dokumenteres.
+I en brukertest med fiktive testdokumenter skal deltakerne gjennomføre UJ-1, UJ-2 og UJ-3 fra start til slutt uten veiledning. Minst én deltaker har ikke vært med på utviklingen. Erfaring med planlegging er en fordel, men ikke et krav.
+- *Oppfylt når:* alle tre brukerreisene er gjennomført fra start til slutt uten veiledning. Steder der en deltaker stoppet opp, feil og avvik dokumenteres.
 - *Kilde:* Product Brief, Behavior.
 
-**SM-2: Sentrale krav er testet**
-De sentrale funksjonelle og ikke-funksjonelle kravene er testet ut fra de testbare konsekvensene i §4 og etterprøvingspunktene i §5 og §6. Testplanen angir hvilke krav som inngår.
-- *Oppfylt når:* ingen av disse testene feiler, og resultatene er dokumentert.
+**SM-2: MVP-krav er implementert og verifisert**
+Alle funksjonelle krav innenfor MVP Scope (§8.1) er implementert og verifisert ut fra de testbare konsekvensene i §4. Gjeldende Constraints og Non-Functional Requirements er etterprøvd etter sine relevante kriterier i §5 og §6. Språkmodellens ønskede atferd i FR-17 evalueres i SM-3. Testplanen kan ikke redusere hvilke MVP-krav som gjelder.
+- *Oppfylt når:* kravene er verifisert, og resultater, feil, avvik og eventuelle begrensninger er dokumentert.
 
 ### 9.2 KI-kvalitet
 
@@ -702,10 +746,10 @@ De sentrale funksjonelle og ikke-funksjonelle kravene er testet ut fra de testba
 Analysen med språkmodellen kjøres på 3–4 fiktive testdokumenter med forhåndsdefinert fasit. Hvert dokument analyseres flere ganger for å vise variasjon mellom kjøringene. For hvert dokument dokumenteres:
 - hvor mange relevante aktiviteter som ble identifisert
 - hvor mange feilaktige forslag som ble generert
-- hvor korrekt startdato og sluttdato ble identifisert
+- hvor korrekt startdato og sluttdato ble identifisert, inkludert frister og ufullstendige datoer
 - hvordan manglende eller usikker informasjon ble markert
 
-Resultatene vurderes mot fasiten. Vurderingen beskriver feil, begrensninger og konsekvenser for brukerens kontrollarbeid. Det settes ingen prosentgrense. Demo-modus testes separat (NFR-10).
+Resultatene vurderes mot fasiten. Vurderingen beskriver feil, variasjon, begrensninger og konsekvenser for brukerens kontrollarbeid. Det settes ingen prosentgrense. Demo-modus testes separat (NFR-10).
 - *Kilde:* Product Brief, Quality.
 
 ### 9.3 Nytteverdi
@@ -738,9 +782,9 @@ Samme planleggingsoppgave gjennomføres manuelt i Excel og i applikasjonen. For 
 
 | ID | Spørsmål | Krav |
 |---|---|---|
-| OQ-3 | **Prioritert:** innholdet i kategorilisten. Må avklares før implementering av aktivitetshåndtering, analyse og demo-modus. | FR-1, FR-12, FR-17, FR-18 |
+| OQ-3 | **Prioritert:** innholdet i kategorilisten, inkludert behovet for en generell restkategori og om frister trenger egen kategori. Må avklares før implementering av aktivitetshåndtering, analyse og demo-modus. | FR-1, FR-12, FR-17, FR-18 |
 | OQ-4 | Hvordan årsvisningen forblir lesbar når mange aktiviteter ligger i samme måned. | FR-13 |
-| OQ-5 | Visuell utforming av årshjulet og gjennomgangen. Det omfatter kategoriidentitet, tastaturbruk i hjulet, månedsnavigasjon, plassering av kildeutdrag, markering av demo-modus og bekreftelser. | FR-8, FR-10, FR-12, FR-18, FR-26, FR-27, NFR-7 |
+| OQ-5 | Visuell utforming av årshjulet og gjennomgangen. Det omfatter kategoriidentitet, tastaturbruk i hjulet, månedsnavigasjon, plassering av kildeutdrag, markering av demo-modus, informasjon om demo-modus ved feil, fullføring og forkasting av gjennomgang, navigasjon mellom gjennomgang og årshjul, informasjon om mulige duplikater og bekreftelser. | FR-8, FR-10, FR-12, FR-18, FR-20, FR-26, FR-27, NFR-7 |
 
 ### 10.4 Avklares i arkitekturen
 
@@ -754,8 +798,8 @@ Samme planleggingsoppgave gjennomføres manuelt i Excel og i applikasjonen. For 
 
 | ID | Spørsmål | Krav |
 |---|---|---|
-| OQ-9 | Testdokumenter med fasit, og hvilke sentrale krav som testes. | SM-2, SM-3, FR-30 |
-| OQ-10 | Antall deltakere, antall KI-kjøringer per dokument, oppsett av Excel-sammenligningen, testmengder og ytelseskriterier. | SM-1, SM-3, SM-4, FR-13, NFR-6 |
+| OQ-9 | Testdokumenter med fasit, og testmetoder, prosedyrer og testdybde for MVP-kravene. | SM-2, SM-3, FR-30 |
+| OQ-10 | Antall deltakere, antall KI-kjøringer per dokument, oppsett av Excel-sammenligningen, testmengder og ytelseskriterier. | SM-1, SM-3, SM-4, NFR-6 |
 
 ## 11. Assumptions Index
 
@@ -774,13 +818,14 @@ Samme planleggingsoppgave gjennomføres manuelt i Excel og i applikasjonen. For 
 *Ingen `[ASSUMPTION]`-markeringer står åpne i PRD-en. Den fullstendige historikken står i `.memlog.md`.*
 
 - **Godkjent og innarbeidet:**
-  - §4–§5: A1–A3, A5, A6, A8, A10, A12, A14–A17, A19–A27
+  - §4–§5: A1–A3, A5, A6, A8, A10, A12, A14–A17, A19, A22–A27
   - §6: A28–A31
   - §9: A32
 - **Revidert:**
   - A4: Kategori har bare status *manglende* eller *usikker*. Status *ugyldig* brukes ikke for kategori (FR-17).
   - A11: Den opprinnelige antakelsen om en minstelengde er revidert. Gjeldende: romslig øvre tegngrense som fastsettes i arkitekturen (FR-6).
   - A13: FR-13.
+  - A20 og A21: Umiddelbar lagring ved godkjenning og forkasting ved ny opplasting er erstattet av samlet lagring ved fullføring og sperre mot ny analyse under aktiv gjennomgang (FR-26, gruppebeslutning 2026-11-01). Beholdning i økten fra A20 gjelder fortsatt.
   - A33: SM-4.
 - **Erstattet:** A9 er erstattet av A18 (FR-17).
 - **Forkastet:** A7. Den opprinnelige antakelsen om at éndagsaktiviteter ikke har sluttdato, er forkastet. Gjeldende: sluttdato er obligatorisk for alle aktiviteter, også éndagsaktiviteter (FR-2).

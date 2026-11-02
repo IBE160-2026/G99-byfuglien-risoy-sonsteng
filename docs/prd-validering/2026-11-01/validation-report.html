@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PRD-validering: KI-assistert interaktivt årshjul</title><style>
+  :root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --border: #e7e5e4;
+    --text: #1c1917;
+    --muted: #78716c;
+
+    --verdict-strong: #16a34a;
+    --verdict-adequate: #65a30d;
+    --verdict-thin: #d97706;
+    --verdict-broken: #dc2626;
+
+    --sev-low: #64748b;
+    --sev-medium: #ca8a04;
+    --sev-high: #ea580c;
+    --sev-critical: #dc2626;
+
+    --grade-exc: #16a34a;
+    --grade-good: #65a30d;
+    --grade-fair: #d97706;
+    --grade-poor: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+
+  header.report-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .title h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .title .subtitle { color: var(--muted); font-size: 13px; margin-top: 4px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .grade {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .grade-excellent { background: var(--grade-exc); }
+  .grade-good { background: var(--grade-good); }
+  .grade-fair { background: var(--grade-fair); }
+  .grade-poor { background: var(--grade-poor); }
+
+  .synthesis {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--muted);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    font-size: 15.5px;
+  }
+  .synthesis p { margin: 0 0 10px; }
+  .synthesis p:last-child { margin-bottom: 0; }
+
+  .dimension-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .dim-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .dim-card .dim-name { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .dim-card .dim-verdict { font-size: 14px; font-weight: 600; }
+
+  section.dimension, section.reviewer-section { margin-bottom: 14px; }
+  section.dimension details, section.reviewer-section details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  section summary {
+    padding: 14px 20px;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  section summary::-webkit-details-marker { display: none; }
+  section summary::before {
+    content: "▸";
+    display: inline-block;
+    color: var(--muted);
+    transition: transform 0.15s ease;
+  }
+  section details[open] summary::before { transform: rotate(90deg); }
+  section summary h2 {
+    display: inline;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    flex: 1;
+  }
+  .verdict-pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: white;
+  }
+  .verdict-strong { background: var(--verdict-strong); }
+  .verdict-adequate { background: var(--verdict-adequate); }
+  .verdict-thin { background: var(--verdict-thin); }
+  .verdict-broken { background: var(--verdict-broken); }
+
+  .dim-body { padding: 4px 20px 18px; }
+  .dim-judgment { color: var(--text); font-size: 14.5px; }
+  .dim-judgment p { margin: 0 0 10px; }
+
+  .findings-list { padding: 0 20px 4px; }
+  article.finding {
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+  }
+  article.finding:first-child { border-top: none; }
+  article.finding header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .badge {
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+  .badge-sev-low { background: rgba(100, 116, 139, 0.12); color: var(--sev-low); }
+  .badge-sev-medium { background: rgba(202, 138, 4, 0.14); color: var(--sev-medium); }
+  .badge-sev-high { background: rgba(234, 88, 12, 0.14); color: var(--sev-high); }
+  .badge-sev-critical { background: rgba(220, 38, 38, 0.14); color: var(--sev-critical); }
+  .finding-title { margin: 0; font-size: 15px; font-weight: 500; flex: 1; min-width: 200px; }
+  .finding-location { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; color: var(--muted); }
+  .finding-note, .finding-fix { margin-top: 6px; font-size: 14px; }
+  .finding-fix strong { color: var(--muted); font-weight: 500; }
+
+  .reviewer-source {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  .mechanical {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    font-size: 14px;
+  }
+  .mechanical h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .mechanical ul { margin: 0; padding-left: 20px; }
+  .mechanical li { margin-bottom: 4px; color: var(--text); }
+
+  footer.report-footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  footer .meta { display: flex; gap: 24px; flex-wrap: wrap; }
+</style></head><body><div class="container"><header class="report-header"><div class="title"><h1>KI-assistert interaktivt årshjul — Validation Report</h1><div class="subtitle">_bmad-output/planning-artifacts/prds/prd-G99-byfuglien-risoy-sonsteng-2026-10-19/prd.md</div></div><div class="grade grade-fair">Fair</div></header><div class="synthesis"><p><strong>Klar for UX Design? Ikke klar for UX Design akkurat nå, men klar etter én kort oppdatering. Sju punkter merket «Før UX» må avgjøres av gruppen først. De krever små tekstendringer og ingen omskriving. Resten kan tas i UX, eller før stories.</strong></p><p>PRD-en holder faglig: den har en tydelig tese (KI-uttrekk, kildekontroll og eksplisitt godkjenning), gjennomført begrepsbruk, sporbare ID-er og presise regler for feltstatus, datoer og ISO-uker. Risikoen ligger i done-ness: FR-17, FR-13 og MVP-porten i SM-1/SM-2 har ingen entydig bestått-grense, og flere feiltilstander i kjerneflyten er ikke avgjort.</p><p>Sammenligningen med nyeste Product Brief fant ingen motstrid i IN/OUT-scope og ingen konflikt mot memlog, men ett IN-punkt mangler som krav: «Frister registreres som aktiviteter». Fire produktbeslutninger er verken tatt eller utsatt til en navngitt workflow: frister, delvise datoer, ny opplasting og tidspunkt for forkasting.</p><p>Karakteren Fair følger av BMADs regel om at ethvert high-funn gir Fair. Karakteren Good fra 2026-10-22 er ikke lenger dekkende, fordi briefen er endret og denne runden også testet samspillet mellom kravene.</p></div><div class="dimension-summary"><div class="dim-card"><div class="dim-name">Decision-readiness</div><div class="dim-verdict" style="color: var(--verdict-adequate)">adequate</div></div><div class="dim-card"><div class="dim-name">Substance over theater</div><div class="dim-verdict" style="color: var(--verdict-strong)">strong</div></div><div class="dim-card"><div class="dim-name">Strategic coherence</div><div class="dim-verdict" style="color: var(--verdict-adequate)">adequate</div></div><div class="dim-card"><div class="dim-name">Done-ness clarity</div><div class="dim-verdict" style="color: var(--verdict-thin)">thin</div></div><div class="dim-card"><div class="dim-name">Scope honesty</div><div class="dim-verdict" style="color: var(--verdict-adequate)">adequate</div></div><div class="dim-card"><div class="dim-name">Downstream usability</div><div class="dim-verdict" style="color: var(--verdict-adequate)">adequate</div></div><div class="dim-card"><div class="dim-name">Shape fit</div><div class="dim-verdict" style="color: var(--verdict-strong)">strong</div></div></div><section class="dimension"><details><summary><h2>Decision-readiness</h2><span class="verdict-pill verdict-adequate">adequate</span></summary><div class="dim-body"><div class="dim-judgment"><p>Beslutninger står som beslutninger (ingen «godkjenn alle», ingen angrefunksjon, uverifisert kildeutdrag blokkerer ikke), og Open Questions er reelle. Svakheten er beslutninger som aldri ble tatt, og at prisen for noen valg ikke er nevnt.</p></div></div><div class="findings-list"><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M1. Delvise datoer og datoer uten år er udefinert</h3><span class="finding-location">FR-17, UJ-1 E6, FR-9, FR-23</span></header><div class="finding-note">«Uke 12», «i løpet av april» og «15. mars» uten år har ingen regel. Feil år kan legge en godkjent aktivitet utenfor kalenderåret som vises, uten tilbakemelding. Umulige datoer er heller ikke nevnt.</div><div class="finding-fix"><strong>Fix:</strong> Legg én konsekvens i FR-17: upresise datoer gir manglende, eller forslag med usikker (gruppen velger), og en ikke-gyldig kalenderdato er ugyldig. Legg i FR-23: brukeren får beskjed når aktiviteten ligger utenfor valgt kalenderår.</div><div class="finding-fix"><strong>Når:</strong> Før UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M2. Ny opplasting er ikke en fortsettelse og kan gi duplikater</h3><span class="finding-location">FR-26, UJ-1 E5, C-3</span></header><div class="finding-note">«Laste opp dokumentet på nytt for å fortsette» lover noe produktet ikke gjør. Ny analyse kan gi andre forslag og returnerer også godkjente og avviste. Duplikatkontroll er bevisst utenfor v1, men følgen er ikke beskrevet.</div><div class="finding-fix"><strong>Fix:</strong> Erstatt «for å fortsette» med at ny opplasting gir ny analyse, at alle forslag kan komme tilbake, og at brukeren selv må unngå duplikater. Legg støtte for dette i OQ-5.</div><div class="finding-fix"><strong>Når:</strong> Før UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M3. Tidspunktet for å forkaste gamle forslag er uavklart</h3><span class="finding-location">FR-15, FR-26, UJ-1 E8, FR-18–FR-20</span></header><div class="finding-note">Brukeren bekrefter «før analysen starter», men det står ikke hva som skjer med redigerte forslag hvis dokumentet avvises eller analysen feiler.</div><div class="finding-fix"><strong>Fix:</strong> Anbefalt i FR-26: «Forslagene forkastes først når den nye analysen har gitt aktivitetsforslag. Feiler den, beholdes de.»</div><div class="finding-fix"><strong>Når:</strong> Før UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M4. Kategorilisten er en domenebeslutning uten eier</h3><span class="finding-location">§3 Kategoriliste, OQ-3, FR-2, FR-17, SM-3</span></header><div class="finding-note">Innholdet «fastsettes i UX-workflowen», men styrer validering, KI-kontekst og fasit, og domenekunnskapen ligger hos gruppen. Kategori er obligatorisk, og «ingen kategori passer» er ikke besvart. En restkategori «Annet» vil dessuten tømme manglende-regelen for innhold.</div><div class="finding-fix"><strong>Fix:</strong> Utvid OQ-3: gruppen avgjør listen, og den må dekke alle aktiviteter, avgjøre om det finnes restkategori og om frister har egen kategori. UX fastsetter visuell identitet. Legg til FR-2, FR-22 og SM-3 i kravkolonnen.</div><div class="finding-fix"><strong>Når:</strong> Før UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M5. Demo-aktivering og manglende API-nøkkel er uavklart</h3><span class="finding-location">OQ-7, OQ-5, FR-18, FR-20, C-5</span></header><div class="finding-note">OQ-7 sender aktiveringen til arkitektur, men UX kommer først og må vite om det finnes en bryter. Hva en sensor uten nøkkel ser ved oppstart, er ikke beskrevet.</div><div class="finding-fix"><strong>Fix:</strong> Legg til i FR-18: uten API-nøkkel får brukeren tydelig melding og veiledning til demo-modus. Ingen avansert modusstyring i v1 (memlog). Pek fra OQ-5 til OQ-7.</div><div class="finding-fix"><strong>Når:</strong> Før UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M16. Prisen for å ikke lagre KI-opprinnelse og kildeutdrag er ikke navngitt</h3><span class="finding-location">§2.1, UJ-1 Avslutning, FR-23</span></header><div class="finding-note">§2.1 lover «kan stole på planen», men etter godkjenning kan ingen se grunnlaget. Valget kan være riktig, men det som gis opp, er ikke sagt.</div><div class="finding-fix"><strong>Fix:</strong> Legg til to setninger i §4.4 eller §7: hva som gis opp, hvorfor det aksepteres, og at merknader er eneste kanal for kildeinformasjon.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article></div></details></section><section class="dimension"><details><summary><h2>Substance over theater</h2><span class="verdict-pill verdict-strong">strong</span></summary><div class="dim-body"><div class="dim-judgment"><p>Én persona (Troppssjef Berg) bærer alle tre UJ-ene og gir konkrete FR-er. NFR-ene er produktspesifikke, og SM-3 sier ærlig at det ikke settes noen prosentgrense. Ingen funn.</p></div></div><div class="findings-list"></div></details></section><section class="dimension"><details><summary><h2>Strategic coherence</h2><span class="verdict-pill verdict-adequate">adequate</span></summary><div class="dim-body"><div class="dim-judgment"><p>Tesen er tydelig, og §4.3–§4.5 følger den. Målingene validerer den svakere enn de ser ut til: MVP-porten er rent funksjonell, nytteresultatene mangler beslutningsregel, og alle 30 FR-er er likestilt.</p></div></div><div class="findings-list"><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M13. §2.2 kan leses som testing med troppssjefer, men SM-1 krever det ikke</h3><span class="finding-location">§2.2, SM-1, P-1</span></header><div class="finding-note">§2.2 sier «utvikles og testes med troppssjefer som primærmålgruppe». Memlog viser at SM-1 bevisst bare krever én utenforstående deltaker, så SM-1 er en tatt beslutning. Rubric-gjennomgangen satte funnet til high. Jeg har nedgradert det, fordi problemet er ordlyd og en uvalidert forutsetning (P-1), og fordi SM-4 ikke tester P-1.</div><div class="finding-fix"><strong>Fix:</strong> Presiser §2.2 («utvikles for»), og skriv i P-1 at forutsetningen forblir uvalidert i v1. Alternativt: ta inn en deltaker med planleggingserfaring i SM-1.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M14. Counter-metric og differensiator måles ikke</h3><span class="finding-location">§9 Counter-metrics, SM-3, SM-4</span></header><div class="finding-note">«Må brukeren rette mange felt (SM-3)», men SM-3 teller ikke rettede felt og dekker bare datoer. Andel verifiserte kildeutdrag måles ikke. SM-4 mangler tolkningsregel for andre utfall.</div><div class="finding-fix"><strong>Fix:</strong> Legg til i SM-3: rettede felt per forslag, treff på kategori og ansvarsområde, og andel verifiserte kildeutdrag.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M23. Ingen kuttrekkefølge for 30 FR-er</h3><span class="finding-location">§8.1</span></header><div class="finding-note">§8.1 sier hva som er med, men ikke hva som kuttes først. Fast prosjektfrist gjør at kutt ellers skjer ad hoc i stories.</div><div class="finding-fix"><strong>Fix:</strong> Marker i §8.1 hva som må stå igjen for å vise tesen, og hvilke krav som kuttes først.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article></div></details></section><section class="dimension"><details open><summary><h2>Done-ness clarity</h2><span class="verdict-pill verdict-thin">thin</span></summary><div class="dim-body"><div class="dim-judgment"><p>FR-2, FR-10, FR-11, FR-23 og FR-25 kan gå rett til stories. Der produktet er vanskeligst, er «ferdig» uavklart: KI-oppførsel, lesbarhet i hjulet og feiltilstander midt i flyten.</p></div></div><div class="findings-list"><article class="finding"><header><span class="badge badge-sev-high">high</span><h3 class="finding-title">H2. FR-17 merker sannsynlig KI-oppførsel som testbar uten toleranse</h3><span class="finding-location">FR-17, UJ-1 E6, SM-2, SM-3, §3 Feltstatus</span></header><div class="finding-note">SM-2 krever at «ingen av disse testene feiler», mens SM-3 sier «det settes ingen prosentgrense». Én avvikende modellkjøring gjør FR-17 uoppfylt, eller testen må ignoreres. «Usikker» er heller ikke operasjonelt definert.</div><div class="finding-fix"><strong>Fix:</strong> Del FR-17 i (a) applikasjonskontrakt: gitt modellsvar X settes status Y, testet med kontrollerte svar, og (b) modellkvalitet, målt i SM-3. Definer usikker som at språkmodellen har oppgitt verdien som usikker i svaret.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-high">high</span><h3 class="finding-title">H3. MVP-porten kan defineres etter behov</h3><span class="finding-location">SM-1, SM-2, OQ-9, OQ-10</span></header><div class="finding-note">SM-2 gjelder «sentrale» krav som «testplanen angir», og SM-1 «de sentrale arbeidsflytene». Gruppen kan dermed oppfylle kriteriet ved å snevre inn omfanget. Det står heller ikke hva som skjer hvis en deltaker ikke fullfører.</div><div class="finding-fix"><strong>Fix:</strong> SM-2 omfatter alle FR-er unntatt modellkvalitet (H2) og alle etterprøvinger i §5–§6. SM-1 omfatter UJ-1 til UJ-3 og et fastsatt minste antall deltakere.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-high">high</span><h3 class="finding-title">H4. FR-13 har ingen grense og er i konflikt med FR-3</h3><span class="finding-location">FR-13, FR-3, UJ-3 E4, OQ-4, OQ-10</span></header><div class="finding-note">«Lesbar» og «mange» er ubestemt. Konsekvensen «via årsvisningen eller månedsvisningen» er oppfylt selv om hjulet er uleselig. FR-3 krever åpning «fra årsvisningen og månedsvisningen». Dette avgjør grunnutformingen: må alle aktiviteter være klikkbare i hjulet, eller kan en full måned vise «+7 flere»?</div><div class="finding-fix"><strong>Fix:</strong> Avgjør regelen før UX, for eksempel: «I årsvisningen kan aktiviteter i en full måned nås via månedsvisningen». Sett et akseptansescenario med konkret antall aktiviteter og skjermstørrelse. UX velger løsningen.</div><div class="finding-fix"><strong>Når:</strong> Før UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M6. Aktiviteter i uker som deles med nabomåneden</h3><span class="finding-location">FR-8, FR-10, FR-11, FR-14</span></header><div class="finding-note">En aktivitet 29.–30. september ligger i uke 40, som også berører oktober. Det er uklart om den skal vises i oktober, og det avgjør også om FR-14 viser tom tilstand.</div><div class="finding-fix"><strong>Fix:</strong> Legg til i FR-10: «Månedsvisningen viser bare aktiviteter som berører måneden», eller motsatt regel, med testeksempel.</div><div class="finding-fix"><strong>Når:</strong> I UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M7. «Tydelig» er akseptkriterium uten definisjon</h3><span class="finding-location">30 forekomster, bl.a. FR-14, FR-15, FR-18, FR-21, FR-27, FR-28</span></header><div class="finding-note">«Tydelig markert» kan ikke testes, og NFR-4 dekker bare innholdet i meldinger.</div><div class="finding-fix"><strong>Fix:</strong> Definer «tydelig markert» i Glossary: synlig uten ekstra handling, med tekstetikett, ikke basert på farge alene.</div><div class="finding-fix"><strong>Når:</strong> I UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M8. «Verifisert» kan leses som mer enn det betyr</h3><span class="finding-location">FR-28, §3 Kildeutdrag, NFR-9, UJ-1</span></header><div class="finding-note">Et tomt eller svært kort utdrag («mars») blir verifisert. Injisert tekst finnes også i dokumentet og blir verifisert, så NFR-9 overdriver effekten. Status betyr at teksten finnes, ikke at forslaget er riktig.</div><div class="finding-fix"><strong>Fix:</strong> Legg til i FR-28: tomt utdrag regnes som manglende, og merkingen skal vise at status gjelder tekstens forekomst. Juster NFR-9.</div><div class="finding-fix"><strong>Når:</strong> I UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M9. Demo-modus kan ikke vise negative tilfeller</h3><span class="finding-location">FR-18, FR-30, UJ-1 E4, §3 Fasit</span></header><div class="finding-note">FR-30 krever kildeutdrag som «finnes i testdokumentet», så alle blir verifisert. Merkingen fra E4 kan ikke demonstreres uten nøkkel, og FR-18 krever ikke dekning av alle feltstatuser.</div><div class="finding-fix"><strong>Fix:</strong> Krev i FR-30 at settet samlet dekker hver feltstatus, ett ikke verifisert og ett manglende kildeutdrag. Utvid Fasit med forventet verifiseringsstatus.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M11. Merknadsgrensen har ingen OQ, og godkjenning over grensen er uavklart</h3><span class="finding-location">FR-6, OQ-5, OQ-8, FR-2, FR-23</span></header><div class="finding-note">Grensen «fastsettes i arkitekturen», men står ikke i OQ-8. Håndteringen har to eiere og står ikke i OQ-5. Det er uklart om en KI-merknad over grensen blokkerer godkjenning.</div><div class="finding-fix"><strong>Fix:</strong> Legg grensen i OQ-8 og håndteringen i OQ-5. Avgjør i FR-6 om merknad over grensen blokkerer godkjenning.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M17. «Ugyldig svar» er ikke avgrenset mot delvis feil</h3><span class="finding-location">FR-20, FR-17</span></header><div class="finding-note">FR-17 håndterer feil per felt, mens FR-20 forkaster alt ved «ugyldig svar». Det står ikke hva som skjer når bare noen forslag er brukbare.</div><div class="finding-fix"><strong>Fix:</strong> Definer i FR-20 ugyldig svar som et svar som ikke kan tolkes etter avtalt format, og avgjør om tolkbare forslag beholdes.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M18. Lagringsfeil ved godkjenning er ikke beskrevet</h3><span class="finding-location">FR-23, NFR-1</span></header><div class="finding-note">Brukeren får beskjed, men det står ikke hva som skjer med forslaget. Redigeringer kan gå tapt.</div><div class="finding-fix"><strong>Fix:</strong> Legg til i FR-23: «Mislykkes lagringen, forblir forslaget ubehandlet med brukerens endringer.»</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M19. NFR-6 er subjektiv og uten datamengde</h3><span class="finding-location">NFR-6, OQ-10</span></header><div class="finding-note">«Skal oppleves som raskt» og «foreløpig under 1 sekund» har verken målepunkt, planstørrelse eller etterprøving.</div><div class="finding-fix"><strong>Fix:</strong> Formuler: under 1 sekund fra handling til oppdatert visning ved et fastsatt antall aktiviteter, med dokumentert måling.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M20. Krav uten etterprøving faller utenfor SM-2</h3><span class="finding-location">§5, §6, SM-2</span></header><div class="finding-note">C-2, C-3, C-6, C-7, C-8, NFR-3, NFR-5, NFR-6, NFR-8 og NFR-10 har ingen etterprøving. Viktigst er C-3, C-7 og NFR-3, som er enkle å teste.</div><div class="finding-fix"><strong>Fix:</strong> Legg til etterprøving for minst C-3, C-7, NFR-3 og NFR-5.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M21. NFR-7 dekker ikke det meste av bruken</h3><span class="finding-location">NFR-7, §3 Kjerneflyt, OQ-5</span></header><div class="finding-note">Kjerneflyt omfatter ikke manuell håndtering, månedsnavigasjon og åpning av aktivitet, så tastaturkravet gjelder ikke klart for disse.</div><div class="finding-fix"><strong>Fix:</strong> La NFR-7 gjelde UJ-1 til UJ-3, og skriv at aktiviteter kan nås og åpnes med tastatur, minst via månedsvisningen.</div><div class="finding-fix"><strong>Når:</strong> I UX</div></article><article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L3. Status ugyldig kan bli stående etter retting av det andre datofeltet</h3><span class="finding-location">FR-22, FR-17, FR-23</span></header><div class="finding-note">Start 10.05, slutt 05.05: Berg retter startdatoen, men sluttdatoen er ikke endret og står etter ordlyden fortsatt som ugyldig. Godkjenning blokkeres.</div><div class="finding-fix"><strong>Fix:</strong> Legg til i FR-22: status ugyldig vurderes på nytt når et felt regelen avhenger av, endres.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L4. Tomme merknader kan leses som manglende</h3><span class="finding-location">FR-17</span></header><div class="finding-note">«Felt uten verdi er markert som manglende» omfatter etter ordlyden også de valgfrie merknadene.</div><div class="finding-fix"><strong>Fix:</strong> Skriv «Obligatoriske felt uten verdi».</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article></div></details></section><section class="dimension"><details><summary><h2>Scope honesty</h2><span class="verdict-pill verdict-adequate">adequate</span></summary><div class="dim-body"><div class="dim-judgment"><p>§7 gjør reell jobb og forutsetningene i §11.1 er ærlige. Hullet er funksjoner en leser vil anta finnes, men som verken er krav eller Non-Goals.</p></div></div><div class="findings-list"><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M22. Forventede funksjoner er verken krav eller Non-Goals</h3><span class="finding-location">§2.1, UJ-3 Klimaks, §7</span></header><div class="finding-note">Søk og filtrering, klokkeslett, gjentakende aktiviteter, eksport, sikkerhetskopi og Excel-import er ikke nevnt. Memlog utelukker bare krav om sortering og filtrering i gjennomgangen, og Excel er utgangspunktet i §1.</div><div class="finding-fix"><strong>Fix:</strong> Legg dem under «Utenfor v1» i §7, eller ta inn søk som FR hvis UJ-3 trenger det.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L5. Avvisning er ubeskyttet, sletting er det ikke</h3><span class="finding-location">FR-24, FR-5</span></header><div class="finding-note">Et feilklikk på avvis kan bare rettes med ny analyse, og asymmetrien er ikke omtalt.</div><div class="finding-fix"><strong>Fix:</strong> Skriv at avvisning skjer uten bekreftelse som et bevisst valg, eller legg til bekreftelse.</div><div class="finding-fix"><strong>Når:</strong> Kan vente</div></article></div></details></section><section class="dimension"><details><summary><h2>Downstream usability</h2><span class="verdict-pill verdict-adequate">adequate</span></summary><div class="dim-body"><div class="dim-judgment"><p>ID-er er sammenhengende og unike, og kryssreferanser stemmer. Delegeringen er samlet i §10, men OQ-3 til OQ-10 mangler eier, og testplanen har ingen plass i kjeden.</p></div></div><div class="findings-list"><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M10. OQ-3 til OQ-10 mangler eier, og testplanen har ingen plass i kjeden</h3><span class="finding-location">§0, §10.3–§10.5, SM-2</span></header><div class="finding-note">Testplanen bærer SM-2-omfang, deltakere, ytelseskriterier og fasit, men har ingen eier, workflow eller tidspunkt, og §0 nevner den ikke. Fasit trengs før demo-modus kan bygges.</div><div class="finding-fix"><strong>Fix:</strong> Sett eier på §10.3–§10.5. Si i §0 og §10.5 hvor og når testplanen lages, senest før epics og stories.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L6. Status og navn er ikke ryddet</h3><span class="finding-location">Frontmatter, tittel, §10.1, OQ-2</span></header><div class="finding-note">`status: final` står sammen med «Arbeidstittel – bekreftes», og OQ-1 er avklart, men står fortsatt i Open Questions. README og AGENTS.md bruker navnet «Sambandet», som PRD-en ikke nevner.</div><div class="finding-fix"><strong>Fix:</strong> Flytt OQ-1 ut av Open Questions, og ta med «Sambandet» når OQ-2 avgjøres.</div><div class="finding-fix"><strong>Når:</strong> Kan vente</div></article></div></details></section><section class="dimension"><details><summary><h2>Shape fit</h2><span class="verdict-pill verdict-strong">strong</span></summary><div class="dim-body"><div class="dim-judgment"><p>Tre UJ-er er riktig for én brukerrolle i et chain-top-dokument med reell UX. Ett lite funn om duplisering.</p></div></div><div class="findings-list"><article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L7. Capabilities-listene dupliserer FR-ene</h3><span class="finding-location">§2.3</span></header><div class="finding-note">Teksten stemmer i dag, men gir to kilder å holde i takt ved endring.</div><div class="finding-fix"><strong>Fix:</strong> Bytt til FR-ID-er per UJ, eller skriv at §4 har forrang ved avvik.</div><div class="finding-fix"><strong>Når:</strong> Kan vente</div></article></div></details></section><section class="reviewer-section"><details open><summary><h2>Samsvar med Product Brief og beslutninger</h2><span class="reviewer-source">review-brief-og-beslutninger.md</span></summary><div class="dim-body"><div class="dim-judgment"><p>Hvert IN- og OUT-punkt, suksesskriterium og sikkerhets- og testpunkt i nyeste brief er sjekket mot PRD-en, og hele memloggen er lest. Resultat: ingen motstrid i scope, ingen konflikt mot memlog og ingen usporede tillegg. Avvikene er ett manglende IN-punkt (H1), briefens nye suksesskriterier (M12), ett OUT-punkt som ikke er speilet (M15) og utdatert omtale av briefen (L1). Kontrollen er en dokumentgjennomgang, og ingen brukere er spurt.</p></div></div><div class="findings-list"><article class="finding"><header><span class="badge badge-sev-high">high</span><h3 class="finding-title">H1. Briefens regel om frister mangler i PRD-en</h3><span class="finding-location">Brief §7 IN 2; PRD §3, FR-17, UJ-1 E6, OQ-3</span></header><div class="finding-note">Briefen sier «Frister registreres som aktiviteter», men i PRD-en står «frist» bare i §1, §2.1 og UJ-1. «Innen 15. mars» kan etter FR-17 gi sluttdato manglende, og det står ikke om datoen er start eller slutt. Fasit for SM-3 og demo-modus blir dermed ikke entydig. Forrige kontroll aksepterte manuell utfylling, og KI-loggen skiller lagrede frister (like datoer) fra KI-tolkning. Det er derfor ingen motstrid, men en beslutning som ikke står i PRD-en.</div><div class="finding-fix"><strong>Fix:</strong> Legg inn «Frist» i Glossary: aktivitet med startdato lik sluttdato. Velg regel i FR-17 og UJ-1 E6: enten foreslås fristdatoen som begge datoer, eller sluttdato markeres manglende som i dag. Legg spørsmålet om egen fristkategori i OQ-3.</div><div class="finding-fix"><strong>Når:</strong> Før UX</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M12. Briefens to nye suksesskriterier mangler i Success Metrics</h3><span class="finding-location">Brief §6; SM-1, SM-4, §9.3</span></header><div class="finding-note">Oppgaven «finne ut når en aktivitet skjer og hvem som har ansvaret» og regelen «kortere tid uten flere feil» er ikke ført inn. Counter-metric dekker bare halve regelen.</div><div class="finding-fix"><strong>Fix:</strong> Legg oppgaven til i SM-1 og effektivitetsregelen til i SM-4. Behold merknaden om at resultatene er veiledende.</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-medium">medium</span><h3 class="finding-title">M15. Briefens OUT om operativ bruk står ikke i §7</h3><span class="finding-location">Brief §7 OUT; PRD §1, §7, UJ-1, C-1</span></header><div class="finding-note">Briefen sier at v1 demonstrerer konseptet med fiktive data. §1 og UJ-1 beskriver reell bruk, og C-1 forbyr bare ekte dokumenter. §7-overskriften «Avanserte KI-funksjoner» kan også leses som at ikke-KI-varianter er tillatt, mens briefen utelater dem uansett teknologi.</div><div class="finding-fix"><strong>Fix:</strong> Legg «Operativ bruk med ekte dokumenter (C-1)» til i §7. Skriv overskriften om til «Avanserte analysefunksjoner, uavhengig av teknologi».</div><div class="finding-fix"><strong>Når:</strong> Før stories</div></article><article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L1. PRD-tekst om briefen er utdatert</h3><span class="finding-location">§4.5, §8.2 pkt. 1 og 4, OQ-1, .memlog.md</span></header><div class="finding-note">§4.5 kaller kildeutdrag et «tillegg utover Product Brief», og §8.2 pkt. 4 omtaler sluttdato som en endring, men briefen har nå begge. Memlog har ingen oppføring om briefens endringer 2026-11-01.</div><div class="finding-fix"><strong>Fix:</strong> Endre §4.5 til «presisert utover Product Brief», merk §8.2 pkt. 1 og 4 som senere tatt inn i briefen, og dater OQ-1. Legg til memlog-oppføring.</div><div class="finding-fix"><strong>Når:</strong> Samme oppdatering</div></article><article class="finding"><header><span class="badge badge-sev-low">low</span><h3 class="finding-title">L2. C-1 etterprøver repoet, men ikke opplasting</h3><span class="finding-location">Brief §8, C-1</span></header><div class="finding-note">Forbudet mot å laste opp ekte dokumenter har ingen etterprøving. En testdeltaker kan laste opp en ekte ordre.</div><div class="finding-fix"><strong>Fix:</strong> Legg kort tekst ved opplasting i OQ-5, eller ta det inn i instruksjonene til testdeltakere.</div><div class="finding-fix"><strong>Når:</strong> Kan vente</div></article></div></details></section><div class="mechanical"><h3>Mechanical notes</h3><ul><li>ID-er: FR-1–30, C-1–8, NFR-1–10, SM-1–4, OQ-1–10 og P-1–5 er sammenhengende og unike. Ingen `[ASSUMPTION]` står åpne.</li><li>ISO-eksemplene i FR-10 er regnet på nytt og stemmer.</li><li>Glossary-drift: «forslag» brukes for aktivitetsforslag, «applikasjonen» og «systemet» veksler, og «KI», «periode» og «ubehandlet» er ikke definert. Årshjul brukes i både vid og snever betydning.</li><li>Out of Scope på feil sted: konfliktanalyse under FR-26 og full dokumentvisning under FR-30.</li><li>NFR-4-etterprøvingen utelater meldingene fra NFR-1, NFR-2 og NFR-3.</li><li>§11.2 viser til A-numre som bare kan slås opp i .memlog.md. §0 oppgir filer uten sti.</li></ul></div><footer class="report-footer"><div class="meta"><span>Rubric: .claude/skills/bmad-prd/assets/prd-validation-checklist.md</span><span>Generated: 2026-11-01</span></div></footer></div></body></html>
