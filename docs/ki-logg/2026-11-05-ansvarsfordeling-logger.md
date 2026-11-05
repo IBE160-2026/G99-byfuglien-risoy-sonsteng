@@ -94,6 +94,28 @@ promptene er ikke tatt med.
 
 </details>
 
+<details>
+<summary><strong>Prompt 4 – Kontroll, lagring, commit og push</strong></summary>
+
+> Jeg godkjenner innholdet i KI-loggutkastet, med forbehold om at teksten er korrekt gjengitt.
+>
+> Før lagring:
+> 1. Kontroller at alle tre promptene er gjengitt ordrett og fullstendig, uten avkuttede ord eller setninger.
+> 2. Rett eventuelle skrivefeil eller ufullstendige setninger i loggens egne beskrivelser. Ikke endre ordlyden i de faktiske promptene.
+> 3. Behold loggen kort og i samsvar med eksisterende mal.
+>
+> Når kontrollen er gjennomført, lagre loggen som `docs/ki-logg/2026-11-05-ansvarsfordeling-logger.md`.
+>
+> Commit og push bare:
+> - `docs/ki-logg/README.md`
+> - `docs/ki-logg/2026-11-05-ansvarsfordeling-logger.md`
+>
+> Ikke endre faglærers sesjonslogg, `issues.md`, sesjonslogg-skillen, `CLAUDE.md`, `AGENTS.md` eller andre prosjektfiler.
+>
+> Vis commit-ID, resultatet av push og `git status -sb`.
+
+</details>
+
 ## Hva KI leverte
 
 - **Prompt 1:** En kartlegging av eksisterende praksis, en liste over mangler
@@ -104,6 +126,9 @@ promptene er ikke tatt med.
   innledningen, en ny seksjon «Forholdet til andre logger» og en ny regel om
   dobbeltlogging. I tillegg ble «kodeøkt» endret til «økt» i første regel.
 - **Prompt 3:** Utkastet til denne loggen.
+- **Prompt 4:** En kontroll av promptene mot originalene og to språklige
+  rettelser i loggens egne beskrivelser. Deretter ble loggen lagret, og den ble
+  committet og pushet sammen med README (`8afac22`).
 
 ## Hva vi endret og hvorfor
 
