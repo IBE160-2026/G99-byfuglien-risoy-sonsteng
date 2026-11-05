@@ -2,7 +2,7 @@
 title: "PRD – KI-assistert interaktivt årshjul"
 status: final
 created: 2026-10-19
-updated: 2026-11-02
+updated: 2026-11-05
 ---
 
 # PRD: KI-assistert interaktivt årshjul
@@ -32,7 +32,7 @@ Troppssjefer i Forsvaret bruker mye tid på å holde oversikt over informasjon s
 
 Løsningen er et interaktivt årshjul som samler planen i ett oversiktlig bilde. Brukeren laster opp en ordre. KI foreslår aktiviteter, og brukeren kontrollerer forslagene mot kildeutdrag fra dokumentet før de legges inn i planen. Årshjulet gir oversikt over hele året og detaljer per måned, og kan brukes direkte i planleggingsmøter.
 
-Det som skiller løsningen fra Excel og vanlige planleggingsverktøy, er at årshjul, KI-assistert uttrekk og brukergodkjenning henger sammen i én arbeidsflyt. Brukeren har alltid kontrollen over hva som legges inn i planen.
+Eksisterende løsninger dekker allerede deler av arbeidsflyten. Vårt særpreg ligger i en samlet flyt fra ordre til årshjul, der KI-genererte aktivitetsforslag kontrolleres mot kildeutdrag som applikasjonen verifiserer, og godkjennes enkeltvis før de legges inn i planen. Brukeren har kontroll over hva som lagres.
 
 ## 2. Target User
 

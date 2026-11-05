@@ -24,7 +24,9 @@ Alle visningene bygger på de samme aktivitetene, som også kan opprettes, redig
 
 ## 4. What Makes This Different
 
-Relevante alternativer er Excel, eksisterende årshjul og planleggingsverktøy som Microsoft Planner, Trello og Teams-kalender. I den aktuelle planleggingsprosessen må informasjon fra ordre og dokumenter ofte bearbeides og overføres manuelt til aktivitetsplanen. Særpreget er kombinasjonen av interaktivt årshjul, KI-assistert aktivitetsgenerering og brukergodkjenning i én sammenhengende arbeidsflyt, tilpasset troppssjefens planleggingsbehov.
+Relevante alternativer er Excel, digitale årshjul som Plandisc og planleggingsverktøy som Microsoft Planner, Trello og Teams-kalender. Plandisc markedsfører KI-import fra dokumenter, mens Microsoft Planner Agent ifølge Microsoft kan generere planutkast fra Word-filer som brukeren bekrefter.
+
+Løsningens særpreg ligger i en samlet arbeidsflyt fra ordre til årshjul, der KI-genererte aktivitetsforslag kontrolleres mot kildeutdrag som applikasjonen verifiserer, og godkjennes enkeltvis før de legges inn i planen. Løsningen er tilpasset troppssjefens planleggingsbehov.
 
 ## 5. Who This Serves
 

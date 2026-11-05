@@ -11,7 +11,8 @@
 - [ ] 2026-11-02 [prd-validering-og-revisjon](997-2026-11-02-19-03-51-prd-validering-og-revisjon.md) — arkitektur (OQ-6–OQ-8): språkmodell, aktivering av demo-modus, lagringsløsning, tidsgrense, dokumentstørrelse og nettlesere
 - [ ] 2026-11-02 [prd-validering-og-revisjon](997-2026-11-02-19-03-51-prd-validering-og-revisjon.md) — testplan (OQ-9, OQ-10) har ingen eier eller workflow og må foreligge før stories
 - [ ] 2026-11-02 [prd-validering-og-revisjon](997-2026-11-02-19-03-51-prd-validering-og-revisjon.md) — ubehandlede valideringsfunn i docs/prd-validering/2026-11-01/validation-report.md, bl.a. M6, M10, M11 og M12
-- [ ] 2026-11-04 [competitive-research](996-2026-11-04-22-22-01-competitive-research.md) — gruppebeslutning: snevre inn særpreget i Product Brief §4 / PRD §1 og nevne Plandisc og Planner Agent som alternativer
+- [x] 2026-11-04 [competitive-research](996-2026-11-04-22-22-01-competitive-research.md) — gruppebeslutning: snevre inn særpreget i Product Brief §4 / PRD §1 og nevne Plandisc og Planner Agent som alternativer (løst 2026-11-05: Brief §4 og PRD §1 revidert)
+- [ ] 2026-11-05 [competitive-research](996-2026-11-04-22-22-01-competitive-research.md) — informere gruppemedlemmet som jobber med UX om den nye formuleringen av særpreget
 - [ ] 2026-11-04 [competitive-research](996-2026-11-04-22-22-01-competitive-research.md) — testplan: mål om kontrollen virker (bevisst innlagte feil, andel verifiserte kildeutdrag, om «usikker» treffer faktiske feil; jf. M14)
 - [ ] 2026-11-04 [competitive-research](996-2026-11-04-22-22-01-competitive-research.md) — valgfritt: prøv Plandisc AI Import og Planner Agent med fiktivt testdokument
 - [ ] 2026-11-04 [competitive-research](996-2026-11-04-22-22-01-competitive-research.md) — kontroller raskt aldrende påstander i research.md på nytt: desember 2026 (KI-pålegg, Microsofts retning) og senest februar 2027 (funksjonspåstander)

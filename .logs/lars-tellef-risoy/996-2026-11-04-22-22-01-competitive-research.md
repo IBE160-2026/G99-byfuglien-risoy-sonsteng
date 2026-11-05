@@ -23,3 +23,21 @@ Undersøke om særpreget i Product Brief §4 og PRD §1 er tilstrekkelig underby
 - Testplan: Mål om kontrollen virker. Det gjelder om brukerne oppdager bevisst innlagte feil, andelen verifiserte kildeutdrag og om «usikker» treffer de faktiske feilene (jf. M14).
 - Valgfritt: Prøv Plandisc AI Import og Planner Agent med et fiktivt testdokument for å verifisere de viktigste leverandørpåstandene.
 - Kontroller raskt aldrende påstander på nytt. Det statlige KI-pålegget om Copilot og Microsofts retning kontrolleres i desember 2026. Funksjonspåstandene om Plandisc, Microsoft og Clio kontrolleres senest i februar 2027, og uansett før særpreget brukes i en endelig rapport.
+
+## 2026-11-05 kl. 19:32 — Lars Tellef Risøy
+
+### Oppgave
+Presisere særpreget i Product Brief §4 og PRD §1 ut fra Competitive Research. Revisjonen skulle være minimal, uten nye krav, endret scope eller endrede funksjonskrav.
+
+### Plan
+- Claude Code foreslo ny ordlyd, vist ved siden av eksisterende tekst. Gruppen valgte en kortere ordlyd, som ble satt inn ordrett.
+- Før commit ble én presisering lagt inn i PRD §1. Ordlyden ble endret fra «verifiserte kildeutdrag» til «kildeutdrag som applikasjonen verifiserer», fordi FR-27–FR-29 tillater forslag med manglende eller ikke-verifiserte kildeutdrag.
+- Detaljer og prompter står i [KI-loggen](../../docs/ki-logg/2026-11-05-saerpreg-brief-prd.md).
+
+### Resultat
+- **Product Brief §4:** Plandisc og Microsoft Planner Agent er nevnt med forbehold. Særpreget er nå den samlede arbeidsflyten fra ordre til årshjul, med kildeutdrag som applikasjonen verifiserer, og godkjenning av hvert forslag.
+- **PRD §1, tredje avsnitt:** har tilsvarende ordlyd. Status er fortsatt `final`, og `updated` er satt til 2026-11-05. To linjer er lagt til i PRD-ens `.memlog.md`: beslutningen og presiseringen.
+- Det er ikke innført nye krav og ingen endringer i scope, UX eller arkitektur. Punktet om særpreg i `issues.md` er lukket.
+
+### Åpne punkter
+- Si fra til gruppemedlemmet som jobber med UX om den nye formuleringen av særpreget. UX-kravene er ikke endret.
