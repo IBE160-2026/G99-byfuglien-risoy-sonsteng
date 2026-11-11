@@ -4,6 +4,7 @@
 > - **Del 1** (prompt 1–3) ble kontrollert og godkjent av Sebastian Byfuglien 11. november og committet i `56f698f`.
 > - **Del 2** (prompt 4–6) dekker arbeidet etter den godkjenningen. Del 2 er merket med «Del 2 – tillegg» i hver seksjon og er **godkjent** av Sebastian Byfuglien 11. november.
 > - **Del 3** (prompt 7–13) dekker arbeidet etter godkjenningen av del 2: commit og push av loggene, OQ-3 og M11-a. Del 3 er merket med «Del 3 – tillegg» i hver seksjon og er **godkjent** av Sebastian Byfuglien 11. november.
+> - **Del 4** (prompt 14–23) dekker arbeidet etter godkjenningen av del 3: push, F1–F8-skissene, samordning av eksempeldata, sluttkontroll og vedtakene om dagsoversikten og OQ-7/OQ-8. Del 4 er merket med «Del 4 – tillegg» i hver seksjon og er **godkjent** av Sebastian Byfuglien 12. november.
 > - Der en formulering i del 1 senere er blitt utdatert, står teksten uendret. Det er lagt til en merknad i kursiv: *(Senere samme dag: …)*.
 
 - **Deltakere:** Sebastian Byfuglien
@@ -16,6 +17,7 @@
   - Del 1: Sebastian Byfuglien
   - Del 2: Sebastian Byfuglien
   - Del 3: Sebastian Byfuglien
+  - Del 4: Sebastian Byfuglien
 
 ## Oppgave
 
@@ -57,6 +59,18 @@ kronologisk rekkefølge:
 | 12 | Dokumentasjon av M11-a, OQ-3-presiseringer og PRD-presiseringer | Del 3 |
 | 13 | Rettelse av UJ-1/UJ-2, kvalitetskontroll og samlet commit | Del 3 |
 | – | Instruks om å lage utkast til del 3 av denne KI-loggen (ikke gjengitt) | – |
+| – | Instrukser om rettelser i utkastet til del 3 og om godkjenning og commit av del 3 (`f9fbe74`) (ikke gjengitt) | – |
+| 14 | Push av `a7ec6ff` og `f9fbe74` | Del 4 |
+| 15 | Beslutningsgrunnlag for F1 – kategorier i årshjulet | Del 4 |
+| 16 | Gruppevedtak om F1-kategorifordeling og oppdatering av F1-skissen | Del 4 |
+| 17 | Oppdatering av gjeldende F2–F8-skisser | Del 4 |
+| 18 | Kontroll av samsvar mellom eksempeldata i F1 og F2 | Del 4 |
+| 19 | Presisering av «Påskeforberedelser» og samordning av mars | Del 4 |
+| 20 | Samlet UX-sluttkontroll før BMAD Finalize | Del 4 |
+| 21 | Gruppevedtak om dagsoversikten, F6-kontroll og Finalize-krav | Del 4 |
+| 22 | Gruppevedtak om OQ-7 og OQ-8 | Del 4 |
+| 23 | Samlet lokal commit `6d018f0` | Del 4 |
+| – | Instrukser om utkast, rettelser og godkjenning av del 4 av denne KI-loggen (ikke gjengitt) | – |
 
 De to administrative instruksene ble ikke gjengitt fordi de bare gjaldt
 utformingen av selve KI-loggen. De endret ikke prosjektfiler utenom loggen.
@@ -968,6 +982,901 @@ til del 3 er ikke gjengitt, fordi den bare gjaldt utformingen av selve loggen.
 
 </details>
 
+### Del 4 – tillegg: prompt 14–23
+
+Prompt 14–23 er gjengitt i sin helhet og uendret. Instruksene som bare gjaldt
+utforming, rettelser og godkjenning av selve KI-loggen, er ikke gjengitt.
+
+<details>
+<summary><strong>Prompt 14 – Push av a7ec6ff og f9fbe74</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> Jeg godkjenner push av de to lokale commitene:
+>
+> - `a7ec6ff` – dokumentasjon av gruppevedtakene OQ-3 og M11-a.
+> - `f9fbe74` – ferdigstilling av KI-logg del 3 og sesjonslogg.
+>
+> **1. Kontroller før push**
+>
+> Bekreft at:
+> - Gjeldende branch er `ux/sebastian-ux-design`.
+> - Lokal HEAD er `f9fbe7489f52849a3afdca211ebdb46bd4f67993`.
+> - Arbeidsområdet er rent.
+> - `origin` peker til `IBE160-2026/G99-byfuglien-risoy-sonsteng`.
+> - Branchen ligger nøyaktig 2 commits foran `origin/ux/sebastian-ux-design` og 0 bak.
+> - Begge commitene er med, og pushen kan gjennomføres som fast-forward.
+>
+> Stopp og rapporter dersom noe ikke stemmer.
+>
+> **2. Gjennomfør push**
+>
+> Kjør:
+>
+> `git push origin ux/sebastian-ux-design`
+>
+> Ikke bruk force push.
+>
+> **3. Verifiser etter push**
+>
+> Kontroller:
+> - Lokal HEAD og `origin/ux/sebastian-ux-design` peker til samme commit, `f9fbe74`.
+> - GitHub viser begge commitene.
+> - Branchen er 0 commits foran og 0 bak origin.
+> - Arbeidsområdet er rent.
+> - Upstream er fortsatt `origin/ux/sebastian-ux-design`.
+> - Verken lokal `main` eller `origin/main` er endret.
+> - DESIGN.md og EXPERIENCE.md har fortsatt `status: draft`.
+> - OQ-3 og M11-a står som avklart.
+> - OQ-7 og OQ-8 står fortsatt som uavklarte arkitekturavhengigheter.
+>
+> **Begrensninger**
+>
+> - Ikke push til `main`.
+> - Ikke opprett pull request.
+> - Ikke merge eller rebase.
+> - Ikke endre filer.
+> - Ikke opprett logger eller commits.
+> - Ikke start BMAD Finalize eller implementering.
+>
+> **4. Rapporter kort**
+>
+> Oppgi:
+> 1. Om pushen lyktes.
+> 2. Full commit-hash på lokal og ekstern branch.
+> 3. Antall commits foran/bak origin.
+> 4. Git-status.
+> 5. Eventuelle avvik.
+>
+> Stopp etter verifiseringen.
+
+</details>
+
+<details>
+<summary><strong>Prompt 15 – Beslutningsgrunnlag for F1</strong></summary>
+
+> Vi fortsetter Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> Siste commit er `f9fbe74`, branchen er synkronisert med GitHub, og arbeidsområdet er rent.
+>
+> OQ-3 og M11-a er nå vedtatt, dokumentert og pushet.
+>
+> **Neste oppgave: Avklar den gjenværende UX-utformingen for F1 – årshjulet.**
+>
+> Dette er en avgrenset UX-vurdering, ikke en ny BMAD-kjøring.
+>
+> ### 1. Undersøk eksisterende løsning
+>
+> Les relevante deler av:
+> - DESIGN.md
+> - EXPERIENCE.md
+> - UX-memloggen
+> - Eksisterende F1-skisser og tilhørende PNG-forhåndsvisninger i `.working/`
+>
+> Finn ut:
+> - Hvordan kategorier og antall aktiviteter vises i dagens årshjul.
+> - Hvilke eksisterende UX-regler som allerede er vedtatt.
+> - Hvor tegnforklaringen kan plasseres.
+> - Hvordan kategorifordelingen eventuelt kan presenteres uten å overbelaste årshjulet.
+> - Hvilke skisser som fortsatt viser «Kat. A–I».
+>
+> ### 2. Vurder to konkrete alternativer
+>
+> Foreslå to enkle løsninger for F1, innenfor eksisterende design.
+>
+> Begge skal:
+> - Bruke de ni godkjente kategoriene og kodene Ø, U, S, M, P, L, E, F og A.
+> - Ha en synlig tegnforklaring med fullt kategorinavn.
+> - Kunne forstås uten kategorifarger.
+> - Beholde eksisterende navigasjon og regler for aktivitetsantall.
+> - Prioritere oversiktlighet og lesbarhet på PC og projektor.
+> - Ikke introdusere nye funksjoner eller endre MVP-omfanget.
+>
+> Vurder om kategorifordelingen bør vises direkte i årshjulet eller gjennom en enklere tilhørende oversikt.
+>
+> ### 3. Lever et kort beslutningsgrunnlag
+>
+> Presenter:
+>
+> 1. Hvordan F1 er utformet i dag.
+> 2. Hva som allerede er vedtatt.
+> 3. Alternativ A og B, med fordeler og ulemper.
+> 4. Din anbefaling, med konkret begrunnelse.
+> 5. Hvordan tegnforklaringen bør plasseres.
+> 6. Hvilke eksisterende skisser som må oppdateres når løsningen er godkjent.
+> 7. Hvilke detaljer som fortsatt må testes eller avklares.
+>
+> Skill tydelig mellom eksisterende UX-vedtak og nye anbefalinger.
+>
+> ### Begrensninger
+>
+> - Ikke endre filer eller skisser.
+> - Ikke opprett nye dokumenter eller logger.
+> - Ikke commit eller push.
+> - Ikke start BMAD Finalize eller implementering.
+> - Ikke avgjør åpne produktspørsmål på egen hånd.
+> - Hold analysen kort og konkret.
+> - Unngå underagenter og unødvendig lesing av hele prosjektet.
+>
+> Stopp etter beslutningsgrunnlaget. Jeg skal vurdere alternativene med ChatGPT før vi oppdaterer skissene.
+
+</details>
+
+<details>
+<summary><strong>Prompt 16 – Gruppevedtak om F1 og oppdatering av F1-skissen</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> Siste commit: `f9fbe74`. Branchen skal være synkronisert med GitHub, og arbeidsområdet skal være rent.
+>
+> **Nytt gruppevedtak: F1 – kategorifordeling i årshjulet**
+>
+> Prosjektgruppen har godkjent alternativ A, med følgende justeringer:
+>
+> 1. Hver måned viser totalt antall unike aktiviteter som berører måneden.
+> 2. Vis maksimalt to kategorimerker per måned, med kode og antall, for eksempel `Ø 8` og `U 5`.
+> 3. Vis de to kategoriene med flest aktiviteter.
+> 4. Sorter etter antall synkende. Ved likt antall brukes den vedtatte kategorirekkefølgen: Ø, U, S, M, P, L, E, F, A.
+> 5. Dersom andre kategorier også har aktiviteter, vis `+N øvrige aktiviteter`, der N er antallet aktiviteter i de øvrige kategoriene, ikke antallet kategorier.
+> 6. Summen av de viste kategoritallene og N skal stemme med månedens totalantall.
+> 7. Måneder uten aktiviteter viser 0 og ingen kategorimerker. Ikke vis en restindikator når det ikke finnes øvrige aktiviteter.
+> 8. F1 skal ha en alltid synlig, kompakt tegnforklaring med alle ni kategorikoder og fulle navn, plassert ved siden av hjulet når det er plass.
+> 9. Hele kategorifordelingen skal kunne formidles gjennom tilgjengelige navn/tekstalternativer for månedene. Ikke påstå at skjermleserfunksjonaliteten er testet.
+> 10. Ikke innfør kategorifarger eller skravur. Oransje er fortsatt forbeholdt tastaturfokus.
+> 11. Behold eksisterende regler for månedstelling, navigasjon, markering og F1-tilstander.
+>
+> **Oppgave: Oppdater eksisterende F1-design og gjeldende F1-skisse.**
+>
+> ### 1. Kontroller utgangspunktet
+>
+> Les relevante deler av DESIGN.md, EXPERIENCE.md, UX-memloggen og gjeldende F1-skisse:
+>
+> `flow-f1-arsvisning-2026-11-03`
+>
+> Finn den faktiske filstien og filformatet i `.working/`, samt tilhørende PNG-forhåndsvisning.
+>
+> Kontroller Git-status før endringer.
+>
+> ### 2. Dokumenter vedtaket
+>
+> - Før gruppevedtaket inn i eksisterende UX-memlogg. Angi at det er opplyst av Sebastian Byfuglien 11. november 2026.
+> - Oppdater relevante F1-avsnitt i DESIGN.md og EXPERIENCE.md.
+> - Marker prinsippet for kategorifordeling som avklart.
+> - Behold eventuelle utestede detaljer om faktisk lesbarhet, størrelse og plassering som valideringspunkter.
+> - Behold `status: draft` i begge dokumentene.
+>
+> Ikke endre PRD eller Product Brief dersom dette ikke er nødvendig. Rapporter eventuelle motstridende krav før du gjør en slik endring.
+>
+> ### 3. Oppdater F1-skissen
+>
+> Oppdater den gjeldende, redigerbare F1-skissen slik at den viser:
+>
+> - Årshjulet med 12 måneder.
+> - Totalt antall aktiviteter per måned.
+> - Inntil to kategorimerker med antall.
+> - Restindikator når det finnes flere aktiviteter.
+> - Synlig tegnforklaring med alle ni kategorier.
+> - Et realistisk, fiktivt eksempel som viser at tallene summerer riktig.
+>
+> Oppdater også de relevante F1-variantene:
+> - Pågående dokumentgjennomgang.
+> - Tomt år.
+>
+> Behold gjeldende UX-regler og designretning. Ikke bygg opp årshjulet på nytt fra bunnen av dersom eksisterende skisse kan justeres.
+>
+> **Viktig for Excalidraw:**
+> - Bevar redigerbarheten i eksisterende skisse.
+> - Oppdater tilhørende PNG-forhåndsvisning dersom prosjektets eksisterende verktøy støtter dette.
+> - Kontroller at forhåndsvisningen samsvarer med den redigerbare skissen.
+> - Dersom skissen ikke kan redigeres eller eksporteres forsvarlig med tilgjengelige verktøy, stopp den delen og rapporter hva som mangler. Ikke erstatt redigerbare filer med en flat bildefil.
+>
+> ### 4. Kvalitetskontroll
+>
+> Kontroller at:
+> - Ingen gamle A–I-plassholdere eller henvisninger til at OQ-3 er åpen finnes i den oppdaterte F1-skissen.
+> - Ingen kategorifarger eller skravur er innført.
+> - F1 fortsatt viser årshjulet som hovedinnhold.
+> - Tallene i de fiktive månedseksemplene er konsistente.
+> - Tegnforklaringen er synlig.
+> - Designet ikke innfører nye navigasjonsregler.
+> - Andre eksisterende skisser ikke er endret.
+> - Tidligere skisseversjoner og historikk er bevart.
+> - `git diff --check` er uten feil.
+>
+> Skill mellom kontroller som faktisk er gjennomført, og manuelle tester som fortsatt gjenstår.
+>
+> ### 5. Begrensninger
+>
+> - Ikke oppdater F2–F8-skissene i denne runden. De tar vi etter at F1 er kontrollert.
+> - Ikke start ny BMAD-kjøring.
+> - Ikke start implementering eller Finalize.
+> - Ikke opprett nye kategoriregler.
+> - Ikke commit eller push.
+> - Ikke gjennomfør omfattende administrativ loggføring nå.
+>
+> ### 6. Rapporter og stopp
+>
+> Rapporter kort:
+> 1. Hvilke filer som ble endret.
+> 2. Hvordan gruppevedtaket er dokumentert.
+> 3. Hvordan F1-skissen er oppdatert.
+> 4. Om PNG-forhåndsvisningen er oppdatert og kontrollert.
+> 5. Hva som fortsatt trenger testing på PC/projektor.
+> 6. Git-status.
+>
+> Stopp etter dette. Jeg skal gjennomgå resultatet med ChatGPT før vi går videre til F2–F8.
+
+</details>
+
+<details>
+<summary><strong>Prompt 17 – Oppdatering av gjeldende F2–F8-skisser</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> **Status:**
+> - Siste commit: `f9fbe74`.
+> - F1-skissen er oppdatert og visuelt gjennomgått med ChatGPT.
+> - Sebastian Byfuglien har bekreftet at F1-filen åpnes og fungerer i Excalidraw.
+> - Projektor- og tilgjengelighetstesting er ikke gjennomført.
+> - Fem filer fra F1-arbeidet er endret, men ikke committet. Bevar disse endringene.
+>
+> **Oppgave: Oppdater gjeldende skisser for F2–F8 slik at de samsvarer med de godkjente UX-beslutningene.**
+>
+> ### 1. Finn gjeldende skisser
+>
+> Undersøk DESIGN.md, EXPERIENCE.md og de relevante filene i `.working/`.
+>
+> Identifiser hvilke skisser som er gjeldende arbeidsversjoner, spesielt:
+>
+> - `flow-f2-f3-manedsvisning-v3-2026-11-03`
+> - `flow-f4-aktivitetsskjema-2026-11-09`
+> - `flow-f5-sletting-2026-11-09`
+> - `flow-f7-gjennomgang-v3-2026-11-03`
+>
+> Finn også gjeldende F6- og F8-skisser dersom de finnes.
+>
+> Ikke endre eldre skisseversjoner som er beholdt som historikk.
+>
+> ### 2. Oppdater relevante skisser
+>
+> Bruk de vedtatte UX-reglene i DESIGN.md og EXPERIENCE.md.
+>
+> **Kategorier:**
+> - Erstatt gamle kategoriplassholdere i gjeldende skisser.
+> - Bruk de ni vedtatte kategoriene med kodene Ø, U, S, M, P, L, E, F og A.
+> - Bruk kode og fullt navn i F3, F4 og F7, eksempelvis «Ø – Øvelser og oppdrag».
+> - Behold kodevisning i F2 i tråd med UX-spesifikasjonen.
+> - Ikke legg inn kategorivisning i F5, F6 eller F8 dersom den ikke er spesifisert der.
+> - Ikke innfør kategorifarger eller skravur.
+>
+> **Andre UX-regler:**
+> - Behold den eksisterende navigasjonen mellom F2 og F3.
+> - Behold regelen om maksimalt to aktiviteter per dag og «+N flere» i månedsvisningen.
+> - Behold eksisterende modalregler for aktivitet, redigering og sletting.
+> - Behold vedtatte regler for KI-gjennomgang, obligatoriske felt og ugyldige merknader.
+> - Ikke innfør nye funksjoner eller endre MVP-omfanget.
+>
+> Gjør bare nødvendige endringer i skisser som faktisk er utdaterte. Skisser som allerede samsvarer med vedtakene, skal ikke endres.
+>
+> ### 3. Oppdater forhåndsvisninger
+>
+> For skisser som endres:
+> - Bevar redigerbare `.excalidraw`-filer.
+> - Oppdater tilhørende PNG-forhåndsvisninger med eksisterende fremgangsmåte.
+> - Kontroller at PNG og Excalidraw-innhold samsvarer.
+> - Ikke presenter lokal SVG-rendering som en faktisk Excalidraw-eksport.
+> - Unngå unødvendige JSON-formatendringer dersom det er praktisk mulig.
+>
+> Dersom en skisse ikke kan oppdateres forsvarlig, rapporter problemet i stedet for å erstatte den med en flat bildefil.
+>
+> ### 4. Kvalitetskontroll
+>
+> Kontroller:
+> 1. At alle gjeldende skisser samsvarer med de vedtatte kategoriene.
+> 2. At de eksisterende UX-reglene for F2–F8 er bevart.
+> 3. At ingen uautoriserte funksjoner eller nye produktbeslutninger er introdusert.
+> 4. At historiske skisser er urørt.
+> 5. At de fem ucommittede F1-filene er bevart.
+> 6. At endrede Excalidraw-filer har gyldig struktur.
+> 7. At PNG-forhåndsvisningene er kontrollert.
+> 8. At `git diff --check` ikke gir feil.
+>
+> Skill tydelig mellom automatiske kontroller, visuell gjennomgang og manuell testing som fortsatt gjenstår.
+>
+> ### 5. Begrensninger
+>
+> - Ikke endre PRD eller Product Brief.
+> - Ikke start ny BMAD-kjøring.
+> - Ikke start implementering eller BMAD Finalize.
+> - Ikke ta nye produktbeslutninger.
+> - Ikke commit eller push.
+> - Ikke lag en omfattende ny loggrunde nå.
+>
+> ### 6. Rapporter og stopp
+>
+> Oppgi:
+> 1. Hvilke skisser som ble undersøkt.
+> 2. Hvilke filer som faktisk ble endret.
+> 3. Hva som ble oppdatert i hver skisse.
+> 4. Hvilke PNG-forhåndsvisninger som ble oppdatert.
+> 5. Eventuelle avvik og gjenstående tester.
+> 6. Git-status.
+>
+> Stopp etter kontrollen. Jeg skal gjennomgå resultatet med ChatGPT før vi går videre.
+
+</details>
+
+<details>
+<summary><strong>Prompt 18 – Kontroll av eksempeldata i F1 og F2</strong></summary>
+
+> Vi fortsetter Sambandet på branch `ux/sebastian-ux-design`.
+>
+> F1 og gjeldende F2–F8-skisser er oppdatert. Det finnes 15 ucommittede filer som skal bevares.
+>
+> ChatGPT har gjennomgått rapporten og godkjenner skisseoppdateringene foreløpig, med følgende rettelser før sluttkontroll.
+>
+> **Oppgave: Sikre samsvar mellom de fiktive eksempeldataene i F1 og F2.**
+>
+> 1. Kontroller de 20 fiktive marsaktivitetene i gjeldende F2/F3-skisse og deres kategorier.
+> 2. Kontroller spesielt aktiviteten «Påskeforberedelser». Finn ut om eksisterende beskrivelse gir grunnlag for kategorien «Annet», eller om et annet primært formål er dokumentert. Ikke finn på manglende opplysninger.
+> 3. Dersom den rapporterte kategorifordelingen i F2 er korrekt, oppdater bare mars-eksempelet i F1 til:
+>    - Totalt 20 aktiviteter.
+>    - U 4.
+>    - M 4.
+>    - +12 øvrige aktiviteter.
+> 4. Dersom du finner en klassifiseringsfeil i F2, stopp før du endrer eksempeldataene og legg frem et konkret rettelsesforslag.
+> 5. Kontroller at øvrige månedstall og kategorifordelinger ikke motsier eksempler som er dokumentert i de gjeldende skissene. Ikke lag nye aktivitetsdata.
+> 6. Oppdater F1s PNG-forhåndsvisning dersom Excalidraw-filen endres.
+> 7. Bevar F1s eksisterende utforming, tegnforklaring og de tre variantene A, B og C.
+> 8. Kontroller at redigerbar JSON-struktur er gyldig, at tallene stemmer, og at `git diff --check` ikke gir feil.
+>
+> **Begrensninger:**
+> - Bevar alle de 15 eksisterende ucommittede filendringene.
+> - Ikke endre PRD eller Product Brief.
+> - Ikke start BMAD Finalize eller implementering.
+> - Ikke commit eller push.
+> - Ikke opprett flere logger nå.
+> - Ikke gjør nye produktbeslutninger.
+>
+> Rapporter kort hva du fant, hvilke eventuelle filer som ble endret, og om eksempeldataene nå stemmer.
+>
+> Stopp etter kontrollen.
+
+</details>
+
+<details>
+<summary><strong>Prompt 19 – Presisering av «Påskeforberedelser» og samordning av mars</strong></summary>
+
+> Vi fortsetter Sambandet på `ux/sebastian-ux-design`.
+>
+> Det er 15 ucommittede filer fra F1–F8-arbeidet. Bevar alle eksisterende endringer.
+>
+> ChatGPT har gjennomgått funnene og anbefaler følgende presisering av de fiktive eksempeldataene:
+>
+> **1. Presiser aktiviteten**
+>
+> Endre den fiktive aktiviteten «Påskeforberedelser» til:
+>
+> `Påskeforberedelser – materiellklargjøring`
+>
+> Kategori: `L – Materiell og logistikk`.
+>
+> Dette er et bevisst valg av formål for et fiktivt eksempel, ikke en påstand om en faktisk aktivitet.
+>
+> Behold datoene 31.03–03.04.2026 og eksempelets funksjon som demonstrasjon av aktivitet over månedsskiftet (M6-1).
+>
+> Oppdater tittelen og kategorien konsekvent der aktiviteten forekommer i gjeldende skisser. Ikke endre historiske skisser.
+>
+> **2. Samordne F1 og F2 for mars**
+>
+> De 20 marsaktivitetene skal gi:
+>
+> - U 4
+> - M 4
+> - Ø 3
+> - F 3
+> - P 2
+> - L 2
+> - E 2
+>
+> Totalt: 20 aktiviteter.
+>
+> Oppdater mars i F1 til:
+>
+> `U 4 · M 4 · +12 øvrige aktiviteter`
+>
+> Oppdater også:
+> - Notatet med marsregnestykket i F1.
+> - Eksempelet på tilgjengelig navn i F1.
+> - Tilsvarende eksempel i EXPERIENCE.md.
+> - Eventuelle andre referanser til den gamle marsfordelingen.
+>
+> Behold det vedtatte visningsprinsippet med maksimalt to kategorimerker.
+>
+> **3. Kontroller februar og april**
+>
+> Aktivitetene som går over månedsskiftet, må inngå i kategorifordelingen for begge berørte måneder.
+>
+> Kontroller særlig:
+> - «Overføring av personell» i februar og mars.
+> - «Påskeforberedelser – materiellklargjøring» i mars og april.
+>
+> Kontroller at kategoriantall og månedstotaler er konsistente. Bruk eksisterende fiktive data der de finnes.
+>
+> Ikke finn på nye aktiviteter eller juster månedstotaler bare for å få regnestykket til å stemme. Hvis datagrunnlaget for en måned ikke er tilstrekkelig, dokumenter avgrensningen og legg frem et konkret forslag fremfor å konstruere en fasit.
+>
+> **4. Oppdater relevante forhåndsvisninger**
+>
+> Oppdater PNG-forhåndsvisningene for alle skisser som faktisk endres.
+>
+> Behold redigerbare Excalidraw-filer og eksisterende layout. Unngå unødvendige endringer i JSON-formatering.
+>
+> **5. Kvalitetskontroll**
+>
+> - Marsfordelingen summerer til 20.
+> - F1 og F2 viser samme fiktive marsdata.
+> - Klassifiseringen følger vedtatte kategoriregler.
+> - Aktiviteten over månedsskiftet beholder riktige datoer.
+> - Ingen historiske skisser endres.
+> - `git diff --check` gir ingen feil.
+> - Alle tidligere ucommittede endringer er bevart.
+>
+> Ikke endre PRD eller Product Brief.
+> Ikke start implementering eller BMAD Finalize.
+> Ikke commit eller push.
+> Ikke opprett ekstra logger.
+>
+> Rapporter hvilke filer som ble endret, hvordan månedstallene er kontrollert, eventuelle uløste avvik og Git-status.
+>
+> Stopp etter kontrollen.
+
+</details>
+
+<details>
+<summary><strong>Prompt 20 – Samlet UX-sluttkontroll før BMAD Finalize</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på branch `ux/sebastian-ux-design`.
+>
+> Siste commit er `f9fbe74`. Det finnes 15 ucommittede filer fra oppdateringene av F1–F8. Disse skal bevares.
+>
+> **Ny manuell bekreftelse:** Sebastian Byfuglien har åpnet alle seks oppdaterte Excalidraw-skisser (F1, F2/F3, F4, F5, F7 og F8) i Excalidraw uten problemer.
+>
+> Dette bekrefter at filene kan åpnes. Det dokumenterer ikke projektor-, tastatur- eller skjermlesertesting.
+>
+> **Oppgave: Gjennomfør én samlet sluttkontroll av UX-arbeidet før BMAD Finalize.**
+>
+> ### 1. Kontroller samsvar
+>
+> Les relevante deler av DESIGN.md, EXPERIENCE.md, UX-memloggen og de gjeldende skissene.
+>
+> Kontroller at:
+> - F1–F8 samsvarer med godkjente UX-regler.
+> - De ni kategoriene og bokstavkodene brukes konsekvent.
+> - F1 og F2 har samme mars-eksempel: 20 aktiviteter, U 4, M 4 og +12 øvrige.
+> - «Påskeforberedelser – materiellklargjøring» har kategori L og riktige datoer.
+> - Regler for navigasjon, modaler, opplasting, KI-gjennomgang og ugyldige merknader er bevart.
+> - Ingen gamle plassholdere finnes i gjeldende skisser.
+> - DESIGN.md og EXPERIENCE.md fortsatt har `status: draft`.
+>
+> Ikke endre historiske skisser.
+>
+> ### 2. Oppdater dokumenterte avvik og kontroller
+>
+> Gjør bare nødvendige, mindre oppdateringer:
+>
+> - Legg til én korrigerende oppføring i UX-memloggen som forklarer at mars-eksempelet er samordnet mellom F1 og F2. Ikke endre historiske oppføringer 139 og 140.
+> - Oppdater relevante punkter i `issues.md` slik at vedtatt kategorifordeling, tegnforklaring og oppdaterte skisser ikke lenger feilaktig står som uavklart.
+> - Dokumenter at Sebastian har bekreftet åpning av de seks skissene i Excalidraw.
+> - Behold projektor-, tastatur- og skjermlesertesting som ikke gjennomført.
+> - Ikke lukk OQ-7 og OQ-8; de avhenger fortsatt av arkitektur.
+>
+> ### 3. Kontroller gjenstående UX-arbeid
+>
+> Vurder konkret om det fortsatt finnes noe som må løses før BMAD UX Finalize.
+>
+> Skill mellom:
+> - Faktiske feil eller mangler som må rettes.
+> - Tester som fortsatt bør gjennomføres.
+> - Arkitekturavhengigheter som kan dokumenteres uten å hindre ferdigstilling av UX.
+> - Eventuelle valgfrie forbedringer som ikke er nødvendige for MVP.
+>
+> Vurder også om mikroteksten trenger en siste språkvask.
+>
+> Ikke start nye designrunder eller foreslå nye funksjoner uten et konkret behov.
+>
+> ### 4. Kvalitetskontroll
+>
+> - Kjør `git diff --check`.
+> - Kontroller YAML-frontmatter.
+> - Kontroller at alle eksisterende ucommittede endringer er bevart.
+> - Kontroller at ingen nye produktbeslutninger er innført.
+> - Vis Git-status og endrede filer.
+>
+> ### 5. Begrensninger
+>
+> - Ikke start BMAD Finalize ennå.
+> - Ikke endre PRD eller Product Brief.
+> - Ikke start implementering.
+> - Ikke commit eller push.
+> - Ikke opprett ny KI-logg nå.
+> - Ikke gjør omfattende endringer i skissene.
+> - Unngå underagenter og unødvendig lesing.
+>
+> ### 6. Rapporter
+>
+> Gi en kort rapport med:
+>
+> 1. Resultatet av UX-sluttkontrollen.
+> 2. Eventuelle feil som må rettes.
+> 3. Hva som fortsatt må testes.
+> 4. Om UX er klar for BMAD Finalize, eller hva som konkret hindrer det.
+> 5. Endrede filer og Git-status.
+>
+> Stopp etter kontrollen.
+
+</details>
+
+<details>
+<summary><strong>Prompt 21 – Gruppevedtak om dagsoversikten, F6-kontroll og Finalize-krav</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> **Status:**
+> - Siste commit: `f9fbe74`.
+> - Det finnes 16 ucommittede filer fra oppdateringen og kontrollen av F1–F8. Alle eksisterende endringer skal bevares.
+> - DESIGN.md og EXPERIENCE.md har `status: draft`.
+> - OQ-3 og M11-a er vedtatt.
+> - Gjeldende skisser er oppdatert og kontrollert for samsvar.
+> - Sebastian Byfuglien har nå bekreftet at **alle sju gjeldende skisser, inkludert F6, åpnes i Excalidraw**.
+> - Projektor-, tastatur- og skjermlesertesting er ikke gjennomført.
+>
+> **Oppgave: Dokumenter siste UX-vedtak, gjennomfør en avgrenset sluttkontroll og vurder hva som gjenstår før BMAD UX Finalize.**
+>
+> ### 1. Dokumenter siste gruppevedtak
+>
+> Prosjektgruppen har godkjent følgende regel for dagsoversikten:
+>
+> - Dagsoversikten viser aktivitetstittel og kategorikode, eksempelvis `U – Førstehjelpskurs`.
+> - Fullt kategorinavn vises i F3.
+> - Tilgjengelig tekst for dagsoversikten skal formidle fullt kategorinavn til skjermleserbrukere.
+> - Eksisterende skisser beholdes dersom de allerede viser dette korrekt.
+> - Ingen nye funksjoner eller komponenter innføres.
+>
+> Registrer vedtaket i eksisterende UX-memlogg som gruppevedtak opplyst av Sebastian Byfuglien 11. november 2026. Ikke finn på et møtereferat.
+>
+> Oppdater DESIGN.md og EXPERIENCE.md bare der dette er nødvendig for å gjøre regelen entydig.
+>
+> Lukk det relevante åpne punktet i `issues.md`.
+>
+> ### 2. Registrer siste manuelle kontroll
+>
+> Dokumenter at Sebastian har åpnet alle sju gjeldende Excalidraw-skisser med suksess, inkludert F6.
+>
+> Oppdater tidligere status om at F6 ikke var kontrollert.
+>
+> Skill tydelig mellom:
+> - At filene åpnes i Excalidraw – bekreftet.
+> - At skissene er visuelt gjennomgått – gjennomført for de aktuelle forhåndsvisningene.
+> - Projektortesting – ikke gjennomført.
+> - Tastatur- og skjermlesertesting – ikke gjennomført.
+>
+> Ikke framstill åpning av skisser som full tilgjengelighets- eller brukertesting.
+>
+> ### 3. Kontroller UX-dokumentasjonen
+>
+> Gjør en siste målrettet kontroll av:
+> - DESIGN.md
+> - EXPERIENCE.md
+> - De gjeldende visuelle referansene
+> - UX-memloggen
+> - Åpne punkter i `issues.md`
+>
+> Kontroller særlig:
+> 1. At de godkjente F1–F8-reglene er konsistente.
+> 2. At OQ-3, M11-a og kategorivisningen i dagsoversikten er avklart.
+> 3. At F1 og F2 bruker samme fiktive marsdata.
+> 4. At historiske skisser ikke feilaktig fremstilles som gjeldende.
+> 5. At dokumentene viser til riktige skisser og filnavn.
+> 6. At OQ-7, OQ-8 og andre reelle avhengigheter fortsatt er korrekt dokumentert.
+> 7. At DESIGN.md og EXPERIENCE.md fortsatt har `status: draft`.
+>
+> Utfør bare mindre, nødvendige rettelser som følger direkte av allerede godkjente beslutninger.
+>
+> ### 4. Vurder mikroteksten
+>
+> Gå gjennom den foreløpige mikroteksten i EXPERIENCE.md.
+>
+> Lag en kort oversikt over:
+> - Tekster som er klare til bruk.
+> - Tekster som bør språkvaskes.
+> - Tekster som fortsatt avhenger av arkitektur eller produktbeslutninger.
+>
+> Foreslå konkrete forbedringer der det er nødvendig, men **ikke skriv om all mikrotekst eller innfør nye UX-regler nå**.
+>
+> ### 5. Undersøk kravene for BMAD UX Finalize
+>
+> Les relevant veiledning for **den eksisterende BMAD UX-workflowen** og tidligere beslutninger om hva som kreves før Finalize.
+>
+> Avklar konkret:
+> - Hvilke filer som skal ferdigstilles.
+> - Hvordan de gjeldende skissene skal håndteres og eventuelt flyttes fra `.working/` til `wireframes/`, uten å miste redigerbarhet eller historikk.
+> - Hvilke kontroller som kreves før DESIGN.md og EXPERIENCE.md kan settes til `final`.
+> - Om OQ-7 og OQ-8 faktisk blokkerer Finalize etter gjeldende prosjektregler, eller om de kan stå som uttrykkelig dokumenterte arkitekturavhengigheter.
+> - Hvordan utestede forhold skal håndteres uten å påstå at testing er gjennomført.
+>
+> **Viktig:** Ikke anta at åpne arkitekturavhengigheter automatisk kan ignoreres. Vurder dem mot de faktiske reglene i workflowen og prosjektet.
+>
+> ### 6. Kvalitetskontroll
+>
+> - Bevar alle 16 eksisterende ucommittede filer.
+> - Kontroller YAML-frontmatter.
+> - Kjør `git diff --check`.
+> - Kontroller endret filsett og Git-status.
+> - Ikke endre PRD eller Product Brief.
+> - Ikke foreta nye produktbeslutninger.
+> - Ikke sett UX-dokumentene til `final`.
+>
+> ### 7. Begrensninger
+>
+> - Ikke start BMAD Finalize.
+> - Ikke start ny BMAD UX-workflow.
+> - Ikke flytt skisser til `wireframes/` ennå.
+> - Ikke start implementering.
+> - Ikke commit eller push.
+> - Ikke opprett ny KI-logg i denne kontrollrunden.
+> - Hold lesing og dokumentendringer begrenset til det som faktisk trengs.
+>
+> ### 8. Rapporter og stopp
+>
+> Gi en kort, konkret rapport:
+>
+> 1. Hvilke filer som ble endret.
+> 2. Hvordan dagsoversiktvedtaket og F6-kontrollen er dokumentert.
+> 3. Eventuelle reelle feil eller mangler.
+> 4. Forslag til nødvendig språkvask.
+> 5. Nøyaktig hva BMAD UX Finalize krever.
+> 6. Om UX er klar for Finalize, eller hvilke konkrete blokkeringer som gjenstår.
+> 7. Git-status.
+>
+> Stopp etter kontrollen. Jeg skal gjennomgå rapporten med ChatGPT før vi tar neste steg.
+
+</details>
+
+<details>
+<summary><strong>Prompt 22 – Gruppevedtak om OQ-7 og OQ-8</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> **Status:**
+> - Siste commit: `f9fbe74`.
+> - Det finnes 16 ucommittede filer fra arbeidet med F1–F8.
+> - DESIGN.md og EXPERIENCE.md har `status: draft`.
+> - Alle sju gjeldende Excalidraw-skisser er bekreftet åpnet av Sebastian Byfuglien.
+> - UX-sluttkontrollen fant ingen designfeil som krever retting.
+>
+> ## 1. Dokumenter nytt gruppevedtak
+>
+> Jeg bekrefter på vegne av prosjektgruppen følgende beslutning, opplyst av Sebastian Byfuglien 11. november 2026:
+>
+> **OQ-7 – demo-modus**
+> - OQ-7 må avklares før DESIGN.md og EXPERIENCE.md kan settes til `status: final`.
+> - Årsaken er at arkitekturens valg av aktivering og oppstart av demo-modus kan påvirke UX-flyten.
+> - OQ-7 er fortsatt åpen. Ikke velg teknisk løsning eller aktiveringsmetode nå.
+>
+> **OQ-8 – tekniske grenser**
+> - OQ-8 blokkerer ikke BMAD UX Finalize.
+> - Den videreføres som dokumentert avhengighet til arkitekturarbeidet.
+> - Eksakte verdier for tegngrense, tidsgrense, dokumentstørrelse og øvrige tekniske begrensninger fastsettes senere.
+> - Eksisterende UX-regler for validering, feilmeldinger og behandling av ugyldige merknader beholdes.
+> - Dersom arkitekturarbeidet senere avdekker behov for endring i brukerflyten, må UX-dokumentasjonen oppdateres.
+> - OQ-8 er fortsatt åpen, ikke løst.
+>
+> **Finalize**
+> - Forberedelsene til BMAD UX Finalize kan starte.
+> - UX-dokumentene skal ikke settes til `final` før OQ-7 er avklart og øvrige krav i workflowen er oppfylt.
+>
+> Registrer beslutningen i eksisterende UX-memlogg, med tydelig merking som gruppevedtak opplyst av Sebastian Byfuglien. Ikke finn på et møtereferat.
+>
+> Oppdater bare nødvendige avsnitt i DESIGN.md, EXPERIENCE.md og `issues.md`.
+>
+> ## 2. Kontroller dagsoversikten
+>
+> Det tidligere gruppevedtaket gjelder **informasjonen som vises**, ikke en bestemt tekstplassering.
+>
+> Eksisterende skisseformat beholdes:
+>
+> - Aktivitetstittel på første linje.
+> - Datoer og kategorikode på neste linje.
+> - Fullt kategorinavn i F3 og tilgjengelig tekst for skjermlesere.
+>
+> Kontroller at dette er entydig i DESIGN.md og EXPERIENCE.md. Gjør bare en minimal presisering dersom nødvendig.
+>
+> Ikke endre skissene.
+>
+> ## 3. Klargjør de samlede UX-endringene
+>
+> Kontroller de eksisterende 16 ucommittede filene og eventuelle nødvendige oppdateringer fra dette steget.
+>
+> Bekreft at:
+> 1. Ingen tidligere arbeid er overskrevet.
+> 2. F1–F8 samsvarer med godkjente UX-regler.
+> 3. F1 og F2 bruker samme fiktive marsdata.
+> 4. OQ-3, M11-a og dagsoversikten er avklart.
+> 5. OQ-7 står som åpen og blokkerer endelig UX-status.
+> 6. OQ-8 står som åpen, men ikke-blokkerende arkitekturavhengighet.
+> 7. Alle sju gjeldende skisser er registrert som åpnet i Excalidraw.
+> 8. Projektor-, tastatur-, skjermleser- og klassifiseringstester fortsatt står som ikke gjennomført.
+> 9. DESIGN.md og EXPERIENCE.md fortsatt har `status: draft`.
+>
+> Kjør `git diff --check`, kontroller YAML-frontmatter og vis en kort oversikt over endringene.
+>
+> ## 4. Vurder nødvendig loggføring
+>
+> Kontroller prosjektets README-regler og rapporter hvilken KI- og sesjonsloggføring som kreves for denne runden.
+>
+> Ikke opprett nye logger eller gjør omfattende loggarbeid nå.
+>
+> ## 5. Begrensninger
+>
+> - Ikke commit eller push ennå.
+> - Ikke merge eller rebase.
+> - Ikke start BMAD Finalize.
+> - Ikke flytt skisser til `wireframes/` ennå.
+> - Ikke sett UX-dokumentene til `final`.
+> - Ikke endre PRD eller Product Brief.
+> - Ikke start implementering.
+> - Ikke ta nye produkt- eller arkitekturbeslutninger.
+>
+> ## 6. Rapporter og stopp
+>
+> Oppgi:
+> 1. Hvordan gruppevedtaket ble dokumentert.
+> 2. Hvilke filer som ble endret.
+> 3. Resultatet av kvalitetskontrollen.
+> 4. Hva som kreves av loggføring.
+> 5. Om alle endringene er klare for én samlet lokal commit.
+> 6. Git-status.
+>
+> Stopp etter kontrollen. Jeg skal gjennomgå rapporten med ChatGPT før commit.
+
+</details>
+
+<details>
+<summary><strong>Prompt 23 – Samlet lokal commit</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> **Jeg godkjenner én samlet lokal commit med de 16 godkjente UX-filene og nødvendig oppdatering av sesjonsloggen. Ingen push.**
+>
+> ### 1. Kontroller utgangspunktet
+>
+> Bekreft at:
+> - Gjeldende branch er `ux/sebastian-ux-design`.
+> - HEAD er `f9fbe7489f52849a3afdca211ebdb46bd4f67993`.
+> - Arbeidsområdet inneholder nøyaktig de 16 forventede endrede filene fra F1–F8-runden.
+> - Ingen uvedkommende filer er endret.
+>
+> De 16 filene omfatter:
+> - UX-`.memlog.md`
+> - `DESIGN.md`
+> - `EXPERIENCE.md`
+> - `.logs/sebastian-byfuglien/issues.md`
+> - Seks oppdaterte `.excalidraw`-skisser: F1, F2/F3, F4, F5, F7 og F8
+> - Seks tilhørende PNG-forhåndsvisninger
+>
+> F6 er ikke endret, fordi den allerede samsvarer med vedtakene.
+>
+> **Ikke tilbakestill eller overskriv eksisterende endringer.**
+>
+> Stopp og rapporter dersom filsettet eller Git-status avviker vesentlig.
+>
+> ### 2. Oppdater eksisterende sesjonslogg
+>
+> Les relevante regler i `CLAUDE.md` og loggstrukturen.
+>
+> Legg til et kort, faktabasert tillegg i dagens seksjon i:
+>
+> `.logs/sebastian-byfuglien/999-2026-11-02-22-07-36-ux-discovery.md`
+>
+> Dokumenter:
+> - Gruppevedtaket om F1-kategorifordelingen.
+> - Oppdateringene av gjeldende F1–F8-skisser.
+> - Samordningen av de fiktive marsaktivitetene.
+> - Gruppevedtaket om dagsoversikten.
+> - At alle sju gjeldende skisser er bekreftet åpnet i Excalidraw av Sebastian.
+> - At OQ-7 fortsatt er åpen og blokkerer `final`.
+> - At OQ-8 fortsatt er åpen, men ikke blokkerer UX Finalize.
+> - At projektor-, tastatur-, skjermleser- og klassifiseringstestene ikke er gjennomført.
+>
+> Hold tillegget kort. Ikke opprett en ny sesjonsloggfil.
+>
+> ### 3. Gjennomfør kontroll før commit
+>
+> Kontroller at:
+>
+> 1. Alle ni kategoriene brukes konsekvent.
+> 2. F1 og F2 har samme mars-eksempel: 20 aktiviteter, `U 4 · M 4 · +12 øvrige`.
+> 3. De sju gjeldende skissene er bevart i redigerbart Excalidraw-format.
+> 4. Historiske skisser ikke er endret.
+> 5. De dokumenterte gruppevedtakene er bevart.
+> 6. DESIGN.md og EXPERIENCE.md fortsatt har `status: draft`.
+> 7. OQ-7 og OQ-8 fortsatt er åpne med riktig blokkeringsstatus.
+> 8. Ugjennomførte tester ikke fremstilles som gjennomført.
+> 9. PRD og Product Brief er uendret.
+>
+> Kjør `git diff --check` og kontroller YAML-frontmatter.
+>
+> Kontroller staged diff før commit. Den store diffen i F1 er kjent og tidligere gjennomgått; unngå å skrive om filen bare for å endre formatering.
+>
+> ### 4. Opprett én lokal commit
+>
+> Stage **kun**:
+> - De 16 kontrollerte UX-filene.
+> - Den eksisterende sesjonsloggen som er oppdatert i steg 2.
+>
+> Opprett én lokal commit med meldingen:
+>
+> `docs: oppdater F1-F8 og dokumenter UX-vedtak 11. november`
+>
+> Følg prosjektets Git-regler for eventuell medforfatterangivelse.
+>
+> **KI-loggens del 4 skal ikke opprettes eller endres nå.** Den utarbeides som et utkast og godkjennes i en egen kontrollrunde.
+>
+> ### 5. Verifiser etter commit
+>
+> Kontroller:
+> - Ny commit-hash.
+> - `git show --stat`.
+> - At commiten inneholder nøyaktig de 17 forventede filene.
+> - At arbeidsområdet er rent.
+> - Antall commits foran GitHub.
+> - At verken lokal `main` eller `origin/main` er endret.
+>
+> ### Begrensninger
+>
+> - Ikke push.
+> - Ikke merge eller rebase.
+> - Ikke opprett pull request.
+> - Ikke start BMAD Finalize.
+> - Ikke flytt skissene til `wireframes/`.
+> - Ikke endre PRD eller Product Brief.
+> - Ikke start implementering.
+> - Ikke ta nye produktbeslutninger.
+> - Ikke opprett flere logger eller commits.
+>
+> ### Rapporter og stopp
+>
+> Oppgi kort:
+> 1. Resultatet av kontrollene.
+> 2. Hvilken sesjonsloggoppdatering som ble gjort.
+> 3. Commit-hash og antall filer.
+> 4. Git-status og antall commits foran GitHub.
+> 5. Eventuelle avvik.
+>
+> Stopp etter lokal commit. Jeg skal gjennomgå rapporten med ChatGPT før vi går videre.
+
+</details>
+
 ## Hva KI leverte
 
 Detaljene står i sesjonsloggen
@@ -1128,6 +2037,103 @@ Detaljene gjentas ikke her.
 - **De 12 opprinnelige aktivitetsområdene** er ikke dokumentert i repoet.
 - **Klokkeslett** for promptene finnes ikke, bortsett fra tidspunktet for sesjonsloggen.
 
+### Del 4 – tillegg (godkjent)
+
+Beslutningene står i UX-memloggen (oppføring 138–145) og i sesjonsloggen
+(tillegget kl. 23:45 for 2026-11-11). Detaljene gjentas ikke her.
+
+**Claude Code utførte:**
+- **Prompt 14 (push):**
+  - Kontrollerte branch, HEAD, rent arbeidsområde, remote, at branchen var 0 bak og 2 foran, og fast-forward.
+  - Pushet uten force: `d6a91ed..f9fbe74`.
+  - Verifiserte med `git ls-remote` og GitHub-API-et (compare: 2 commits).
+  - `main` og `origin/main` var uendret.
+- **Prompt 15 (bare lesing):**
+  - Fant at F1-skissen viste bokstavbokser A–I uten antall, med skravurfyll, og ingen tegnforklaring.
+  - Et `grep`-søk etter «Kat.» fant ikke F1, fordi skissen bare bruker enkeltbokstaver. Det ble rettet i rapporten.
+  - La fram alternativ A (merker i hjulet, *inntil tre*, med «+N») og B (en egen fordelingstabell), og anbefalte A med tegnforklaringen til høyre.
+- **Prompt 16:**
+  - Førte gruppevedtaket inn som UX-memlogg 138, med `memlog.py` via `uv`.
+  - Oppdaterte Årshjulsirkel, F1 og åpne punkter i DESIGN.md og EXPERIENCE.md.
+  - Endret F1-skissen med et Node-skript, i den samme redigerbare fila:
+    - fjernet 48 bokstavbokser og la til 143 elementer
+    - gjorde ramme A 300 bredere og flyttet elementene til høyre for den like mye
+    - forstørret hjulet fra radius 400 til 460 og plasserte innholdet i hver måned midt i sektoren
+    - la inn en tegnforklaring i A, B og C og oppdaterte notatene
+  - Nye elementer har ingen fyll og bare gråtoner. Alle indekser har to tegn og er stigende.
+  - De fiktive kategoritallene ble valgt slik at de summerer til de eksisterende månedstallene. Mars ble Ø 8 + U 5 + 7.
+  - Laget PNG-en med en lokal SVG-renderer og Chrome uten nettverk, *ikke Excalidraws egen eksport*. Rendereren ble først kontrollert ved å rendre den gamle skissen og sammenligne med den gamle PNG-en.
+  - Rettet tre feil som ble funnet visuelt: tekst som kolliderte med sektorlinjene, tegnforklaringen som gikk utenfor rammen, og pilen som krysset en etikett.
+  - Førte endringen i UX-memlogg 139.
+- **Prompt 17:**
+  - Fant de sju gjeldende skissene. Python gjenga alle originalene byte for byte, så JSON-formateringen kunne bevares.
+  - Erstattet plassholderne i F2/F3, F4, F5, F7 og F8 med et Python-skript, ut fra hva hver fiktiv aktivitet er (primært formål):
+    - F2 og dagsoversikten viser koder.
+    - F3, F4 og F7 viser «kode – fullt navn».
+    - F4 viser alle ni kategoriene i den åpne nedtrekkslisten.
+    - F7 viser *usikker* «U – Utdanning og trening» for Skytedag.
+  - F6 hadde ingen kategorier og ble ikke endret. Historiske skisser og `kombinert-retning-1.html` ble ikke endret.
+  - To feil i skriptet ble fanget opp og rettet før noe ble skrevet til repoet: fullt navn i F2-blokker, og feil kode i F3.
+  - Notatene ble kortet ned, slik at de ikke stakk ut av boksene.
+  - Førte endringen i UX-memlogg 140 og oppdaterte avviksraden i EXPERIENCE.md.
+  - Rapporterte at mars i F1 og F2 ikke stemte overens.
+- **Prompt 18 (bare lesing):**
+  - Fant at «Påskeforberedelser» ikke hadde noe dokumentert formål. Kategorien A var Claude Codes eget valg i prompt 17.
+  - Stoppet før F1 ble endret, og la fram hva hver mulig kategori ville gi i F1.
+- **Prompt 19:**
+  - Ga aktiviteten nytt navn og kategori L i F2/F3, F4 og F5. Blokkene i månedsrutene fikk én linje mer, innenfor cella. Den forkortede tittelen i sidepanel D ble beholdt.
+  - Satt mars i F1 til «U 4 · M 4 · +12», og oppdaterte notatet og eksempelet på tilgjengelig navn i F1 og EXPERIENCE.md.
+  - Kontrollerte at februar og april er forenlige med de synlige F1-tallene.
+  - Første kopiering av F1-PNG-en ble avvist med «Permission denied». Andre forsøk lyktes, og kopien ble kontrollert med `cmp`.
+  - La ikke til noen memlogg-oppføring, fordi prompten sa «ikke opprett ekstra logger».
+- **Prompt 20:**
+  - Kontrollerte samsvaret og søkte etter regeltekster i alle sju skissene.
+  - La til UX-memlogg 141, som retter 139 og 140.
+  - Oppdaterte EXPERIENCE.md og `issues.md`.
+  - Fant at visningen i dagsoversikten var det eneste åpne UX-valget.
+- **Prompt 21:**
+  - Førte UX-memlogg 142 (dagsoversikten) og 143 (alle sju skissene åpnes).
+  - Oppdaterte spines og `issues.md`. Alle lenkene i spines (23 stykker) peker til filer som finnes.
+  - Leste Finalize-stegene i `bmad-ux` og vurderte mikroteksten, med tre forslag til språkvask som *ikke* er tatt i bruk.
+  - Pekte på at formatet i vedtaksteksten («U – Førstehjelpskurs») avviker fra oppsettet i skissene.
+- **Prompt 22:**
+  - Førte UX-memlogg 144 (OQ-7 og OQ-8) og 145 (presisering av dagsoversikten).
+  - Oppdaterte statusnotatene i begge spines, OQ-7- og OQ-8-radene, dagsoversikten og `issues.md`.
+- **Prompt 23:**
+  - Kontrollerte de 16 filene og la til tillegget i sesjonsloggen.
+  - Stagede 17 filer med eksakte stier og committet lokalt i `6d018f0`: 17 filer, 8050 linjer lagt til og 4624 fjernet. **Ikke pushet.**
+
+**ChatGPT vurderte.** Opplysningene er bekreftet gjennom ChatGPT-samtalen, slik Sebastian har gjengitt den. Claude Code har ikke selv sett eller kontrollert den samtalen.
+- F1-alternativene og anbefalingen om alternativ A med maks to kategorimerker
+- F1-forhåndsvisningen (PNG)
+- oppdateringene av F2–F8
+- samordningen av F1 og F2 og presiseringen av påskeaktiviteten
+- dagsoversikten
+- OQ-7 og OQ-8
+- kontrollrapporten etter `6d018f0`
+
+Hva ChatGPT konkret svarte, er ikke gjengitt.
+
+**Sebastian godkjente:**
+- pushen av `a7ec6ff` og `f9fbe74` (prompt 14)
+- den samlede commiten `6d018f0` (prompt 23)
+
+Sebastian bekreftet også manuelt at skissene åpnes i Excalidraw: F1 (prompt 17), seks skisser (prompt 20) og alle sju, inkludert F6 (prompt 21).
+
+**Presisering av fiktive eksempeldata (prompt 19):** «Påskeforberedelser – materiellklargjøring» med kategori L er en bevisst presisering av fiktive eksempeldata. ChatGPT anbefalte den, og Sebastian ga den videre i instruksen til Claude Code. Det er ikke et eget gruppevedtak, og det finnes verken en egen godkjenningssetning eller et møtereferat.
+
+**Prosjektgruppen godkjente**, opplyst av Sebastian Byfuglien 11. november 2026. Det finnes ikke noe møtereferat i repoet.
+- F1-kategorifordelingen: alternativ A, justert til maks to merker, med regel for sortering og rest og en tegnforklaring (prompt 16)
+- dagsoversikten: tittel og kategorikode, med fullt navn i F3 og i tilgjengelig tekst (prompt 21), presisert til å gjelde innholdet, ikke plasseringen (prompt 22)
+- at OQ-7 blokkerer `final`, at OQ-8 ikke blokkerer Finalize, og at forberedelsene til Finalize kan starte (prompt 22)
+
+**Det Claude Code ikke kan verifisere:**
+- **ChatGPT:** Vurderingene er bekreftet gjennom ChatGPT-samtalen, slik Sebastian har gjengitt den. Claude Code har ikke sett eller kontrollert samtalen, og ChatGPTs ordlyd er ikke gjengitt.
+- **Gruppevedtakene:** Det finnes ingen dokumentasjon av hvordan og når gruppen behandlet F1-fordelingen, dagsoversikten og OQ-7/OQ-8, utover det Sebastian opplyste.
+- **Påskeaktiviteten:** Presiseringen bygger på ChatGPTs anbefaling, som Sebastian ga videre i prompt 19. Det finnes ingen egen godkjenningssetning. UX-memlogg 141 bruker formuleringen «approved by Sebastian Byfuglien … after ChatGPT review». Den bør eventuelt presiseres med en ny oppføring.
+- **Klokkeslett:** Bare tillegget i sesjonsloggen har et tidspunkt (23:45).
+- **Administrative instrukser:** De tre instruksene om del 3 (rettelser, godkjenning og commit av `f9fbe74`) er ikke gjengitt, etter praksisen fra tidligere. Commiten `f9fbe74` er dermed bare dokumentert gjennom del 3 og pushen i prompt 14.
+
 ## Hva vi endret og hvorfor
 
 - **Tatt inn:** gruppens oppdatering fra `origin/main`, uendret. UX-arbeidet skal bygge på gjeldende PRD før Finalize.
@@ -1169,6 +2175,27 @@ Detaljene gjentas ikke her.
   - Sesjonsloggen ble committet i samme commit som dokumentene, ikke som egen «Logg:»-commit. Det var etter prompt 13.
   - Et grep-søk i kvalitetskontrollen talte 8 av 9 rader i kodetabellen, fordi mønsteret ikke håndterte «Ø». Tabellen ble lest direkte og har 9 rader.
 - **Ikke pushet:** Etter `a7ec6ff` ligger branchen 1 commit foran `origin`.
+
+### Del 4 – tillegg (godkjent)
+
+- **Forslag som ble endret:**
+  - Claude Code foreslo *inntil tre* kategorimerker. Gruppen vedtok *maks to*.
+  - Claude Code foreslo å la OQ-7 stå som dokumentert avhengighet. Gruppen vedtok at OQ-7 *blokkerer* `final`.
+  - Claude Codes kategori A for «Påskeforberedelser» hadde ikke noe grunnlag. Etter ChatGPTs anbefaling, som Sebastian ga videre i instruksen, ble den erstattet med en bevisst presisert fiktiv aktivitet, «Påskeforberedelser – materiellklargjøring», med kategori L.
+- **Beholdt:** Skisseoppsettet for dagsoversikten (tittel på første linje, datoer og kode på neste). Vedtaket gjelder innholdet.
+- **Ikke endret:**
+  - PRD og Product Brief
+  - historiske skisser, som fortsatt har kategoriplassholdere
+  - `kombinert-retning-1.html`, som fortsatt har plassholderen «Kat. A/C»
+  - F6
+  - `status: draft` i begge spines
+- **Ikke tatt i bruk ennå:** Forslagene til språkvask av mikrotekst. De hører til Finalize.
+- **Åpent:** OQ-7 (blokkerer `final`) og OQ-8 (blokkerer ikke). Begge venter på arkitekturen.
+- **Avvik:**
+  - **F1-diffen er stor** (+7423/−4025 linjer før commit). Det skyldes delvis innholdet: 48 elementer er fjernet, 143 lagt til og koordinatene endret. Det skyldes også formatet: fila ble skrevet med Node, mens originalen hadde Python-formatering med tall som `0.0`. Det ble ikke formatert om etterpå. F2–F8 er skrevet med Python, og formatet er bevart.
+  - Fordelingen bak «+N» i andre måneder enn mars er ikke dokumentert. Bare tallene som vises i F1, er kontrollert mot F2.
+  - UX-memlogg 139 og 140 inneholder det gamle mars-eksempelet og står som historikk. 141 retter dem.
+- **Ikke pushet:** `6d018f0` er en lokal commit, og branchen ligger 1 commit foran `origin`.
 
 ## Testing
 
@@ -1252,3 +2279,25 @@ Det er ikke testet noen programvare. Disse kontrollene ble faktisk kjørt:
 - åpning av `.excalidraw`-filene
 - ny validering av PRD-en og ny BMAD-validering
 - push av `a7ec6ff`
+
+### Del 4 – tillegg (godkjent)
+
+Det er ikke testet noen programvare. Disse kontrollene ble faktisk kjørt:
+
+- **Push (prompt 14):** `rev-list --left-right`, `merge-base --is-ancestor`, `ls-remote` og GitHub-API-et (compare).
+- **Skissene:**
+  - **Struktur:** Excalidraw-struktur og standardfelt er gyldige. Indeksene har to tegn og er stigende, og ID-ene er unike. For F2–F8 er det sjekket at ID-er, indekser, rekkefølge og toppnivå er uendret. Endringene gjelder tekstinnholdet og de elementegenskapene som må følge med: tekstens bredde og høyde, høyden på påskeblokkene, `x` for sentrert tekst, og versjonsfeltet.
+  - **Innhold:** `grep` og skript fant ingen gamle plassholdere, skravur eller farger.
+  - **Summer:** Skriptet stoppet dersom F1-summene ikke stemte. F2-listen ble lest maskinelt og gir 20, som stemmer med F1.
+  - **Regeltekster:** Det er søkt etter sentrale regeltekster i F2–F8.
+- **Forhåndsvisninger:** Laget med lokal SVG-renderer og Chrome uten nettverk, *ikke Excalidraw-eksport*. Utstrekningen er sammenlignet med den gamle skissen, og Claude Code har sett gjennom PNG-ene og utsnitt med zoom.
+- **Dokumentene:** Frontmatter er parset med `pyyaml` (`uv`, utenfor repoet). Det er sjekket at ingen eldre memlogg-linjer er fjernet, og at alle 23 lenkene i spines peker til filer som finnes. `git diff --check` og `git diff --cached --check` ga ingen feil, og filene har LF-linjeskift.
+- **Commit (prompt 23):** Staged filsett var nøyaktig 17 filer. `git show --stat` ble kjørt, arbeidsområdet var rent, og `main` og `origin/main` var uendret.
+- **Manuell kontroll (Sebastian):** Alle sju gjeldende skisser åpnes i Excalidraw.
+
+**Ikke gjennomført:**
+- projektortest, blant annet lesbarheten av kategorimerker, restteksten, tegnforklaringen og «Ø»
+- test med tastatur og skjermleser, blant annet det tilgjengelige navnet i F1 og i dagsoversikten
+- klassifiseringstest med 25–30 fiktive aktiviteter
+- ny validering av PRD-en og BMAD-validering av UX
+- push av `6d018f0`
