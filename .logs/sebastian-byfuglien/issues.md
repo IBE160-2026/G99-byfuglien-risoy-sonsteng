@@ -14,4 +14,4 @@
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — validere tastaturflyt og skjermleseropplesning, inkludert valg av disabled/aria-disabled per komponent
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — åpne .excalidraw-filene i Excalidraw og kontrollere at de lastes riktig
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — fullføre BMAD Finalize: språkvask av mikrotekst, nøkkelskjermer og flytting av skisser til wireframes/ og mockups/
-- [ ] 2026-11-11 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — notere i UX-memloggen at PRD 2026-11-05 er integrert, og vurdere `updated`/kilder i DESIGN.md og EXPERIENCE.md (ingen innholdsmotstrid funnet)
+- [x] 2026-11-11 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — notere i UX-memloggen at PRD 2026-11-05 er integrert, og vurdere `updated`/kilder i DESIGN.md og EXPERIENCE.md (ingen innholdsmotstrid funnet) (løst 2026-11-11: memlogg-oppføring 133, kilde og `updated` oppdatert)
