@@ -1,0 +1,55 @@
+# Red team K2 — er det smale særpreget reelt og meningsfullt?
+
+Konklusjonen som angripes: (a) ordrette kildeutdrag per KI-forslag, deterministisk verifisert mot dokumentteksten, (b) statusflagg per felt (mangler / usikker / ugyldig) og (c) obligatorisk individuell godkjenning eller avvisning, uten «godkjenn alle», er en kombinasjon som sjelden finnes samlet, og som er meningsfull for brukerne.
+
+Kildegrunnlag: 16 verktøykall, 4 sider lest direkte (Microsoft Foundry-blogg, Google Developers-blogg, Claude-bloggen om auto mode, og Anthropics Citations-dokumentasjon via søkeutdrag). Resten bygger på søkeresultater og sammendrag. Konfidensen er justert etter det.
+
+## Motbevis: ikke særegent
+
+| # | Påstand | Produkt/kilde | Bevistype | URL | Utgiver | Dato | Konfidens |
+|---|---|---|---|---|---|---|---|
+| 1 | (a) er en ferdig plattformfunksjon. API-et returnerer `cited_text` med pekere som er «garantert gyldige» mot de oppgitte dokumentene. Ordrett utdrag med verifisert plassering fås dermed uten egen kode. | Claude Citations API | Offisiell dokumentasjon (sett via søkeutdrag) | https://platform.claude.com/docs/en/build-with-claude/citations | Anthropic | Udatert dok. (lansert 2025) | Høy |
+| 2 | (a) finnes som åpen kildekode. Hver uttrukket enhet kobles til eksakte tegnposisjoner i kildeteksten, og en HTML-visning lar brukeren se hvert uttrekk markert i originalen. Ifølge en sekundærkilde forkastes uttrekk som ikke kan forankres i teksten. Deterministisk sitatsjekk er altså en kjent og billig teknikk. | Google LangExtract | Primær produktblogg (lest) og sekundær omtale | https://developers.googleblog.com/en/introducing-langextract-a-gemini-powered-information-extraction-library/ ; https://idp-software.com/vendors/langextract/ | Google; idp-software.com | 2025-07-30 | Høy (forankring); middels (filtrering) |
+| 3 | (a) og (b) finnes samlet i en kommersiell tjeneste: grounding som kobler hver verdi til støttende innhold i dokumentet, konfidens per felt (0–1), egne regler for tomme felt og menneskelig kontroll styrt av terskler per felt. I kundeeksempelet sjekket mennesker fortsatt hvert felt. | Azure Content Understanding (Microsoft Foundry) | Primær produktblogg (lest) | https://devblogs.microsoft.com/foundry/content-understanding-confidence-grounding-hitl/ | Microsoft (Filcik og Murphy) | 2026-10-14 | Høy |
+| 4 | Konfidens per felt er standard i dokument-KI: Document Intelligence returnerer `fields[...].confidence`, og felt under terskelen sendes til manuell kontroll. | Azure Document Intelligence (og IDP generelt) | Sekundære veiledninger | https://theneuralbase.com/document-ai/learn/beginner/low-confidence-field-flagging/ | theneuralbase.com | Udatert | Middels (Microsoft Learn er ikke lest) |
+| 5 | (a) finnes i forskningsverktøy: når brukeren klikker en celle i et uttrekkstabell, vises støttende sitater fra artikkelen, og i høy-nøyaktighetsmodus kobles hver påstand til sitater. Ingen kilde viste flagg per celle. | Elicit | Brukerstøtteartikkel og søkeutdrag | https://support.elicit.com/en/articles/14758168-extracting-data-from-a-table-within-a-paper-in-column-answers | Elicit | Udatert | Middels |
+| 6 | (a) og (b) finnes samlet i et juridisk verktøy: hver celle i en dokumentmatrise har sitater, et flagg for «mulig ufullstendig» og et verifiseringskall som gir støttet / delvis / ikke støttet / motsagt. | Vaquill Document Matrix | Leverandørens tekniske blogg og API-dok. (bare søkeutdrag) | https://www.vaquill.ai/engineering/a-spreadsheet-where-every-cell-is-verified | Vaquill | Udatert | Lav–middels (ikke lest direkte) |
+| 7 | (c) er ikke en funksjon, men å fjerne en. Microsofts retningslinjer for menneske–KI-samspill anbefaler effektiv avvisning (G8) og effektiv korrigering (G9), blant annet med mønsteret 9E «Batch-editing data». Å bevisst ta bort massebehandling går imot etablert designpraksis, og det er lett å kopiere. | Microsoft HAX Toolkit | Designretningslinjer (biblioteksoppføringer i søkeresultat) | https://www.microsoft.com/en-us/haxtoolkit/library/example,pattern/all/63/ | Microsoft Research | Udatert (retningslinjer fra 2019) | Middels |
+
+## Motbevis: ikke meningsfullt / kontraproduktivt
+
+| # | Påstand | Kilde | Bevistype | URL | Utgiver | Dato | Konfidens |
+|---|---|---|---|---|---|---|---|
+| 1 | Sitater øker brukernes tillit selv når de er tilfeldige. Tillitsøkningen avhenger altså av at sitatet finnes, ikke av hva det sier. Tilliten sank når brukerne faktisk sjekket sitatene. Utdrag kan dermed gi overtillit hvis de ikke blir lest. | Ding, Facciani mfl., «Citations and Trust in LLM Generated Responses» | Fagfellevurdert konferanseartikkel (AAAI 2025), preprint arXiv 2501.01303 | https://ojs.aaai.org/index.php/AAAI/article/view/34550 | AAAI | 2025 (preprint 2025-01) | Høy (funn); middels (overføring, siden studien måler selvrapportert tillit) |
+| 2 | LLM-er er overkonfidente når de oppgir egen sikkerhet med ord. Konsistensbaserte metoder er bedre, men alle metoder sliter på fagspesifikke oppgaver. Et «usikker»-flagg som modellen setter selv, er derfor dårlig kalibrert. | Xiong mfl., «Can LLMs Express Their Uncertainty?» | Fagfellevurdert (ICLR 2024), arXiv 2306.13063 | https://arxiv.org/abs/2306.13063v2 | ICLR | 2023-06 (v1), 2024-03 (v2) | Høy |
+| 3 | Selv Microsoft sier at konfidens må kalibreres mot menneskesjekkede eksempler fra kundens egne dokumenter, at én global terskel ikke fungerer, og at høy samlet nøyaktighet ikke rettferdiggjør en mildere terskel. Et ukalibrert flagg i en studentapp gir lite verdi. | Microsoft Foundry-blogg | Primær (lest) | https://devblogs.microsoft.com/foundry/content-understanding-confidence-grounding-hitl/ | Microsoft | 2026-10-14 | Høy |
+| 4 | I et randomisert eksperiment med 2 784 deltakere som kontrollerte KI-uttrukne verdier fra bedriftsrapporter, godtok automasjonsvennlige deltakere oftere feil forslag. Bonus og KI-ens tidlige treffsikkerhet hadde liten effekt. Ifølge et søkesammendrag ble det rettet færre feil når korrigering krevde et ekstra steg. Hvem som kontrollerer og hvordan kontrollen er bygd, betyr mer enn at hvert punkt blir kontrollert. | Beck, Eckman, Kern og Kreuter, «Bias in the Loop» | Fagfellevurdert tidsskrift (HDSR 8.2), preprint arXiv 2509.08514 | https://arxiv.org/pdf/2509.08514 | Harvard Data Science Review | 2026 (vår); preprint 2025-09 | Høy (hovedfunn); lav–middels (friksjonsfunnet, ikke lest i fulltekst) |
+| 5 | Obligatoriske godkjenninger per handling blir stempling. Brukerne godkjenner rundt 93 % (senere 97 %) av tillatelsesspørsmålene, og manuell kontroll fanget langt færre farlige handlinger enn en klassifikator (cirka 14 % mot 89 %). Anthropic bygde auto mode for å fjerne godkjenningene. | Claude Code auto mode | Sekundære kilder. Primærposten (lest) nevner bare «frequent human approvals», ikke tallene | https://gigazine.net/gsc_news/en/20260810-claude-code-auto-mode/ ; https://claude.com/blog/auto-mode | GIGAZINE; Anthropic | 2026-08 / 2026-03-24 | Lav–middels (tallene er ikke verifisert i primærkilden; domenet er et annet) |
+| 6 | Motvekt som delvis støtter konklusjonen: forklaringer reduserer overavhengighet bare når de senker kostnaden ved å verifisere. Korte ordrette utdrag kan gjøre det, men bare hvis de er raske å sjekke. | Vasconcelos mfl., CSCW 2023 | Fagfellevurdert (PACM HCI 7, CSCW1), arXiv 2212.06823 | https://arxiv.org/abs/2212.06823 | ACM | 2023 | Høy |
+| 7 | Motvekt: i en studie av KI-assistert datauttrekk i systematiske oversikter var andelen feil 9,0 % med KI-assistanse mot 11,0 % for mennesker alene. Manglende dataelementer var den vanligste feilen, noe som støtter et «mangler»-flagg. | Gartlehner mfl., Annals of Internal Medicine | Fagfellevurdert (bare søkeutdrag) | https://www.rti.org/publication/artificial-intelligence-assisted-data-extraction-with-a-large-lan | RTI / Annals | 2025 | Middels |
+
+## Sterkeste motargument
+
+Hver av de tre delene er enten en vanlig plattformfunksjon eller et valg om å fjerne en funksjon. Deterministisk sitatsjekk er gratis: Claude Citations gir den direkte, og LangExtract er åpen kildekode. Grounding kombinert med konfidens per felt og menneskelig kontroll leveres allerede samlet, for eksempel i Azure Content Understanding (oktober 2026). Det ligner også på Vaquill. Det som gjenstår, er (c), og (c) er lett å kopiere og har svakest støtte. HAX anbefaler effektiv avvisning og massebehandling. Funn om obligatoriske godkjenninger tyder på stempling (cirka 93 %, sekundærkilde). Og i en randomisert studie av akkurat denne typen oppgave (kontroll av KI-uttrukne verdier fra dokumenter) avhang automasjonsskjevheten av hvem som kontrollerte og hvordan kontrollen var bygd, ikke av hvor mye som ble kontrollert. I tillegg øker sitater tilliten selv når de er tilfeldige (Ding mfl. 2025). Et «usikker»-flagg som LLM-en setter selv, er dessuten systematisk overkonfident (Xiong mfl. 2024). Kombinasjonen er derfor neppe et særpreg mot konkurrenter. I beste fall er den et rimelig ansvarlig standardoppsett.
+
+## Søkt etter, ikke funnet
+
+- Primærkilden for 93 %- og 97 %-tallene: Claude-bloggen om auto mode (2026-03-24) nevner dem ikke. En eventuell Anthropic-post fra august 2026 er ikke lest.
+- Fulltekst av HDSR-artikkelen «Bias in the Loop» (HTTP 403). Friksjonsfunnet (ekstra steg ga færre rettelser) bygger bare på et søkesammendrag.
+- Flagg eller konfidens per celle i Elicit: ingen kilde funnet.
+- Microsoft Learn-dokumentasjonen for konfidens i Document Intelligence: ikke lest. Bare sekundære veiledninger.
+- Direkte studier som sammenligner obligatorisk kontroll per punkt med massegodkjenning i KI-uttrekk: ikke funnet.
+- NN/g- og Google PAIR-kilder om dette: ikke søkt etter, på grunn av budsjettet.
+- Årshjul- eller planleggingsverktøy som trekker ut aktiviteter med KI og viser kildeutdrag: ikke undersøkt i denne kjøringen. Om kombinasjonen er sjelden akkurat i årshjul-nisjen, står derfor åpent.
+
+## Dom: står konklusjonen? — **må nyanseres**
+
+Påstanden om at dette er sjeldent som kombinasjon, holder ikke for KI-uttrekk generelt. (a) og (b) finnes samlet i minst én stor kommersiell tjeneste (Azure Content Understanding), og (a) er gratis via API eller åpen kildekode. Påstanden kan bare forsvares avgrenset til årshjul- og planleggingsnisjen, og det er ikke undersøkt her.
+
+Påstanden om at det er meningsfullt, holder delvis:
+
+- Deterministisk verifisering av utdrag er den mest forsvarlige delen. Den tar direkte tak i Ding-funnet om at også tilfeldige sitater gir tillit, og den kan senke kostnaden ved å verifisere (Vasconcelos).
+- Flaggene «mangler» og «ugyldig» bør være deterministiske regler. «Usikker» må ikke bygge på modellens egen oppgitte sikkerhet (Xiong, Microsoft).
+- (c) uten «godkjenn alle» bør omformuleres fra en sikkerhetsgaranti til et bevisst friksjonsvalg som bare gir verdi hvis hver gjennomgang er rask. Det bør måles, for evidensen peker mot stempling og mot at hvordan kontrollen er bygd, betyr mer enn tvangen.
+
+Anbefalt formulering: «et ansvarlig, etterprøvbart standardoppsett for en prototype», ikke «et konkurransemessig særpreg».
