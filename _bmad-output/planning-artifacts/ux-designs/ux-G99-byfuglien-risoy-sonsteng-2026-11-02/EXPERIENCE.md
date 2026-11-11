@@ -2,7 +2,7 @@
 name: KI-assistert interaktivt årshjul
 status: draft
 sources:
-  - '{planning_artifacts}/prds/prd-G99-byfuglien-risoy-sonsteng-2026-10-19/prd.md'  # PRD updated 2026-11-05 (integrert via merge 8c5c76f)
+  - '{planning_artifacts}/prds/prd-G99-byfuglien-risoy-sonsteng-2026-10-19/prd.md'  # PRD updated 2026-11-11 (presisert for OQ-3 og M11-a; 2026-11-05 integrert via merge 8c5c76f)
   - '{planning_artifacts}/prds/prd-G99-byfuglien-risoy-sonsteng-2026-10-19/.memlog.md'
   - '{planning_artifacts}/product-brief.md'
   - '{planning_artifacts}/tilbakemelding-product-brief.md'
@@ -12,7 +12,7 @@ updated: 2026-11-11
 
 # KI-assistert interaktivt årshjul – EXPERIENCE.md (utkast)
 
-> **Status: førsteutkast (`status: draft`).** Kanoniske beslutninger står i `.memlog.md`; PRD-en styrer krav og begreper. Dokumentet blir ikke `final` før OQ-3 og andre nødvendige avhengigheter er løst (memlog 2026-11-09).
+> **Status: førsteutkast (`status: draft`).** Kanoniske beslutninger står i `.memlog.md`; PRD-en styrer krav og begreper. OQ-3 ble avklart 2026-11-11. Dokumentet blir ikke `final` før øvrige nødvendige avhengigheter er løst (memlog 2026-11-09 og 2026-11-11).
 >
 > **Statusmarkører**
 > - umerket = vedtatt (godkjent av Sebastian, bindende)
@@ -36,6 +36,46 @@ updated: 2026-11-11
 | Produktnavn | «Årshjul (arbeidstittel)» inntil OQ-2 er avklart. |
 | UX-prinsipp | Progressiv detaljering: År → Måned → Aktivitet. Jo nærmere brukeren går inn i planen, jo mer informasjon vises. Ingen egen uke- eller dagsvisning (PRD §7). |
 | Lagringsmodell | Følger PRD: godkjente aktivitetsforslag lagres samlet først ved «Fullfør og lagre» (FR-26, NFR-1). |
+
+## Kategoriliste og klassifisering
+
+Gruppevedtak 2026-11-11, opplyst av Sebastian Byfuglien (OQ-3 avklart, memlog). Listen er fast; kategorier kan ikke opprettes eller endres i appen (FR-1, FR-2).
+
+| Kode | Kategori |
+|---|---|
+| Ø | Øvelser og oppdrag |
+| U | Utdanning og trening |
+| S | Seremonier og oppstillinger |
+| M | Møter og planlegging |
+| P | Personell og velferd |
+| L | Materiell og logistikk |
+| E | Inspeksjon og evaluering |
+| F | Frister |
+| A | Annet |
+
+**Klassifiseringsregler (vedtatt):**
+
+1. Hver aktivitet har nøyaktig én kategori fra den faste listen.
+2. Kategorien velges etter aktivitetens primære formål.
+3. Rene leverings- og svarfrister, der fristen selv er aktiviteten, plasseres i «Frister». Arbeidet frem mot fristen kategoriseres etter sitt primære formål.
+4. «Annet» brukes kun når aktiviteten er forståelig, men ingen annen kategori passer.
+5. Både KI og bruker kan velge «Annet».
+6. KI skal ikke bruke «Annet» automatisk ved manglende informasjon eller usikkerhet. Reglene for *manglende* og *usikker* etter FR-17 gjelder uendret.
+7. Bokstavkodene er Ø, U, S, M, P, L, E, F og A.
+8. Kategoriene skal kunne gjenkjennes uten farge (FR-12). Oransje er forbeholdt tastaturfokus.
+
+**Kode og fullt navn i F1–F8** (innenfor vedtatte mønstre; Kategorimerke og Felt med etikett under Component Patterns):
+
+| Flate | Bruk | Status |
+|---|---|---|
+| F1 Årsvisning | Kategorimerke med kode + antall, f.eks. «Ø 8». Synlig, kompakt tegnforklaring for alle ni kodene (kode → fullt navn). | Vedtatt (tegnforklaring vedtatt 2026-11-11). Plassering og utforming av tegnforklaringen og fremstillingen av fordelingen i sektoren er **[ÅPENT]**; testes på projektor. |
+| F2 Månedsvisning | Aktivitetsblokk: tittel + kode, f.eks. «Skyteøvelse [Ø]». Dagsoversikten viser kategori per rad. | Vedtatt mønster. Om dagsoversikten viser kode eller kode + fullt navn er **[ÅPENT]**. |
+| F3 Aktivitetsdetaljer | Kategorifeltet viser kode og fullt navn: «Ø – Øvelser og oppdrag». | Vedtatt 2026-11-11. |
+| F4 Aktivitetsskjema | Nedtrekksliste med de ni kategoriene, vist som «Ø – Øvelser og oppdrag». Ingen fritekst, ingen «opprett ny». | Vedtatt 2026-11-11 (FR-1, FR-2). |
+| F5 Sletting | Ingen kategorivisning. | Uendret. |
+| F6 Opplasting og analyse | Ingen kategorivisning. | Uendret. |
+| F7 Gjennomgang | Kategorifeltet i aktivt forslag viser «Ø – Øvelser og oppdrag» og velges som i F4. *Manglende*: velg fra listen. *Usikker*: «? Kontroller:», kan godkjennes. «Annet» er en vanlig kategori, ikke en feltstatus (FR-17, UJ-1 E1a). | Vedtatt 2026-11-11. |
+| F8 Oppsummering | Ingen kategorivisning. | Uendret. |
 
 ## Information Architecture
 
@@ -181,11 +221,11 @@ Atferd. Utseende står i DESIGN.md › Components med samme navn.
 | **Panel** | Gruppering | Ingen egen atferd. |
 | **Fokusring** | Alle interaktive elementer | Vises bare ved tastaturfokus (`:focus-visible`), ikke ved museklikk. Ingen andre betydninger. |
 | **Valgt/aktiv-markering** | Valgt måned i F1, aktivt forslag i F7 | Skilles fra fokus og fra blokkerende feil. Bæres av tekst («Valgt: Mars 2026», «Aktiv»). I F1 markeres sist besøkte måned nøytralt når brukeren kommer tilbake fra F2 (vedtatt 2026-11-09). Aldri oransje. |
-| **Felt med etikett** | F4, aktivt forslag i F7 | Synlig etikett over feltet. «(obligatorisk)» som tekst. Kategori er nedtrekksliste med bare kategorilisten – ingen fritekst, ingen «opprett ny» (FR-1, FR-2). Datoer i formatet dd.mm.åååå, med både tastaturinntasting og datovelger (vedtatt 2026-11-09). Merknader har tegnteller **[AVHENGER AV: OQ-8 – arkitektur]** for grensen. |
+| **Felt med etikett** | F4, aktivt forslag i F7 | Synlig etikett over feltet. «(obligatorisk)» som tekst. Kategori er nedtrekksliste med bare kategorilisten (de ni vedtatte kategoriene) – ingen fritekst, ingen «opprett ny» (FR-1, FR-2). Datoer i formatet dd.mm.åååå, med både tastaturinntasting og datovelger (vedtatt 2026-11-09). Merknader har tegnteller **[AVHENGER AV: OQ-8 – arkitektur]** for grensen. |
 | **Feltstatusmelding** | Under felt i F4 og F7 | «Må rettes» (manglende/ugyldig) blokkerer lagring og godkjenning; «Kontroller» (usikker) blokkerer ikke. Status står direkte ved feltet, uten hover. KI-status vises straks; brukerendrede felt valideres når feltet forlates og ved lagring. Avhengige felt vurderes på nytt (f.eks. forsvinner «ugyldig sluttdato» når startdatoen rettes). Når brukeren har endret et felt, gjelder ikke lenger KI-statusen (FR-22). Fritekst med bare mellomrom = manglende (FR-2). |
 | **Feiloppsummering** | F4 ved «Lagre» med feil; aktivt forslag i F7 | Lister feltene som må rettes. I F4 flyttes fokus til første relevante feil. Hvert felt i oppsummeringen er en lenke som flytter fokus til feltet (vedtatt 2026-11-09). |
 | **Kildeutdragskort** | F7 | Ett kort per kildeutdrag, vist samtidig med forslagets felt (FR-27). Status per utdrag (FR-28). Tomt utdrag eller bare mellomrom/linjeskift = mangler, ikke verifisert. Mangler/ikke verifisert blokkerer ikke godkjenning (FR-29). Ren tekst (NFR-9). Ingen dokumentviser eller navigasjon i dokumentet (§4.5). |
-| **Kategorimerke** | F1, F2, F3, F7 | Viser kategori som bokstav (og antall i F1). Samme identitet i F1 og F2 og mellom økter (FR-12). Innhold **[ÅPENT: OQ-3 – gruppen]**. |
+| **Kategorimerke** | F1, F2, F3, F7 | Viser kategori som bokstavkode (og antall i F1). Samme identitet i F1 og F2 og mellom økter (FR-12). Koder: Ø, U, S, M, P, L, E, F, A – se Kategoriliste og klassifisering (gruppevedtak 2026-11-11). |
 | **Modal/dialog** | F3–F5 (én modal som bytter innhold), F6, bekreftelser i F7/F8 | **Én aktiv modal om gangen** (vedtatt 2026-11-09). F4 og F5 erstatter F3-innholdet i samme modal; «Avbryt» i F5 viser F3 igjen med samme aktivitet. «Forkaste endringene?» vises inne i samme modal. Ingen stablede modaler eller konkurrerende fokusfeller. Fokus holdes inne. Esc = trygt valg (unntak: under analyse i F6 gjør Esc ingenting). Fokus tilbake til elementet som åpnet modalen. Dagsoversikten er ikke en modal (se Dagsoversikt). Ved åpning av skjema får «Tittel» (F4) eller «Velg fil» (F6) innledende fokus (vedtatt 2026-11-09). I dialoger står det trygge standardvalget først/til venstre, destruktiv handling til høyre. |
 | **Gjennomgangsindikator** | F1, F2 under aktiv gjennomgang | Vedvarende, ikke lukkbar. Viser antall forslag som gjenstår. «Gå til gjennomgangen» åpner F7 med uendrede valg. Endringer annonseres via aria-live. |
 | **Meldingsstripe** | Bekreftelser og feil i F1/F2 | Full bredde under toppfeltet, annonseres via aria-live. Fokus flyttes ikke til meldingen. Forsvinner ikke automatisk, heller ikke ved neste brukerhandling. Blir stående til brukeren lukker den («Lukk») eller meldingen ikke lenger er relevant (vedtatt 2026-11-09). |
@@ -216,7 +256,7 @@ Atferd. Utseende står i DESIGN.md › Components med samme navn.
 | F3 | Sletting feilet | Feilen vises i slettebekreftelsen (F5) i samme modal, se F5. |
 | F4 | Tomt skjema | Ingen dato forhåndsutfylt; «Tittel» får innledende fokus (vedtatt 2026-11-09). |
 | F4 | Lagring stoppet | «Lagre» kan alltid aktiveres. Feiloppsummering + feltstatusmeldinger; fokus til første relevante feil (FR-2, UJ-2 E1/E2). |
-| F4 | Merknad over grensen | Status *ugyldig*; antall tegn som må fjernes; lagring sperret; aldri automatisk forkorting (M11-a) **[ÅPENT: M11-a – gruppen, se Åpne spørsmål]**. |
+| F4 | Merknad over grensen | Status *ugyldig*; antall tegn som må fjernes; lagring sperret; aldri automatisk forkorting; brukeren korter ned eller fjerner selv. Tom merknad er gyldig. Samme regel for KI-merknader i F7 (godkjenning og fullføring sperret), og hele KI-merknaden bevares. Grensen **[AVHENGER AV: OQ-8 – arkitektur]** (M11-a, gruppevedtak 2026-11-11; FR-2, FR-6, FR-22, FR-23). |
 | F4 | Lagringsfeil | Skjemaet blir stående med brukerens verdier; «Lagringen mislyktes. Ingen endringer er lagret. Prøv igjen.» Ingen melding om vellykket lagring (NFR-1, FR-4). Meldingen vises øverst i modalen, med tilgjengelig fokushåndtering (vedtatt 2026-11-09). |
 | F4 | Ulagrede endringer ved Avbryt/Esc | «Forkaste endringene?» i samme modal; «Fortsett redigeringen» er trygt standardvalg. Uten endringer lukkes skjemaet direkte (F4-4). |
 | F5 | Bekreftelse | Erstatter F3-innholdet i samme modal (én aktiv modal). «Avbryt» er trygt, fremhevet standardvalg og viser F3 igjen med samme aktivitet; Esc = Avbryt (UJ-2 E3). |
@@ -403,13 +443,14 @@ Historikk, ikke gjeldende: tidligere F1/F2/F7-versjoner (`flow-f2-manedsvisning-
 
 | Punkt | Status | Eier | Kilde | Påvirker |
 |---|---|---|---|---|
-| OQ-3 Kategoriliste (innhold, restkategori, frister som egen kategori, antall, klassifiseringsprinsipp). De 9 kategoriene er bare et forslag. | [ÅPENT] | Gruppen | PRD §10.3; memlog 2026-11-02/03 | Kategorimerke, Årshjulsirkel (kategorifordeling), F4 kategoriliste, kategorifarger, status `final` |
-| M11-a: merknad over tegngrensen blokkerer lagring/godkjenning på et *valgfritt* felt. FR-2, FR-23 og Glossary Feltstatus nevner bare obligatoriske felt og datoregelen. Ingen PRD-endring er gjort. | [ÅPENT] | Gruppen | memlog 2026-11-03 | F4, F7, E9 |
+| OQ-3 Kategoriliste – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien): ni kategorier med koder Ø, U, S, M, P, L, E, F, A, inkl. «Frister» og restkategorien «Annet», og klassifisering etter primært formål. Se Kategoriliste og klassifisering. PRD §10.3 og FR-17/UJ-1 E1a presisert 2026-11-11. | Vedtatt | Gruppen | PRD §10.3; memlog 2026-11-02/03, 2026-11-11 | Kategorimerke, F4 kategoriliste, F7 |
+| Klassifiseringstest: 25–30 fiktive aktiviteter kategorisert hver for seg av gruppens medlemmer | [VALIDERES] – ikke gjennomført | Gruppen | memlog 2026-11-02 | Kategoriliste og klassifisering |
+| M11-a – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien, alternativ A): utfylt merknad over tegngrensen er *ugyldig* og blokkerer lagring, godkjenning og fullføring; aldri automatisk forkorting; gjelder bruker- og KI-merknader. PRD presisert 2026-11-11 (FR-2, FR-6, FR-22, FR-23, Glossary Feltstatus, OQ-8). | Vedtatt | Gruppen | memlog 2026-11-03, 2026-11-11 | F4, F7, E9 |
 | OQ-7 Hvordan demo-modus aktiveres, hvordan støttede testdokumenter gjenkjennes, oppstart uten API-nøkkel | [AVHENGER AV] | Arkitektur | PRD §10.4; memlog | Demo-modus-merke, F6 |
 | OQ-8 Tidsgrense for analyse, tegngrense for merknader, maks dokumentstørrelse, nettlesere | [AVHENGER AV] | Arkitektur | PRD §10.4, FR-6, NFR-2, NFR-3 | F4 tegnteller, F6 meldinger |
 | OQ-2 Endelig produktnavn | [ÅPENT] | Gruppen | PRD §10.2 | Toppfelt |
 | Når valgt måned vises i F1 – **løst 2026-11-09:** sist besøkte måned markeres nøytralt ved retur fra F2 | Vedtatt | Sebastian | memlog 2026-11-09 | Valgt/aktiv-markering, Årshjulsirkel |
-| Kategorifordelingens visualisering i hjulet (OQ-4-detalj) | [ÅPENT] | Gruppen (via OQ-3) | memlog 2026-11-03 | Årshjulsirkel |
+| Kategorifordelingens visualisering i hjulet (OQ-4-detalj), plassering og utforming av den vedtatte tegnforklaringen i F1 (testes på projektor), og om dagsoversikten viser kode eller kode + navn. Kategorifarger krever eget vedtak. | [ÅPENT] | Gruppen | memlog 2026-11-03, 2026-11-11 | Årshjulsirkel, Kategorimerke, Dagsoversikt |
 | De 13 foreløpige detaljene (innledende fokus, lagringsfeil i F4, meldingsstripe, lenker i feiloppsummering, knapperekkefølge, valgt/aktiv 2 px, melding om for stor fil, ingen dra-og-slipp, mikrotekst, datoformat, utilgjengelige kontroller, skjult oversikt, visuelle detaljer) samt dagsoversikt og feil ved sletting – **løst 2026-11-09** | Vedtatt | Sebastian | memlog 2026-11-09 | Flere komponenter |
 | Mikrotekst fra skissene beholdes som foreløpig tekst og språkvaskes før ferdigstilling | [FORELØPIG] | Sebastian | memlog 2026-11-09 | Alle |
 | Visuelle detaljer fra skissene (demping bak modal, rammer og kanter, demo-modus-merke, fremdriftsindikator) er utgangspunkt, ikke validert | [VALIDERES] | Gruppen | memlog 2026-11-09 | DESIGN.md › Components |
@@ -420,5 +461,6 @@ Historikk, ikke gjeldende: tidligere F1/F2/F7-versjoner (`flow-f2-manedsvisning-
 | Tastaturflyt og skjermleseropplesning | [VALIDERES] | Gruppen | memlog 2026-11-09 | Accessibility Floor |
 | Valgt-markering vs. «Må rettes»-ramme kan forveksles (begge mørk kant) | [VALIDERES] | Gruppen | kombinert-retning-1 | Valgt/aktiv-markering, Feltstatusmelding |
 | Wireframene er ikke åpnet i Excalidraw | [VALIDERES] | Gruppen | memlog 2026-11-03/09 | Visuelle referanser |
+| Wireframene i `.working/` viser fortsatt plassholderne «Kat. A–I»; de er ikke oppdatert etter gruppevedtaket 2026-11-11. Gjeldende koder står i Kategoriliste og klassifisering. | Dokumentert avvik | Sebastian | memlog 2026-11-11 | Visuelle referanser |
 | Revidert PRD ikke validert på nytt etter 2026-11-01 | Dokumentert prosjektstatus | Gruppen | KI-logg 2026-11-01; memlog | Alle |
 | UX-tolkninger registrert uten PRD-endring: M6-1 (månedsvisningens innhold), tomt kildeutdrag = mangler (FR-27/FR-28), FR-3 via månedsvisningen. Gruppen kan vurdere å presisere PRD-en. | Vedtatt i UX | Gruppen | memlog 2026-11-03 | F2, F7, F1 |

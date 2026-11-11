@@ -3,7 +3,7 @@ name: KI-assistert interaktivt årshjul
 description: Lyst, strukturert planleggingsverktøy for PC og projektor – monokrome tokener, luftig formspråk og oransje brukt bare som tastaturfokus.
 status: draft
 sources:
-  - '{planning_artifacts}/prds/prd-G99-byfuglien-risoy-sonsteng-2026-10-19/prd.md'  # PRD updated 2026-11-05 (integrert via merge 8c5c76f)
+  - '{planning_artifacts}/prds/prd-G99-byfuglien-risoy-sonsteng-2026-10-19/prd.md'  # PRD updated 2026-11-11 (presisert for OQ-3 og M11-a; 2026-11-05 integrert via merge 8c5c76f)
   - '{planning_artifacts}/prds/prd-G99-byfuglien-risoy-sonsteng-2026-10-19/.memlog.md'
   - '{planning_artifacts}/product-brief.md'
   - '{planning_artifacts}/tilbakemelding-product-brief.md'
@@ -208,7 +208,7 @@ components:
 
 # KI-assistert interaktivt årshjul – DESIGN.md (utkast)
 
-> **Status: førsteutkast (`status: draft`).** Kanoniske beslutninger står i `.memlog.md`. Dokumentet blir ikke `final` før OQ-3 og andre nødvendige avhengigheter er løst (memlog 2026-11-09).
+> **Status: førsteutkast (`status: draft`).** Kanoniske beslutninger står i `.memlog.md`. OQ-3 ble avklart 2026-11-11. Dokumentet blir ikke `final` før øvrige nødvendige avhengigheter er løst (memlog 2026-11-09 og 2026-11-11).
 >
 > **Statusmarkører i dette dokumentet**
 > - umerket = vedtatt (godkjent av Sebastian, bindende)
@@ -289,7 +289,9 @@ Paletten er monokrom med vilje: på projektor er kontrast og tekst tryggere enn 
 
 Kontrast måles mot WCAG 2.1 kriterium 1.4.3 (NFR-7). Under simulert deuteranopi er «Må rettes»-rød og «Kontroller»-brun nesten like. Det er akseptert fordi statusen bæres av tekst og linjetype.
 
-**Kategorifarger: ingen ennå** **[ÅPENT: OQ-3 – gruppen]**. Kategoriidentitet er bokstav + antall. Farge kan senere bare forsterke, aldri bære identiteten alene (FR-12).
+**Kategoriliste og bokstavkoder** (gruppevedtak 2026-11-11, OQ-3 avklart, memlog): **Ø** Øvelser og oppdrag · **U** Utdanning og trening · **S** Seremonier og oppstillinger · **M** Møter og planlegging · **P** Personell og velferd · **L** Materiell og logistikk · **E** Inspeksjon og evaluering · **F** Frister · **A** Annet. Klassifiseringsreglene står i EXPERIENCE.md › Kategoriliste og klassifisering. F3, F4 og F7 viser kode og fullt navn i formatet «Ø – Øvelser og oppdrag». F1 har en synlig, kompakt tegnforklaring for alle ni kodene (vedtatt 2026-11-11); plassering og utforming **[ÅPENT]**, testes på projektor.
+
+**Kategorifarger: ingen er vedtatt** **[ÅPENT – krever eget vedtak]**. Kategoriidentitet er bokstavkode + antall, og «kode – fullt navn» der flaten viser kategorifeltet (F3, F4, F7). Kategoriene skal kunne gjenkjennes uten farge. Farge kan senere bare forsterke, aldri bære identiteten alene (FR-12). Oransje er aldri en kategorifarge.
 
 ## Typography
 
@@ -369,13 +371,13 @@ Visuell spesifikasjon. Atferd står i EXPERIENCE.md › Component Patterns med s
 | **Feltstatusmelding** – «Kontroller» (`feltstatusmelding-kontroller`) | Rett under feltet: «? Kontroller: Usikker – kontroller mot kildeutdraget». Tekst `{colors.status-uncertain-text}`, 1 px stiplet `{colors.status-uncertain-line}`-ramme. Brukes for *usikker*. |
 | **Feiloppsummering** (`feiloppsummering`) | Boks øverst i skjema eller aktivt forslag: «! 4 felt må rettes før lagring:» med feltnavnene. Samme ramme som «Må rettes» (utgangspunkt fra skissen, ikke validert **[VALIDERES]**). Hvert feltnavn er en lenke som flytter fokus til feltet (vedtatt 2026-11-09). |
 | **Kildeutdragskort** (`kildeutdragskort`) | Kort per kildeutdrag: statuslinje + utdragstekst i `{colors.panel}`-boks som ren tekst. Status: «Verifisert – Teksten finnes i dokumentet. Det betyr ikke at forslaget er riktig.» (heltrukken kant) / «Ikke verifisert – Teksten ble ikke funnet i dokumentet. Kontroller forslaget selv.» (stiplet kant) / «Mangler» (ingen kildeutdrag, eller tomt utdrag). Kanttype per status er utgangspunkt fra skissen, ikke validert **[VALIDERES]**; statusord og forklaring er vedtatt. Aldri «korrekt» eller «bekreftet». |
-| **Kategorimerke** (`kategorimerke`) | Pille med kategoribokstav og eventuelt antall («A 8»). Kant og flate (hvit, 1 px sterk kant) er utgangspunkt fra skissen **[VALIDERES]**. Bokstavene «Kat. A … Kat. I» er plassholdere **[ÅPENT: OQ-3 – gruppen]**. Ingen kategorifarger før OQ-3. Bokstavstørrelse i hjulet kan være for liten på projektor **[VALIDERES]**. |
+| **Kategorimerke** (`kategorimerke`) | Pille med bokstavkode og eventuelt antall («Ø 8»). Kant og flate (hvit, 1 px sterk kant) er utgangspunkt fra skissen **[VALIDERES]**. Bokstavkodene er Ø, U, S, M, P, L, E, F og A (gruppevedtak 2026-11-11, OQ-3); de erstatter plassholderne «Kat. A … Kat. I». Ingen kategorifarger uten eget vedtak. Bokstavstørrelse i hjulet kan være for liten på projektor **[VALIDERES]**. |
 | **Modal/dialog** (`modal-dialog`) | Hvit flate, `{rounded.lg}`, 1 px hårlinjekant, padding 24 px, dempet bakgrunn bak. Tittel i `{typography.section-title}`. Knapper: trygt standardvalg først/til venstre, destruktiv handling til høyre (vedtatt 2026-11-09). |
 | **Gjennomgangsindikator** (`gjennomgangsindikator`) | Stripe i full bredde under toppfeltet i F1 og F2: «Gjennomgang pågår: 8 av 15 forslag gjenstår» + sekundærknapp «Gå til gjennomgangen». Panel med 1 px sterk kant. |
 | **Meldingsstripe** (`meldingsstripe`) | Stripe i full bredde under toppfeltet for bekreftelser og feil, f.eks. «Aktiviteten «Skytedag» er lagret (24.03.2026).» Panel med hårlinjekant og «Lukk». Forsvinner ikke automatisk (vedtatt 2026-11-09). |
 | **Periodenavigasjon** (`periodenavigasjon`) | Kalenderårvelger «◀ 2025 \| 2026 \| 2027 ▶» i F1 og månedsnavigasjon «◀ Februar 2026 \| Mars 2026 \| April 2026 ▶» + «Til årsvisning (2026)» i F2. Knapper min. 44 px. |
-| **Årshjulsirkel** (`arshjulsirkel`) | Sirkel med 12 like sektorer, sterke sektorlinjer. Per sektor: månedsnavn (`label`), antall (`wheel-count`) og kategorifordeling som kategorimerker (visualisering **[ÅPENT: OQ-3 – gruppen]**). Måned med 0 viser «0» og «Ingen aktiviteter». Sentrum: kalenderåret (`year-in-wheel`) – aldri summen av månedstall. Valgt måned: valgt/aktiv-markering. Fokus: fokusring rundt sektoren. |
-| **Månedsrutenett** (`manedsrutenett`) | Ukenummerkolonne + mandag–søndag. Alle ISO-uker som berører måneden; dager utenfor måneden i `{colors.panel}` med dempet dato. Maks to aktivitetsblokker per dag (tittel + «[Kat. X]»), deretter knappen «+N flere». Flerukesaktiviteter vises som én blokk per ukerad med fortsettelsesmerking («forts. →», «← forts.»). |
+| **Årshjulsirkel** (`arshjulsirkel`) | Sirkel med 12 like sektorer, sterke sektorlinjer. Per sektor: månedsnavn (`label`), antall (`wheel-count`) og kategorifordeling som kategorimerker (visualisering **[ÅPENT – gruppen]**). F1 har en synlig, kompakt tegnforklaring for alle ni kodene (vedtatt 2026-11-11); plassering og utforming **[ÅPENT]**, testes på projektor. Måned med 0 viser «0» og «Ingen aktiviteter». Sentrum: kalenderåret (`year-in-wheel`) – aldri summen av månedstall. Valgt måned: valgt/aktiv-markering. Fokus: fokusring rundt sektoren. |
+| **Månedsrutenett** (`manedsrutenett`) | Ukenummerkolonne + mandag–søndag. Alle ISO-uker som berører måneden; dager utenfor måneden i `{colors.panel}` med dempet dato. Maks to aktivitetsblokker per dag (tittel + bokstavkode, f.eks. «Skyteøvelse [Ø]»), deretter knappen «+N flere». Flerukesaktiviteter vises som én blokk per ukerad med fortsettelsesmerking («forts. →», «← forts.»). |
 | **Dagsoversikt** (`dagsoversikt`) | Utvidbar liste i månedsvisningen – ikke modal og ikke egen dagsvisning: overskrift «Onsdag 18. mars 2026 – 5 aktiviteter», én rad per aktivitet (tittel, datoer, kategori), «Lukk». |
 | **Forslagsoversikt** (`forslagsoversikt`) | Kompakt liste i F7: nummer + kort tittel; linje 2 = behandlingsstatus (Ubehandlet/Godkjent/Avvist) og separate problemmerker («! 2 må rettes», «? Usikker», «Kilde ikke verifisert», «Ingen kilde»). Aktivt forslag har valgt/aktiv-markering og ordet «Aktiv». «Skjul»-knapp. |
 | **Demo-modus-merke** (`demo-modus-merke`) | Fast merke i toppfeltet: «DEMO-MODUS – forhåndsdefinerte forslag, ingen språkmodell». Tekst + ramme, ingen fargebetydning. Stiplet 2 px ramme og plassering i toppfeltet er utgangspunkt fra skissen **[VALIDERES]**; ordlyd foreløpig, språkvaskes **[FORELØPIG]**. |
@@ -389,7 +391,7 @@ Visuell spesifikasjon. Atferd står i EXPERIENCE.md › Component Patterns med s
 | La status bæres av tekst («! Må rettes:», «? Kontroller:») og linjetype | Status med farge alene, eller bare ikon |
 | Gi paneler hårlinjekant når de skal skilles fra bakgrunnen | Skille flater med skygge alene |
 | Hold tekst ≥ 16 px, og ≥ 18 px for status og handling | Tekst under 16 px |
-| Vis kategori som bokstav + antall | Innføre kategorifarger før OQ-3 er avklart |
+| Vis kategori som bokstavkode + antall | Innføre kategorifarger uten eget vedtak |
 | Kall et verifisert kildeutdrag «Verifisert» med forklaring | Kalle et kildeutdrag «korrekt» eller «bekreftet» |
 | Vis en utilgjengelig kontroll med synlig årsak | Grå knapp uten forklaring, eller forklaring bare i verktøytips |
 | Én primærknapp per flate; trygt valg fremhevet i bekreftelser | Fremheve den destruktive handlingen som standard |
