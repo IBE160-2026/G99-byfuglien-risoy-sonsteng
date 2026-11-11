@@ -9,8 +9,9 @@
 - [ ] 2026-11-02 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — oppstart uten API-nøkkel avhenger av OQ-7 i arkitekturen
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — M11-a: merknad over tegngrensen blokkerer et valgfritt felt; gruppen vurderer om FR-2/FR-23 eller FR-6 bør presiseres (PRD ikke endret)
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — OQ-8 i arkitekturen: tidsgrense for analyse, tegngrense for merknader og maks dokumentstørrelse trengs i UX-tekstene
-- [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — hente PRD/brief-oppdateringen fra origin/main (særpreg, 2026-11-05) inn i UX-branchen før DESIGN.md og EXPERIENCE.md settes til final
+- [x] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — hente PRD/brief-oppdateringen fra origin/main (særpreg, 2026-11-05) inn i UX-branchen før DESIGN.md og EXPERIENCE.md settes til final (løst 2026-11-11: merge-commit 8c5c76f)
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — validere på vanlig PC og ekte projektor: lesbarhet, kontrast, fokusring, kategorimerker og om valgt-markering kan forveksles med «Må rettes»
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — validere tastaturflyt og skjermleseropplesning, inkludert valg av disabled/aria-disabled per komponent
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — åpne .excalidraw-filene i Excalidraw og kontrollere at de lastes riktig
 - [ ] 2026-11-09 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — fullføre BMAD Finalize: språkvask av mikrotekst, nøkkelskjermer og flytting av skisser til wireframes/ og mockups/
+- [ ] 2026-11-11 [ux-discovery](999-2026-11-02-22-07-36-ux-discovery.md) — notere i UX-memloggen at PRD 2026-11-05 er integrert, og vurdere `updated`/kilder i DESIGN.md og EXPERIENCE.md (ingen innholdsmotstrid funnet)
