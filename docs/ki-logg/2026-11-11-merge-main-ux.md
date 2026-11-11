@@ -3,6 +3,7 @@
 > **Om denne loggen:** Prosjektet har én KI-logg per økt. Loggen har derfor to deler:
 > - **Del 1** (prompt 1–3) ble kontrollert og godkjent av Sebastian Byfuglien 11. november og committet i `56f698f`.
 > - **Del 2** (prompt 4–6) dekker arbeidet etter den godkjenningen. Del 2 er merket med «Del 2 – tillegg» i hver seksjon og er **godkjent** av Sebastian Byfuglien 11. november.
+> - **Del 3** (prompt 7–13) dekker arbeidet etter godkjenningen av del 2: commit og push av loggene, OQ-3 og M11-a. Del 3 er merket med «Del 3 – tillegg» i hver seksjon og er **godkjent** av Sebastian Byfuglien 11. november.
 > - Der en formulering i del 1 senere er blitt utdatert, står teksten uendret. Det er lagt til en merknad i kursiv: *(Senere samme dag: …)*.
 
 - **Deltakere:** Sebastian Byfuglien
@@ -14,6 +15,7 @@
 - **Kontrollert av:**
   - Del 1: Sebastian Byfuglien
   - Del 2: Sebastian Byfuglien
+  - Del 3: Sebastian Byfuglien
 
 ## Oppgave
 
@@ -47,6 +49,14 @@ kronologisk rekkefølge:
 | 5 | Oppdatering av PRD-referanser i UX-dokumentene | Del 2 |
 | 6 | Commit av dokumentasjonsoppdateringen | Del 2 |
 | – | Instruks om å slå sammen KI-loggene for dagen i denne filen (ikke gjengitt) | – |
+| 7 | Godkjenning av del 2 og commit av KI-logg og sesjonslogg | Del 3 |
+| 8 | Push av 10 lokale commits | Del 3 |
+| 9 | Beslutningsgrunnlag for OQ-3 (aktivitetskategorier) | Del 3 |
+| 10 | Dokumentasjon av gruppevedtaket om OQ-3 | Del 3 |
+| 11 | Beslutningsgrunnlag for M11-a (merknadsgrensen) | Del 3 |
+| 12 | Dokumentasjon av M11-a, OQ-3-presiseringer og PRD-presiseringer | Del 3 |
+| 13 | Rettelse av UJ-1/UJ-2, kvalitetskontroll og samlet commit | Del 3 |
+| – | Instruks om å lage utkast til del 3 av denne KI-loggen (ikke gjengitt) | – |
 
 De to administrative instruksene ble ikke gjengitt fordi de bare gjaldt
 utformingen av selve KI-loggen. De endret ikke prosjektfiler utenom loggen.
@@ -378,6 +388,586 @@ gjengitt. Claude Code fulgte den komplette kopien.
 
 </details>
 
+### Del 3 – tillegg: prompt 7–13
+
+Prompt 7–13 er gjengitt i sin helhet og uendret. Instruksen om å lage utkast
+til del 3 er ikke gjengitt, fordi den bare gjaldt utformingen av selve loggen.
+
+<details>
+<summary><strong>Prompt 7 – Godkjenning av del 2 og commit av loggene</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> Jeg har gjennomgått den samlede KI-loggen for 11. november med ChatGPT og godkjenner del 2.
+>
+> Jeg godkjenner også én lokal commit med KI-loggen og sesjonsloggen.
+>
+> **1. Ferdigstill KI-loggen**
+>
+> Fil: `docs/ki-logg/2026-11-11-merge-main-ux.md`
+>
+> - Fyll inn `Del 2: Sebastian Byfuglien` under «Kontrollert av».
+> - Endre merkingene som sier at del 2 «ikke er kontrollert», slik at de nå sier «godkjent».
+> - Behold del 1, alle seks promptene, historiske presiseringer og testdokumentasjonen uendret.
+> - Ikke endre øvrig innhold.
+>
+> **2. Kontroller før commit**
+>
+> - Bekreft at branchen er `ux/sebastian-ux-design`.
+> - Bekreft at HEAD er `9fc7040`.
+> - Kontroller at bare følgende to filer er endret:
+>   - `docs/ki-logg/2026-11-11-merge-main-ux.md`
+>   - `.logs/sebastian-byfuglien/999-2026-11-02-22-07-36-ux-discovery.md`
+> - Kontroller at loggen følger `docs/ki-logg/README.md`.
+> - Kontroller at DESIGN.md og EXPERIENCE.md fortsatt har `status: draft`.
+>
+> **3. Opprett én lokal commit**
+>
+> Stage bare de to filene med eksakte filstier.
+>
+> Kontroller staged diff før commit.
+>
+> Commit-melding:
+>
+> `docs: ferdigstill KI-logg og sesjonslogg for 11. november`
+>
+> Følg prosjektets etablerte regler for medforfatterskap.
+>
+> **4. Sluttkontroll**
+>
+> - Kontroller `git show --stat` for den nye commiten.
+> - Bekreft at arbeidsområdet er rent.
+> - Bekreft at ingen andre filer er endret.
+> - Oppgi ny commit-hash og antall commits foran GitHub.
+> - Bekreft at OQ-3 og M11-a fortsatt er åpne.
+>
+> **Begrensninger**
+>
+> - Ikke push.
+> - Ikke merge eller rebase.
+> - Ikke endre PRD, Product Brief eller UX-design.
+> - Ikke opprett flere logger eller commits.
+> - Ikke start BMAD Finalize eller implementering.
+> - Ikke sett UX-dokumentene til `final`.
+>
+> Stopp etter commit og sluttkontroll. Rapporter kort.
+
+</details>
+
+<details>
+<summary><strong>Prompt 8 – Push av de lokale commitene</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet.
+>
+> Jeg godkjenner push av de 10 lokale commitene til den eksisterende GitHub-branchen `ux/sebastian-ux-design`.
+>
+> **1. Kontroll før push**
+>
+> - Bekreft at gjeldende branch er `ux/sebastian-ux-design`.
+> - Bekreft at arbeidsområdet er rent.
+> - Bekreft at lokal HEAD er `d6a91ed`.
+> - Kontroller at `origin` peker til `IBE160-2026/G99-byfuglien-risoy-sonsteng`.
+> - Bekreft at lokal branch ligger 10 commits foran `origin/ux/sebastian-ux-design`.
+> - Kontroller at pushen kan gjennomføres som fast-forward.
+>
+> Hvis noe ikke stemmer, stopp og rapporter avviket.
+>
+> **2. Gjennomfør push**
+>
+> Kjør:
+>
+> `git push origin ux/sebastian-ux-design`
+>
+> Ikke bruk force push.
+>
+> **3. Verifiser etter push**
+>
+> Kontroller at:
+> 1. Lokal HEAD og `origin/ux/sebastian-ux-design` peker til samme commit, `d6a91ed`.
+> 2. Alle 10 commitene er tilgjengelige på GitHub.
+> 3. Upstream fortsatt er riktig konfigurert.
+> 4. Arbeidsområdet er rent.
+> 5. `main` og `origin/main` ikke er endret av operasjonen.
+> 6. `DESIGN.md` og `EXPERIENCE.md` fortsatt har `status: draft`.
+> 7. OQ-3 og M11-a fortsatt er dokumentert som åpne.
+>
+> **Begrensninger**
+>
+> - Ikke push til `main`.
+> - Ikke opprett pull request.
+> - Ikke merge eller rebase.
+> - Ikke endre prosjektfiler.
+> - Ikke opprett nye logger eller commits.
+> - Ikke start BMAD Finalize eller implementering.
+>
+> **Rapporter kort**
+>
+> - Om pushen lyktes.
+> - Full commit-hash på lokal og ekstern branch.
+> - Git-status og upstream.
+> - Eventuelle avvik.
+>
+> Stopp etter verifiseringen.
+
+</details>
+
+<details>
+<summary><strong>Prompt 9 – Beslutningsgrunnlag for OQ-3</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> Siste kontrollpunkt:
+> - HEAD: `d6a91ed`
+> - Branchen er synkronisert med GitHub.
+> - Arbeidsområdet er rent.
+> - DESIGN.md og EXPERIENCE.md har `status: draft`.
+> - Vi fortsetter eksisterende BMAD UX-kjøring, ikke en ny.
+>
+> **Oppgave: Utarbeid et kort beslutningsgrunnlag for OQ-3 – aktivitetskategorier.**
+>
+> Målet er å gjøre det enkelt for prosjektgruppen å ta en endelig produktbeslutning.
+>
+> **1. Undersøk eksisterende grunnlag**
+>
+> Les bare relevante deler av:
+> - Gjeldende PRD
+> - Product Brief
+> - UX-memloggen
+> - DESIGN.md
+> - EXPERIENCE.md
+> - Eventuelle tidligere forslag til kategoriliste
+>
+> Finn:
+> - Den opprinnelige kategorilisten med 12 områder, dersom den er dokumentert.
+> - Det senere forslaget om ni kategorier.
+> - Eventuelle tidligere anbefalinger om hvordan aktiviteter skal kategoriseres.
+> - Kravene som gjelder kategorier i årshjulet, månedsvisningen og aktivitetsskjemaet.
+>
+> Skill tydelig mellom opprinnelige innspill, foreløpige forslag og godkjente beslutninger.
+>
+> Ikke behandle ni kategorier som vedtatt. OQ-3 er fortsatt åpen.
+>
+> **2. Vurder kategoriene**
+>
+> Utarbeid én anbefalt kategoriliste med utgangspunkt i dokumenterte behov.
+>
+> Vurder særlig:
+> - Om kategoriene er gjensidig forståelige og praktiske å velge mellom.
+> - Om kategorier overlapper eller kan misforstås.
+> - Om listen dekker relevante aktiviteter for målgruppen.
+> - Hvordan aktiviteter som passer i flere kategorier, bør håndteres.
+> - Om kategoriene fungerer i både årshjulet, månedsvisningen og aktivitetsskjemaet.
+> - Hvordan kategoriene kan skilles visuelt uten å være avhengige av farge alene.
+>
+> Ikke innfør nye funksjoner eller endre tidligere vedtatte UX-regler.
+>
+> **3. Presenter et beslutningsgrunnlag**
+>
+> Lever en kort rapport med:
+>
+> 1. Hva PRD-en faktisk krever.
+> 2. Hvilke kategoriforslag som allerede finnes, med kildehenvisninger.
+> 3. Din anbefalte endelige kategoriliste.
+> 4. Begrunnelse for eventuelle sammenslåinger eller endringer.
+> 5. Anbefalt regel for aktiviteter som kan passe i flere kategorier.
+> 6. Hvordan kategoriene skal vises i UX, innenfor godkjent designgrunnlag.
+> 7. Nøyaktig hvilke beslutninger prosjektgruppen må godkjenne.
+>
+> Skill mellom anbefalinger og eksisterende vedtak.
+>
+> **4. Begrensninger**
+>
+> - Ikke bestem kategoriene på mine eller gruppens vegne.
+> - Ikke oppdater PRD, UX-memlogg, DESIGN.md eller EXPERIENCE.md.
+> - Ikke endre wireframes.
+> - Ikke opprett ny BMAD-kjøring.
+> - Ikke start implementering.
+> - Ikke commit eller push.
+> - Hold tokenbruken lav og unngå underagenter.
+>
+> Stopp etter at beslutningsgrunnlaget er presentert. Jeg skal gjennomgå anbefalingene med ChatGPT før vi tar dem videre til gruppen.
+
+</details>
+
+<details>
+<summary><strong>Prompt 10 – Dokumentasjon av gruppevedtaket om OQ-3</strong></summary>
+
+> Vi fortsetter Sambandet på eksisterende branch `ux/sebastian-ux-design`, i samme BMAD UX-kjøring.
+>
+> **Ny godkjent gruppebeslutning: OQ-3 er avklart.**
+>
+> Jeg bekrefter på vegne av prosjektgruppen at vi godkjenner følgende faste kategoriliste:
+>
+> - Ø – Øvelser og oppdrag
+> - U – Utdanning og trening
+> - S – Seremonier og oppstillinger
+> - M – Møter og planlegging
+> - P – Personell og velferd
+> - L – Materiell og logistikk
+> - E – Inspeksjon og evaluering
+> - F – Frister
+> - A – Annet
+>
+> **Godkjente klassifiseringsregler:**
+>
+> 1. Hver aktivitet skal ha nøyaktig én kategori fra den faste listen.
+> 2. Kategorien velges etter aktivitetens primære formål.
+> 3. Rene leverings- og svarfrister, der fristen selv er aktiviteten, plasseres i «Frister». Arbeidet frem mot fristen kategoriseres etter sitt primære formål.
+> 4. «Annet» brukes kun når aktiviteten er forståelig, men ingen annen kategori passer.
+> 5. Både KI og bruker kan velge «Annet».
+> 6. KI skal ikke bruke «Annet» automatisk ved manglende informasjon eller usikkerhet. Eksisterende regler for «manglende» og «usikker» etter FR-17 beholdes.
+> 7. Bokstavkodene Ø, U, S, M, P, L, E, F og A er godkjent.
+> 8. Kategoriene skal kunne gjenkjennes uten farge. Oransje er fortsatt forbeholdt tastaturfokus.
+>
+> **Oppgave: Dokumenter beslutningen.**
+>
+> 1. Kontroller gjeldende Git-status og relevant grunnlag i PRD, UX-memlogg, DESIGN.md og EXPERIENCE.md.
+> 2. Før gruppevedtaket inn som ny oppføring i eksisterende UX-memlogg. Merk det som gruppevedtak opplyst av Sebastian Byfuglien 11. november 2026. Ikke finn på møtereferat eller andre godkjenninger.
+> 3. Oppdater DESIGN.md og EXPERIENCE.md med den godkjente kategorilisten, bokstavkodene og klassifiseringsreglene.
+> 4. Erstatt relevante plassholdere «Kat. A–I» der det nå er riktig å vise de godkjente kategoriene.
+> 5. Dokumenter hvordan fullt kategorinavn og bokstavkode brukes i F1–F8, innenfor tidligere vedtatte UX-regler.
+> 6. Marker OQ-3 som avklart i UX-dokumentene og relevant issues-logg.
+> 7. Behold spørsmålet om den nøyaktige fremstillingen av kategorifordelingen i årshjulet åpent dersom det ennå ikke er vedtatt. Vurder en synlig tegnforklaring, men ikke fastsett ny utforming uten godkjenning.
+> 8. Kontroller om gruppevedtaket krever endring i PRD eller Product Brief. Rapporter konkret hva som eventuelt må oppdateres, men ikke endre disse dokumentene ennå.
+>
+> **Kvalitetskontroll:**
+>
+> - Alle ni kategorier skal være konsekvent navngitt.
+> - Ingen tidligere UX-beslutninger skal gå tapt.
+> - M11-a, OQ-7 og OQ-8 forblir åpne.
+> - Testing på projektor, kategorisering av 25–30 fiktive aktiviteter og andre uutførte tester skal ikke merkes som gjennomført.
+> - DESIGN.md og EXPERIENCE.md skal fortsatt ha `status: draft`.
+>
+> Ikke start ny BMAD-kjøring.
+> Ikke start implementering.
+> Ikke commit eller push.
+> Ikke gjør nye produktbeslutninger.
+>
+> **Rapporter til slutt:**
+> 1. Hvilke dokumenter som ble oppdatert.
+> 2. Hvordan OQ-3 er dokumentert som avklart.
+> 3. Eventuelle nødvendige PRD-endringer.
+> 4. Hvilke visuelle detaljer som fortsatt er åpne.
+> 5. Git-status.
+>
+> Stopp etter dokumentasjon og kontroll.
+
+</details>
+
+<details>
+<summary><strong>Prompt 11 – Beslutningsgrunnlag for M11-a</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`, i samme BMAD UX-kjøring.
+>
+> **Status:**
+> - OQ-3 er godkjent av prosjektgruppen og dokumentert i UX-memloggen, DESIGN.md, EXPERIENCE.md og issues.md.
+> - Fire filer er endret, men ikke committet. Disse endringene skal bevares.
+> - DESIGN.md og EXPERIENCE.md har fortsatt `status: draft`.
+>
+> **Tre nye godkjente UX-presiseringer:**
+>
+> 1. Kategorivisning i F3, F4 og F7 skal bruke formatet «Ø – Øvelser og oppdrag», med tilsvarende kode og fullt navn for de andre kategoriene.
+> 2. F1 skal ha en synlig, kompakt tegnforklaring for de ni kategorikodene. Den nøyaktige utformingen er ikke bestemt og må testes på projektor.
+> 3. Skillet mellom «Annet», «usikker» og «manglende» bør presiseres i PRD. Dette er en anbefalt PRD-endring, ikke tillatelse til å endre PRD nå.
+>
+> Ikke skriv disse tre presiseringene inn i filene ennå. Ta dem med i neste dokumentasjonsrunde.
+>
+> **Oppgave: Utarbeid et kort beslutningsgrunnlag for M11-a – merknadsgrensen.**
+>
+> 1. Les de relevante delene av gjeldende PRD, særlig FR-2, FR-6 og FR-23, samt eventuelle andre krav som direkte omtaler merknader eller tekstgrenser.
+> 2. Les relevante oppføringer i PRD- og UX-memloggen, samt omtalen av M11-a i EXPERIENCE.md og DESIGN.md.
+> 3. Finn nøyaktig hva som allerede er vedtatt, hva som er foreløpig, og hva prosjektgruppen fortsatt må avgjøre.
+> 4. Undersøk den mulige motstriden mellom at merknader er valgfrie, at tekst ikke skal forkortes automatisk, og at en for lang merknad kan blokkere lagring eller godkjenning.
+> 5. Vurder konsekvensene for:
+>    - Manuell opprettelse og redigering i F4.
+>    - Godkjenning av KI-forslag i F7.
+>    - Valideringsfeil og forståelige feilmeldinger.
+>    - Samsvar med PRD og MVP-omfanget.
+>
+> **Lever én kort rapport med:**
+> 1. Den relevante ordlyden i PRD, med krav-ID-er.
+> 2. Hva M11-a faktisk innebærer.
+> 3. To eller tre realistiske alternativer, med fordeler og ulemper.
+> 4. Din anbefaling, inkludert om PRD-en må presiseres.
+> 5. Nøyaktig hvilken beslutning prosjektgruppen må godkjenne.
+>
+> Skill tydelig mellom tidligere vedtak og nye anbefalinger.
+>
+> **Begrensninger:**
+> - Ikke endre noen filer.
+> - Ikke overskriv de fire ucommittede filene.
+> - Ikke godkjenn M11-a på gruppens vegne.
+> - Ikke start ny BMAD-kjøring eller implementering.
+> - Ikke commit eller push.
+> - Hold tokenbruken lav og unngå underagenter.
+>
+> Stopp etter beslutningsgrunnlaget. Jeg skal gjennomgå det med ChatGPT før gruppen tar stilling.
+
+</details>
+
+<details>
+<summary><strong>Prompt 12 – Dokumentasjon av M11-a, OQ-3-presiseringer og PRD-presiseringer</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> Vi skal nå dokumentere to godkjente gruppebeslutninger og ferdigstille tilhørende presiseringer i UX og PRD.
+>
+> **Utgangspunkt:**
+> - Siste commit: `d6a91ed`.
+> - Branchen er synkronisert med GitHub.
+> - Fire filer er allerede endret, men ikke committet, som følge av dokumentasjonen av OQ-3:
+>   - UX-memloggen
+>   - DESIGN.md
+>   - EXPERIENCE.md
+>   - `.logs/sebastian-byfuglien/issues.md`
+> - Disse eksisterende endringene skal bevares.
+> - DESIGN.md og EXPERIENCE.md skal fortsatt ha `status: draft`.
+>
+> ## 1. Dokumenter godkjent gruppevedtak M11-a
+>
+> Jeg bekrefter på vegne av prosjektgruppen at **alternativ A er vedtatt 11. november 2026**.
+>
+> Følgende regler gjelder:
+>
+> 1. Merknadsfeltet er fortsatt valgfritt. Et tomt felt er gyldig.
+> 2. En utfylt merknad over den fastsatte tegngrensen er `ugyldig`.
+> 3. En ugyldig merknad blokkerer lagring ved opprettelse og redigering.
+> 4. En ugyldig merknad blokkerer godkjenning av KI-forslag og relevant fullføring av gjennomgangen.
+> 5. Brukeren skal få en tydelig feilmelding som oppgir hvor mange tegn som må fjernes.
+> 6. Teksten forkortes **aldri automatisk**.
+> 7. Brukeren må selv korte ned eller fjerne merknaden.
+> 8. Reglene gjelder både manuelt registrerte merknader og merknader foreslått av KI.
+> 9. Hele KI-merknaden må bevares frem til brukeren eventuelt endrer eller fjerner den.
+> 10. Den konkrete tegngrensen fastsettes senere i arkitekturen, som del av OQ-8. Ikke bestem et tall nå.
+>
+> Registrer dette som gruppevedtak opplyst av Sebastian Byfuglien 11. november 2026, uten å påstå at det finnes et møtereferat.
+>
+> Oppdater eksisterende UX-memlogg, DESIGN.md, EXPERIENCE.md og relevant issues-logg. Bevar tidligere historikk og allerede etablerte UX-regler.
+>
+> Marker M11-a som avklart på gruppenivå.
+>
+> ## 2. Ferdigstill tre godkjente OQ-3-presiseringer
+>
+> Disse tre presiseringene er også godkjent:
+>
+> 1. F3, F4 og F7 skal bruke kode og fullt kategorinavn i formatet `Ø – Øvelser og oppdrag`, tilsvarende for alle ni kategorier.
+> 2. F1 skal ha en synlig, kompakt tegnforklaring for alle ni kategorikodene. Dokumenter dette som et UX-krav, men ikke fastsett detaljert plassering eller utforming uten en konkret vurdering.
+> 3. PRD skal tydelig skille mellom kategorien `Annet` og feltstatusene `usikker` og `manglende`.
+>
+> Den godkjente kategorilisten er:
+>
+> - Ø – Øvelser og oppdrag
+> - U – Utdanning og trening
+> - S – Seremonier og oppstillinger
+> - M – Møter og planlegging
+> - P – Personell og velferd
+> - L – Materiell og logistikk
+> - E – Inspeksjon og evaluering
+> - F – Frister
+> - A – Annet
+>
+> Ikke endre listen eller klassifiseringsreglene.
+>
+> ## 3. Gjennomfør de godkjente PRD-presiseringene
+>
+> Prosjektgruppen har godkjent en begrenset PRD-oppdatering for å samsvare med OQ-3 og M11-a.
+>
+> Les først relevant ordlyd og struktur i gjeldende PRD.
+>
+> Gjør deretter minimale, målrettede endringer:
+>
+> **M11-a:**
+> - FR-2: Presiser at en merknad over tegngrensen er ugyldig og blokkerer lagring/godkjenning, selv om feltet er valgfritt.
+> - FR-6: Presiser at merknader aldri forkortes automatisk, og at den konkrete grensen fastsettes i arkitekturen.
+> - FR-23: Samordne blokkeringsregelen med FR-2, også for ugyldig merknad.
+> - Glossary «Feltstatus»: Presiser at også et valgfritt, utfylt felt kan være ugyldig og måtte rettes før godkjenning.
+> - OQ-8: Dokumenter at arkitekturen skal fastsette tegngrensen for merknader. **OQ-8 forblir åpen** fordi den konkrete verdien og øvrige arkitekturavklaringer gjenstår.
+>
+> **OQ-3:**
+> - Oppdater PRD §10 slik at OQ-3 fremgår som avklart gjennom godkjent gruppevedtak i UX.
+> - Henvis til den vedtatte kategorilisten i UX-dokumentasjonen fremfor å opprette en konkurrerende liste.
+> - Presiser FR-17 og relevant UJ-1-feiltilstand slik at:
+>   - `Annet` er en gyldig kategori når aktiviteten er forstått, men ingen annen kategori passer.
+>   - `usikker` brukes når kategorivalget er tvetydig.
+>   - `manglende` brukes når tilgjengelig informasjon ikke gir grunnlag for å velge kategori.
+>   - KI ikke skal bruke `Annet` automatisk som erstatning for manglende informasjon.
+>
+> Ikke endre krav-ID-er, MVP-omfang, øvrige godkjente funksjonskrav eller Product Brief.
+>
+> Kontroller den mulige feilhenvisningen `FR-469` fra beslutningsgrunnlaget. Finn riktig krav-ID i kildedokumentet og rapporter den. Ikke legg inn en ubekreftet henvisning.
+>
+> Dersom PRD har egen etablert beslutningslogg, dokumenter vedtakene kort og i tråd med eksisterende praksis.
+>
+> ## 4. Oppdater oversikten over åpne punkter
+>
+> Kontroller at:
+> - OQ-3 er markert avklart.
+> - M11-a er markert avklart.
+> - OQ-7 og OQ-8 fortsatt er åpne eller avhengige av arkitektur.
+> - Den nøyaktige fremstillingen av kategorifordelingen i årshjulet fortsatt er åpen.
+> - Skissene i `.working/` med gamle kategoriplassholdere fortsatt er registrert som arbeid som gjenstår.
+> - Klassifiseringstest med 25–30 fiktive aktiviteter og projektortest fortsatt står som **ikke gjennomført**.
+> - Kategorifarger ikke innføres uten eget vedtak.
+>
+> ## 5. Kvalitetskontroll
+>
+> Etter endringene:
+>
+> 1. Kontroller at de opprinnelige fire ucommittede filendringene er bevart.
+> 2. Kontroller at de godkjente reglene er konsekvente mellom PRD, DESIGN.md, EXPERIENCE.md og memloggene.
+> 3. Kontroller relevante YAML-frontmatter-felt og at UX-dokumentene fortsatt har `status: draft`.
+> 4. Kontroller at endringene er begrenset til godkjente beslutninger og nødvendig dokumentasjon.
+> 5. Vis `git status` og en kort oversikt over filendringene.
+>
+> **Begrensninger:**
+>
+> - Ikke start ny BMAD-kjøring.
+> - Ikke start implementering eller Finalize.
+> - Ikke endre wireframes eller Excalidraw-filer.
+> - Ikke gjør nye produktbeslutninger.
+> - Ikke commit eller push.
+> - Ikke opprett en ekstra KI-logg eller sesjonslogg i denne kontrollrunden.
+>
+> ## 6. Rapporter og stopp
+>
+> Rapporter kort:
+>
+> 1. Hvilke filer som ble endret.
+> 2. Hvordan M11-a er registrert som godkjent.
+> 3. Hvilke PRD-krav som ble presisert.
+> 4. Om det finnes gjenværende motstrid mellom PRD og UX.
+> 5. Hva som fortsatt må avklares før BMAD UX Finalize.
+> 6. Git-status.
+>
+> Stopp etter dokumentasjon og kontroll. Jeg skal gjennomgå endringene med ChatGPT før vi godkjenner en samlet commit.
+
+</details>
+
+<details>
+<summary><strong>Prompt 13 – Rettelse av UJ-1/UJ-2, kvalitetskontroll og samlet commit</strong></summary>
+
+> Vi fortsetter IBE160-prosjektet Sambandet på eksisterende branch `ux/sebastian-ux-design`.
+>
+> **Jeg godkjenner nå avslutning av dokumentasjonsrunden for OQ-3 og M11-a, inkludert én samlet lokal commit. Ingen push.**
+>
+> ### 1. Kontroller utgangspunktet
+>
+> Bekreft:
+> - Branch: `ux/sebastian-ux-design`.
+> - HEAD: `d6a91ed`.
+> - Seks filer er endret og ikke committet:
+>   - UX-`.memlog.md`
+>   - `DESIGN.md`
+>   - `EXPERIENCE.md`
+>   - `.logs/sebastian-byfuglien/issues.md`
+>   - `prd.md`
+>   - PRD-`.memlog.md`
+> - De eksisterende endringene inneholder dokumentasjonen av de godkjente gruppevedtakene OQ-3 og M11-a.
+>
+> Ikke overskriv eller tilbakestill disse endringene.
+>
+> Stopp og rapporter dersom Git-status avviker vesentlig fra dette utgangspunktet.
+>
+> ### 2. Gjør én siste PRD-rettelse
+>
+> Claude Code har funnet en mindre uoverensstemmelse i sammendragene for UJ-1 og UJ-2 i `prd.md`, tidligere rundt linje 101 og 128.
+>
+> Disse omtaler bare obligatoriske felt og datoregelen som grunnlag for blokkering.
+>
+> **Oppgave:**
+> - Finn de to aktuelle formuleringene.
+> - Presiser dem slik at også en utfylt merknad som overskrider tegngrensen, blokkerer relevant lagring eller godkjenning.
+> - Bruk samme regel og terminologi som nå er vedtatt i FR-2, FR-6, FR-22 og FR-23.
+> - Behold at merknadsfeltet er valgfritt, og at et tomt merknadsfelt er gyldig.
+> - Ikke innfør nye regler.
+> - Ikke endre andre PRD-krav eller MVP-omfanget.
+>
+> ### 3. Kontroller nødvendig loggføring
+>
+> Les relevante bestemmelser i prosjektets README og eksisterende loggstruktur.
+>
+> Kontroller om dette arbeidet krever oppdatering av:
+> - KI-logg
+> - Sesjonslogg
+>
+> Hvis loggføring er påkrevd, gjennomfør bare det som faktisk trengs for å oppfylle prosjektets dokumentasjonsregler.
+>
+> Viktig:
+> - Følg regelen om én KI-logg per sesjon.
+> - Gjenbruk eller utvid riktig eksisterende logg dersom det er den samme sesjonen.
+> - Ikke opprett dupliserende logger.
+> - Dokumenter bare faktiske prompter, handlinger og kontroller.
+> - Ikke finn på tester, godkjenninger eller arbeidssteg.
+> - Ikke gjør dette til en ny omfattende dokumentasjonsrunde.
+>
+> Rapporter hvilke logger som eventuelt ble oppdatert, og hvorfor.
+>
+> ### 4. Gjennomfør samlet kvalitetskontroll
+>
+> Kontroller at:
+>
+> 1. De ni kategoriene og klassifiseringsreglene fra OQ-3 er konsekvent dokumentert.
+> 2. M11-a er dokumentert som godkjent gruppevedtak med alternativ A.
+> 3. PRD og UX bruker samme regler for ugyldige merknader.
+> 4. En merknad aldri forkortes automatisk.
+> 5. Skillet mellom `Annet`, `usikker` og `manglende` er konsistent.
+> 6. OQ-3 og M11-a er markert avklart.
+> 7. OQ-7 og OQ-8 fortsatt er åpne eller avhengige av arkitektur.
+> 8. Den konkrete tegngrensen ikke er fastsatt.
+> 9. DESIGN.md og EXPERIENCE.md fortsatt har `status: draft`.
+> 10. PRD beholder sin eksisterende status.
+> 11. Ugjennomførte tester fortsatt er dokumentert som ikke gjennomført.
+> 12. Eksisterende historikk i UX- og PRD-memloggene er bevart.
+>
+> Kjør relevante dokumentkontroller, inkludert `git diff --check` og kontroll av YAML-frontmatter. Bruk eksisterende prosjektverktøy uten å opprette nye avhengighetsfiler.
+>
+> Kontroller endringsoversikten før commit.
+>
+> ### 5. Opprett én lokal commit
+>
+> Når kontrollene er bestått:
+>
+> - Stage kun de seks godkjente dokumentfilene og eventuelle loggfiler som faktisk måtte oppdateres etter README.
+> - Kontroller staged diff og at ingen utilsiktede filer er med.
+> - Opprett én lokal commit med meldingen:
+>
+> `docs: dokumenter gruppevedtak for OQ-3 og M11-a`
+>
+> Følg prosjektets regler for Git og eventuell medforfatterangivelse.
+>
+> ### 6. Verifiser etter commit
+>
+> Kontroller:
+> - Commit-hash og `git show --stat`.
+> - At arbeidsområdet er rent.
+> - Antall commits foran `origin/ux/sebastian-ux-design`.
+> - At alle godkjente dokumentendringer inngår i commiten.
+> - At `main` ikke er endret.
+>
+> **Begrensninger:**
+> - Ikke push.
+> - Ikke merge eller rebase.
+> - Ikke opprett pull request.
+> - Ikke start BMAD Finalize.
+> - Ikke start implementering.
+> - Ikke endre Excalidraw-filer eller wireframes.
+> - Ikke ta nye produktbeslutninger.
+> - Ikke start en ny UX-workflow.
+>
+> ### 7. Rapporter kort og stopp
+>
+> Oppgi:
+> 1. Hvilke formuleringer i UJ-1 og UJ-2 som ble rettet.
+> 2. Resultatet av kvalitetskontrollen.
+> 3. Hvilken loggføring som var nødvendig.
+> 4. Commit-hash og antall filer i commiten.
+> 5. Git-status og antall commits foran GitHub.
+> 6. Eventuelle avvik eller gjenstående forhold.
+>
+> Stopp etter den lokale commiten. Jeg skal gjennomgå rapporten med ChatGPT før eventuell push.
+
+</details>
+
 ## Hva KI leverte
 
 Detaljene står i sesjonsloggen
@@ -461,6 +1051,83 @@ Hva ChatGPT konkret mente, er ikke kjent for Claude Code.
 - oppdateringen av PRD-referansene, inkludert YAML-kommentarene (prompt 6)
 - at KI-arbeidet 11. november skal samles i én logg (sammenslåingsinstruksen)
 
+### Del 3 – tillegg (godkjent)
+
+Beslutningene står i UX-memloggen (oppføring 134–137), PRD-memloggen
+(oppføring 181–183) og sesjonsloggen (tillegget kl. 21:50 for 2026-11-11).
+Detaljene gjentas ikke her.
+
+**Claude Code utførte:**
+- **Prompt 7:**
+  - Fylte inn «Del 2: Sebastian Byfuglien» under «Kontrollert av» og endret fire merkinger fra «ikke kontrollert» til «godkjent». Det er fem endrede linjer til sammen.
+  - Kontrollerte branch, HEAD (`9fc7040`), filsett og `status: draft`.
+  - Committet KI-loggen og sesjonsloggen i `d6a91ed`: 2 filer, 311 linjer lagt til og 15 fjernet.
+  - Skrev ingen sesjonslogg for steget, fordi prompten ikke tillot ekstra commits.
+- **Prompt 8:**
+  - Kontrollerte branch, rent arbeidsområde, HEAD `d6a91ed`, remote, at branchen var 0 bak og 10 foran, og fast-forward.
+  - Pushet `ux/sebastian-ux-design` uten force: `89d1a7a..d6a91ed`.
+  - Verifiserte med `git ls-remote` og GitHub-API-et (compare `89d1a7a...ux/sebastian-ux-design`: 10 commits).
+  - `main` og `origin/main` var uendret. At lokal `main` (`e2a505c`) står et annet sted enn `origin/main` (`12a50a6`), var slik før operasjonen.
+- **Prompt 9 (bare lesing):**
+  - Leste PRD-en, Product Brief, PRD- og UX-memloggen, KI-loggen fra 2. november og spines.
+  - Fant at **listen over de 12 opprinnelige aktivitetsområdene ikke er dokumentert noe sted i repoet**.
+  - Foreslo ni kategorier (Ø U S M P L E F A) med begrunnelser, en regel for grensetilfeller (primært formål, frister først, ellers *usikker*), og alternativene B og C for hvem som kan velge «Annet».
+  - Alt ble lagt fram som anbefalinger.
+- **Prompt 10:**
+  - Førte gruppevedtaket inn som UX-memlogg 134, med `memlog.py` via `uv`.
+  - Oppdaterte DESIGN.md (kategoriliste og koder, kategorimerke, månedsrutenett, regelen om kategorifarger) og EXPERIENCE.md (ny seksjon «Kategoriliste og klassifisering», tabell over bruken i F1–F8, tabellen over åpne punkter).
+  - Lukket OQ-3 i `issues.md` og la inn tre nye punkter.
+  - Endret ikke skissene. At de fortsatt viser «Kat. A–I», er registrert som dokumentert avvik.
+  - Rapporterte at PRD-en ikke måtte endres, men anbefalte presiseringer.
+  - Formatet for F3 og F4 var utledet av Claude Code og ble merket for kontroll. Det ble vedtatt i prompt 11 og 12.
+- **Prompt 11 (bare lesing):**
+  - Leste FR-2, FR-6, FR-22, FR-23, Glossary, OQ-8, PRD- og UX-memloggen, og PRD-valideringen (M11).
+  - La fram alternativene A, B og C og anbefalte A, med forslag til PRD-presiseringer.
+  - Rapporten inneholdt feilhenvisningen «FR-469». Den ble rettet i prompt 12.
+- **Prompt 12:**
+  - Kontrollerte «FR-469»: riktig krav er **FR-22**, og den ubekreftede henvisningen ble ikke lagt inn noe sted.
+  - Presiserte `prd.md` i FR-2, FR-6, FR-17 (ønsket atferd), FR-23, UJ-1 E1a, Glossary («Feltstatus» og «Kategoriliste»), §10 OQ-3 og OQ-8, og satte `updated: 2026-11-11`. `status: final` er uendret.
+  - Presiserte også FR-22 (sperre for fullføring). Den sto ikke i prompten, men var nødvendig for vedtakets regel 4, og det ble opplyst i rapporten.
+  - Førte PRD-memlogg 181–182 og UX-memlogg 135–137.
+  - Oppdaterte begge spines (F1–F8-tabellen, tilstanden for for lang merknad i F4, M11-a-raden og tegnforklaringen) og PRD-kommentaren i `sources`, som ikke sto i prompten, men ble opplyst.
+  - Oppdaterte `issues.md`.
+  - Fant en gjenværende uoverensstemmelse i sammendragslinjene for UJ-1 og UJ-2.
+- **Prompt 13:**
+  - Rettet sammendragslinjene for UJ-1 og UJ-2 og førte PRD-memlogg 183.
+  - Oppdaterte dagens seksjon i sesjonsloggen.
+  - Kjørte kvalitetskontrollen med 12 punkter (se Testing).
+  - Stagede sju filer med eksakte stier og committet i `a7ec6ff`: 7 filer, 115 linjer lagt til og 36 fjernet.
+  - Del 3 av KI-loggen ble ikke skrevet i den runden, fordi README-en krever godkjenning først.
+
+**ChatGPT vurderte**, ifølge promptene:
+- den samlede KI-loggen (del 2) før godkjenning (prompt 7)
+
+**ChatGPT vurderte også** dette. Opplysningene er bekreftet av Sebastian ut fra ChatGPT-samtalen. Claude Code har ikke selv sett den samtalen og kan ikke verifisere dem fra sin egen historikk.
+- **Beslutningsgrunnlaget for OQ-3:** ChatGPT anbefalte ni kategorier, med presiseringer om «Frister», «Annet» og visuell identitet.
+- **M11-a:** ChatGPT anbefalte alternativ A med tilhørende PRD-presiseringer.
+- **Rapporten etter `a7ec6ff`:** ChatGPT godkjente dokumentasjonsendringene og påpekte at del 3 av KI-loggen gjensto.
+- **De tre OQ-3-presiseringene:** ChatGPT la dem fram (se under).
+
+**Sebastian godkjente:**
+- del 2 av KI-loggen og commiten av den (prompt 7)
+- pushen av 10 commits (prompt 8)
+- de tre OQ-3-presiseringene, ved å svare «ja» da ChatGPT la dem fram. Opplysningen er bekreftet av Sebastian ut fra ChatGPT-samtalen. Det ble ikke holdt noe gruppemøte om presiseringene.
+  - formatet «Ø – Øvelser og oppdrag» i F3, F4 og F7
+  - en tegnforklaring i F1
+  - skillet mellom «Annet» og *usikker*/*manglende* i PRD-en
+- den samlede commiten `a7ec6ff`, uten push (prompt 13)
+
+**Prosjektgruppen godkjente**, opplyst av Sebastian Byfuglien 11. november 2026. Det finnes ikke noe møtereferat i repoet. Godkjenningene bygger på det Sebastian opplyste i promptene.
+- OQ-3: kategorilisten med ni kategorier og de åtte klassifiseringsreglene (prompt 10)
+- M11-a: alternativ A med ti regler (prompt 12)
+- den begrensede PRD-oppdateringen for OQ-3 og M11-a (prompt 12)
+
+**Det historikken ikke dekker:**
+- **ChatGPT:** Claude Code har ikke sett ChatGPT-samtalen. Det som står om ChatGPTs vurderinger og om at Sebastian godkjente de tre presiseringene, er opplysninger fra Sebastian, ikke noe Claude Code har kontrollert. Hva ChatGPT svarte, er ikke gjengitt.
+- **Gruppevedtakene om OQ-3 og M11-a:** Det finnes ingen dokumentasjon av hvordan og når gruppen tok beslutningene. Loggen bygger bare på det Sebastian opplyste.
+- **De 12 opprinnelige aktivitetsområdene** er ikke dokumentert i repoet.
+- **Klokkeslett** for promptene finnes ikke, bortsett fra tidspunktet for sesjonsloggen.
+
 ## Hva vi endret og hvorfor
 
 - **Tatt inn:** gruppens oppdatering fra `origin/main`, uendret. UX-arbeidet skal bygge på gjeldende PRD før Finalize.
@@ -484,6 +1151,24 @@ Hva ChatGPT konkret mente, er ikke kjent for Claude Code.
   - Etter commiten viste `git status` memloggen som endret, selv om innholdet var byte-identisk med HEAD. Det skyldtes utdatert stat-data i indeksen og ble ryddet med `git add`, uten at noe nytt innhold ble staget.
   - Det ble først laget en egen KI-logg for del 2, utenfor repoet. Etter sammenslåingsinstruksen er den slått sammen med denne loggen, i tråd med regelen om én logg per økt.
 - **Ikke pushet:** Etter `9fc7040` ligger branchen 9 commits foran `origin`.
+
+### Del 3 – tillegg (godkjent)
+
+- **Endret i del 3:** `prd.md`, PRD- og UX-memloggen, DESIGN.md, EXPERIENCE.md, `issues.md` og sesjonsloggen. Alt er committet samlet i `a7ec6ff`.
+- **Ikke endret:**
+  - Product Brief
+  - krav-ID-er og MVP-omfang
+  - skissene og Excalidraw-filene
+  - `status: draft` i spines og `status: final` i PRD-en
+- **Utover det promptene ba om, og opplyst i rapportene:**
+  - FR-22 (fullføring) ble samordnet.
+  - PRD-kommentaren i `sources` ble oppdatert.
+- **Avvik:**
+  - Rapporten etter prompt 11 inneholdt feilhenvisningen «FR-469». Den ble rettet til FR-22 før noe ble skrevet inn.
+  - UX-memlogg 137 ble skrevet før endringene i spines i samme steg var ferdige.
+  - Sesjonsloggen ble committet i samme commit som dokumentene, ikke som egen «Logg:»-commit. Det var etter prompt 13.
+  - Et grep-søk i kvalitetskontrollen talte 8 av 9 rader i kodetabellen, fordi mønsteret ikke håndterte «Ø». Tabellen ble lest direkte og har 9 rader.
+- **Ikke pushet:** Etter `a7ec6ff` ligger branchen 1 commit foran `origin`.
 
 ## Testing
 
@@ -540,3 +1225,30 @@ Disse kontrollene ble faktisk kjørt:
 - ny BMAD-validering
 - full lesing av DESIGN.md og EXPERIENCE.md
 - testing på projektor, med tastatur eller med skjermleser
+
+### Del 3 – tillegg (godkjent)
+
+Det er ikke testet noen programvare. Disse kontrollene ble faktisk kjørt:
+
+- **Push (prompt 8):**
+  - `git rev-list --left-right --count` og `git merge-base --is-ancestor` før push
+  - `git ls-remote`, `rev-parse` og GitHub-API-et (compare) etter push
+- **Dokumentkontroller (prompt 10, 12 og 13):**
+  - Frontmatter i DESIGN.md, EXPERIENCE.md og `prd.md` ble parset med `pyyaml` i et midlertidig `uv`-miljø utenfor repoet.
+  - Med `grep` ble det sjekket at kategorinavnene er stavet likt, at det ikke er gamle plassholdere eller gamle kategorinavn igjen, og at det ikke er noen motstridende formuleringer om forkorting og «FR-469».
+  - Det ble sjekket at ingen eldre memlogg-linjer er fjernet.
+  - Tabellen over åpne punkter ble kontrollert.
+  - `git diff --check` og `git diff --cached --check` ga ingen feil.
+  - Alle endrede filer har LF-linjeskift (`git ls-files --eol`).
+- **Commit (prompt 13):**
+  - Staged filsett var nøyaktig sju filer.
+  - `git show --stat` for `a7ec6ff`, rent arbeidsområde og 1 commit foran `origin`.
+  - `main` var uendret.
+
+**Ikke gjennomført:**
+- klassifiseringstest med 25–30 fiktive aktiviteter
+- projektortest, inkludert tegnforklaringen og lesbarheten av kategorikodene
+- test med tastatur og skjermleser
+- åpning av `.excalidraw`-filene
+- ny validering av PRD-en og ny BMAD-validering
+- push av `a7ec6ff`
