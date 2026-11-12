@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nøkkelmock F1 – Årsvisning</title>
+<style>
+/*
+  NØKKELMOCK F1 ÅRSVISNING – statisk illustrasjon (BMAD key-screens), ikke implementasjon.
+  Spinene vinner ved konflikt: DESIGN.md og EXPERIENCE.md går foran denne filen.
+
+  Styrende spine-seksjoner:
+  - DESIGN.md: frontmatter-tokener (colors, typography, rounded, spacing, components);
+    Colors (kategoriliste og bokstavkoder); Typography (tre bokstaver for måned i hjulet,
+    tabulære tall); Layout & Spacing (F1-rad, fast struktur toppfelt → indikator → innhold);
+    Elevation & Depth (kanter, ikke skygger); Shapes; Components: Primærknapp, Sekundærknapp,
+    Tekstlenke, Deaktivert kontroll med årsak, Panel, Fokusring, Kategorimerke,
+    Gjennomgangsindikator, Periodenavigasjon, Årshjulsirkel; Do's and Don'ts.
+  - EXPERIENCE.md: Foundation (produktnavn «Årshjul (arbeidstittel)»); Kategoriliste og
+    klassifisering (F1-raden); Information Architecture › Inngangspunkter og
+    Gjennomgangsindikator; Voice and Tone; Component Patterns: Årshjulsirkel,
+    Deaktivert kontroll med årsak, Gjennomgangsindikator, Periodenavigasjon, Fokusring;
+    State Patterns: F1 «Mange aktiviteter i én måned», «Tom måned», «Gjennomgang aktiv»;
+    Accessibility Floor (tastaturmodell F1, tilgjengelig navn per måned).
+  - Layout: .working/flow-f1-arsvisning-2026-11-03.excalidraw (A hovedtilstand, B gjennomgang pågår).
+  - Visuell retning: .working/kombinert-retning-1.html (godkjent palett og formspråk).
+
+  Merknader:
+  - Fiktive data fra F1-skissen (memlog 2026-11-11). Mars: U 4 · M 4 · +12 øvrige = 20.
+  - Ordlyd er foreløpig og skal språkvaskes [FORELØPIG].
+  - Ingen JavaScript: piltaster, Home/End og Enter/Space i hjulet er ikke implementert her.
+  - Valg mellom disabled og aria-disabled for «Last opp dokument» er åpent [VALIDERES];
+    mocken bruker aria-disabled + aria-describedby som illustrasjon.
+  - Fokusringen i B er tegnet statisk (klassen .vis-fokus) for å vise utseendet; i appen vises
+    den bare ved tastaturfokus (:focus-visible).
+  - Størrelser og lesbarhet er ikke testet på PC eller projektor [VALIDERES].
+  - Ingen demo-modus (OQ-7) og ingen tekniske grenser (OQ-8) vises.
+*/
+
+:root {
+  --background: #FFFFFF;
+  --panel: #F3F5F8;
+  --text: #0B0B0B;
+  --text-muted: #3E3E3E;
+  --line-hairline: #BDBDBD;
+  --line-strong: #0B0B0B;
+  --primary: #0B0B0B;
+  --on-primary: #FFFFFF;
+  --focus: #C75000;
+  --focus-offset: #FFFFFF;
+  --disabled-text: #4A4A4A;
+  --disabled-bg: #E6E6E6;
+
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --rounded-full: 9999px;
+  --rounded-lg: 16px;
+  --rounded-md: 10px;
+
+  --s1: 4px; --s2: 8px; --s3: 16px; --s4: 24px; --s5: 32px; --s6: 48px;
+  --target-min: 44px;
+}
+
+* { box-sizing: border-box; }
+
+/* ---------- Side rundt mockene (ikke del av appen) ---------- */
+body {
+  margin: 0;
+  padding: 40px;
+  background: #E9EBEF;
+  color: var(--text);
+  font-family: var(--font);
+}
+.mock-banner {
+  max-width: 1680px;
+  margin: 0 auto 32px;
+  padding: 12px 20px;
+  border: 1px dashed var(--text-muted);
+  background: var(--background);
+  font-size: 16px;
+  line-height: 1.4;
+}
+.mock-banner strong { font-weight: 600; }
+.state-title {
+  max-width: 1680px;
+  margin: 0 auto 12px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.state-note {
+  max-width: 1680px;
+  margin: 12px auto 48px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+/* ---------- Nettleserramme ---------- */
+.browser {
+  max-width: 1680px;
+  margin: 0 auto;
+  border: 1px solid var(--line-hairline);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--background);
+}
+.browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 44px;
+  padding: 0 16px;
+  background: #DADDE2;
+  border-bottom: 1px solid var(--line-hairline);
+}
+.browser-dots { display: flex; gap: 8px; }
+.browser-dots span {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #A9ADB4;
+}
+.browser-address {
+  flex: 1;
+  max-width: 640px;
+  height: 28px;
+  padding: 0 14px;
+  border-radius: var(--rounded-full);
+  background: var(--background);
+  font-size: 14px;
+  line-height: 28px;
+  color: var(--text-muted);
+}
+
+/* ---------- App ---------- */
+.app {
+  background: var(--background);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Toppfelt */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s5);
+  border-bottom: 1px solid var(--line-hairline);
+}
+.appnavn {
+  margin: 0;
+  margin-right: auto;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.appnavn span {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* Periodenavigasjon */
+.periodenav {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+.periodenav .sep { color: var(--text-muted); font-weight: 400; }
+/* Valgt kalenderår: valgt/aktiv-markering – 2 px sterk kant + panelbakgrunn, nøytral,
+   aldri oransje (gruppevedtak 2026-11-12, alternativ B). 10 px hjørner skiller den fra
+   pilleknappene (primær/sekundær). */
+.periodenav .gjeldende {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  margin: 0 var(--s2);
+  padding: 0 var(--s3);
+  background: var(--panel);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--rounded-md);
+}
+/* Knapper */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--target-min);
+  padding: 0 var(--s4);
+  border-radius: var(--rounded-full);
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primaer {
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2px solid var(--primary);
+}
+.btn-sekundaer {
+  background: var(--background);
+  color: var(--text);
+  border: 2px solid var(--line-strong);
+}
+.btn-nav {
+  min-width: var(--target-min);
+  padding: 0 var(--s3);
+  background: var(--background);
+  color: var(--text);
+  border: 2px solid transparent;
+}
+.btn[aria-disabled="true"] {
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
+  border: 2px solid var(--disabled-bg);
+  cursor: not-allowed;
+}
+
+/* Fokusring – bare ved tastaturfokus. .vis-fokus er statisk illustrasjon i mocken. */
+.btn:focus { outline: none; }
+.btn:focus-visible,
+.lenke:focus-visible,
+.hjul:focus-visible,
+.vis-fokus {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--focus-offset);
+}
+
+/* Tekstlenke */
+.lenke {
+  color: var(--text);
+  text-decoration: underline;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Gjennomgangsindikator */
+.indikator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin: var(--s3) var(--s5) 0;
+  padding: var(--s2) var(--s2) var(--s2) var(--s4);
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--rounded-md);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Deaktivert kontroll – årsak som synlig tekst ved kontrollen */
+.sperret-arsak {
+  display: flex;
+  justify-content: flex-end;
+  margin: var(--s3) var(--s5) 0;
+}
+.sperret-arsak .panel {
+  max-width: 460px;
+  padding: var(--s3) var(--s4);
+  background: var(--panel);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--rounded-lg);
+}
+.sperret-arsak p {
+  margin: 0 0 var(--s2);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Hovedinnhold */
+.innhold {
+  display: grid;
+  grid-template-columns: 900px 380px;
+  justify-content: center;
+  align-items: end;
+  column-gap: var(--s6);
+  padding: var(--s5) var(--s5) var(--s6);
+}
+
+/* Årshjulsirkel */
+.hjul {
+  position: relative;
+  width: 900px;
+  height: 900px;
+  border-radius: 50%;
+}
+.hjul svg {
+  position: absolute;
+  inset: 0;
+}
+.hjul ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.maned {
+  position: absolute;
+  width: 132px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.maned-navn {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.maned-antall {
+  display: block;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.merker {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+.kategorimerke {
+  display: inline-block;
+  min-width: 28px;
+  padding: 0 10px;
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--rounded-full);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.ovrige { max-width: 96px; margin-left: auto; margin-right: auto; } /* bryter alltid «+N øvrig(e)» / «aktivitet(er)» på to linjer – holder avstand til sektorlinjene */
+.ovrige,
+.ingen {
+  display: block;
+  margin-top: 4px;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+.aar {
+  position: absolute;
+  left: 450px;
+  top: 450px;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Forklaring under hjulet */
+.forklaring {
+  grid-column: 1 / 2;
+  max-width: 75ch;
+  margin: var(--s4) 0 0;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+/* Tegnforklaring */
+.tegnforklaring {
+  align-self: end;
+  margin-bottom: 40px;
+  padding: var(--s4);
+  background: var(--panel);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--rounded-lg);
+}
+.tegnforklaring h2 {
+  margin: 0 0 var(--s3);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.tegnforklaring ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  row-gap: 10px;
+}
+.tegnforklaring li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.tegnforklaring .kategorimerke {
+  min-width: 36px;
+  text-align: center;
+  padding: 0 8px;
+}
+
+/* Mindre PC-skjermer (f.eks. 1366 og 1440 px): samme layout og samme hjul (900 px),
+   bare smalere sidemarger, mindre mellomrom og smalere tegnforklaring – slik at hjul og
+   tegnforklaring står side om side uten å klippes. Skriftstørrelser og tokener er uendret. */
+@media (max-width: 1599px) {
+  body { padding: var(--s3); }
+  .mock-banner, .state-title, .state-note { max-width: none; }
+  .topbar { padding: var(--s3) var(--s4); }
+  .indikator, .sperret-arsak { margin-left: var(--s4); margin-right: var(--s4); }
+  .innhold {
+    grid-template-columns: 900px 320px;
+    column-gap: var(--s5);
+    padding: var(--s5) var(--s4) var(--s6);
+  }
+  .tegnforklaring { padding: var(--s4) var(--s3); }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+</style>
+</head>
+<body>
+
+<p class="mock-banner"><strong>Nøkkelmock F1 Årsvisning</strong> – statisk illustrasjon, ikke endelig implementasjon. Fiktive data. Ordlyd foreløpig. DESIGN.md og EXPERIENCE.md vinner ved konflikt. Ikke testet på projektor, med tastatur eller skjermleser.</p>
+
+<!-- ===================================================================== -->
+<!-- A · HOVEDTILSTAND                                                     -->
+<!-- ===================================================================== -->
+<h2 class="state-title">A · Årsvisning 2026 (hovedtilstand)</h2>
+
+<div class="browser">
+  <div class="browser-chrome" aria-hidden="true">
+    <div class="browser-dots"><span></span><span></span><span></span></div>
+    <div class="browser-address">localhost</div>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <h1 class="appnavn">Årshjul <span>(arbeidstittel)</span></h1>
+      <nav class="periodenav" aria-label="Kalenderår">
+        <button class="btn btn-nav" type="button" aria-label="Forrige kalenderår (2025)">◀</button>
+        <button class="btn btn-nav" type="button">2025</button>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="gjeldende" aria-current="page">2026</span>
+        <span class="sep" aria-hidden="true">|</span>
+        <button class="btn btn-nav" type="button">2027</button>
+        <button class="btn btn-nav" type="button" aria-label="Neste kalenderår (2027)">▶</button>
+      </nav>
+      <button class="btn btn-primaer" type="button">Ny aktivitet</button>
+      <button class="btn btn-sekundaer" type="button">Last opp dokument</button>
+    </header>
+
+    <main class="innhold">
+      <div class="hjul" tabindex="0" role="group" aria-label="Årshjul 2026. Bruk piltastene for å velge måned, Enter for å åpne måneden.">
+        <svg width="900" height="900" viewBox="0 0 900 900" aria-hidden="true" focusable="false">
+          <circle cx="450" cy="450" r="448" fill="#FFFFFF" stroke="#0B0B0B" stroke-width="2"/>
+          <g stroke="#0B0B0B" stroke-width="2">
+            <line x1="450" y1="360" x2="450" y2="2"/>
+            <line x1="495" y1="372.06" x2="674" y2="62.03"/>
+            <line x1="527.94" y1="405" x2="837.97" y2="226"/>
+            <line x1="540" y1="450" x2="898" y2="450"/>
+            <line x1="527.94" y1="495" x2="837.97" y2="674"/>
+            <line x1="495" y1="527.94" x2="674" y2="837.97"/>
+            <line x1="450" y1="540" x2="450" y2="898"/>
+            <line x1="405" y1="527.94" x2="226" y2="837.97"/>
+            <line x1="372.06" y1="495" x2="62.03" y2="674"/>
+            <line x1="360" y1="450" x2="2" y2="450"/>
+            <line x1="372.06" y1="405" x2="62.03" y2="226"/>
+            <line x1="405" y1="372.06" x2="226" y2="62.03"/>
+          </g>
+          <circle cx="450" cy="450" r="90" fill="#FFFFFF" stroke="#0B0B0B" stroke-width="2"/>
+        </svg>
+
+        <!-- Tilgjengelige navn: Mars har dokumentert full fordeling (memlog 2026-11-11).
+             For måneder med «+N øvrige» er sammensetningen bak N ikke dokumentert i de fiktive
+             dataene; navnet nevner derfor bare antall øvrige. Måneder uten restindikator er komplette. -->
+        <ol>
+          <li class="maned" style="left:527.6px; top:160.2px" aria-label="Januar 2026, 4 aktiviteter: M 2, P 2">
+            <span class="maned-navn" aria-hidden="true">Jan</span>
+            <span class="maned-antall" aria-hidden="true">4</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">M 2</span><span class="kategorimerke">P 2</span></span>
+          </li>
+          <li class="maned" style="left:662.1px; top:237.9px" aria-label="Februar 2026, 6 aktiviteter: U 3, Ø 2, 1 øvrig aktivitet">
+            <span class="maned-navn" aria-hidden="true">Feb</span>
+            <span class="maned-antall" aria-hidden="true">6</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">U 3</span><span class="kategorimerke">Ø 2</span></span>
+            <span class="ovrige" aria-hidden="true">+1 øvrig aktivitet</span>
+          </li>
+          <li class="maned" style="left:739.8px; top:372.4px" aria-label="Mars 2026, 20 aktiviteter: U 4, M 4, Ø 3, F 3, P 2, L 2, E 2">
+            <span class="maned-navn" aria-hidden="true">Mar</span>
+            <span class="maned-antall" aria-hidden="true">20</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">U 4</span><span class="kategorimerke">M 4</span></span>
+            <span class="ovrige" aria-hidden="true">+12 øvrige aktiviteter</span>
+          </li>
+          <li class="maned" style="left:739.8px; top:527.6px" aria-label="April 2026, 9 aktiviteter: Ø 4, L 3, 2 øvrige aktiviteter">
+            <span class="maned-navn" aria-hidden="true">Apr</span>
+            <span class="maned-antall" aria-hidden="true">9</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">Ø 4</span><span class="kategorimerke">L 3</span></span>
+            <span class="ovrige" aria-hidden="true">+2 øvrige aktiviteter</span>
+          </li>
+          <li class="maned" style="left:662.1px; top:662.1px" aria-label="Mai 2026, 7 aktiviteter: U 4, S 3">
+            <span class="maned-navn" aria-hidden="true">Mai</span>
+            <span class="maned-antall" aria-hidden="true">7</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">U 4</span><span class="kategorimerke">S 3</span></span>
+          </li>
+          <li class="maned" style="left:527.6px; top:739.8px" aria-label="Juni 2026, 5 aktiviteter: Ø 3, P 2">
+            <span class="maned-navn" aria-hidden="true">Jun</span>
+            <span class="maned-antall" aria-hidden="true">5</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">Ø 3</span><span class="kategorimerke">P 2</span></span>
+          </li>
+          <li class="maned" style="left:372.4px; top:739.8px" aria-label="Juli 2026, 0 aktiviteter, ingen aktiviteter">
+            <span class="maned-navn" aria-hidden="true">Jul</span>
+            <span class="maned-antall" aria-hidden="true">0</span>
+            <span class="ingen" aria-hidden="true">Ingen aktiviteter</span>
+          </li>
+          <li class="maned" style="left:237.9px; top:662.1px" aria-label="August 2026, 3 aktiviteter: P 2, F 1">
+            <span class="maned-navn" aria-hidden="true">Aug</span>
+            <span class="maned-antall" aria-hidden="true">3</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">P 2</span><span class="kategorimerke">F 1</span></span>
+          </li>
+          <li class="maned" style="left:160.2px; top:527.6px" aria-label="September 2026, 8 aktiviteter: Ø 3, U 3, 2 øvrige aktiviteter">
+            <span class="maned-navn" aria-hidden="true">Sep</span>
+            <span class="maned-antall" aria-hidden="true">8</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">Ø 3</span><span class="kategorimerke">U 3</span></span>
+            <span class="ovrige" aria-hidden="true">+2 øvrige aktiviteter</span>
+          </li>
+          <li class="maned" style="left:160.2px; top:372.4px" aria-label="Oktober 2026, 11 aktiviteter: Ø 5, E 3, 3 øvrige aktiviteter">
+            <span class="maned-navn" aria-hidden="true">Okt</span>
+            <span class="maned-antall" aria-hidden="true">11</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">Ø 5</span><span class="kategorimerke">E 3</span></span>
+            <span class="ovrige" aria-hidden="true">+3 øvrige aktiviteter</span>
+          </li>
+          <li class="maned" style="left:237.9px; top:237.9px" aria-label="November 2026, 6 aktiviteter: U 3, M 2, 1 øvrig aktivitet">
+            <span class="maned-navn" aria-hidden="true">Nov</span>
+            <span class="maned-antall" aria-hidden="true">6</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">U 3</span><span class="kategorimerke">M 2</span></span>
+            <span class="ovrige" aria-hidden="true">+1 øvrig aktivitet</span>
+          </li>
+          <li class="maned" style="left:372.4px; top:160.2px" aria-label="Desember 2026, 4 aktiviteter: S 2, P 2">
+            <span class="maned-navn" aria-hidden="true">Des</span>
+            <span class="maned-antall" aria-hidden="true">4</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">S 2</span><span class="kategorimerke">P 2</span></span>
+          </li>
+        </ol>
+        <span class="aar" aria-hidden="true">2026</span>
+      </div>
+
+      <aside class="tegnforklaring" aria-labelledby="tf-a">
+        <h2 id="tf-a">Tegnforklaring</h2>
+        <ul>
+          <li><span class="kategorimerke">Ø</span> Øvelser og oppdrag</li>
+          <li><span class="kategorimerke">U</span> Utdanning og trening</li>
+          <li><span class="kategorimerke">S</span> Seremonier og oppstillinger</li>
+          <li><span class="kategorimerke">M</span> Møter og planlegging</li>
+          <li><span class="kategorimerke">P</span> Personell og velferd</li>
+          <li><span class="kategorimerke">L</span> Materiell og logistikk</li>
+          <li><span class="kategorimerke">E</span> Inspeksjon og evaluering</li>
+          <li><span class="kategorimerke">F</span> Frister</li>
+          <li><span class="kategorimerke">A</span> Annet</li>
+        </ul>
+      </aside>
+
+      <p class="forklaring">Tallene viser unike aktiviteter som berører måneden. En aktivitet over et månedsskifte telles i begge månedene, så tallene kan ikke summeres.</p>
+    </main>
+  </div>
+</div>
+<p class="state-note">Hovedtilstand: inneværende kalenderår, ingen aktiv gjennomgang. Hver måned viser antall, inntil to kategorimerker og eventuelt «+N øvrige aktiviteter». Juli viser tom måned. Klikk på en måned åpner F2 direkte (ikke implementert i mocken).</p>
+
+<!-- ===================================================================== -->
+<!-- B · GJENNOMGANG PÅGÅR                                                 -->
+<!-- ===================================================================== -->
+<h2 class="state-title">B · Årsvisning – gjennomgang pågår (variant av A)</h2>
+
+<div class="browser">
+  <div class="browser-chrome" aria-hidden="true">
+    <div class="browser-dots"><span></span><span></span><span></span></div>
+    <div class="browser-address">localhost</div>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <h1 class="appnavn">Årshjul <span>(arbeidstittel)</span></h1>
+      <nav class="periodenav" aria-label="Kalenderår">
+        <button class="btn btn-nav" type="button" aria-label="Forrige kalenderår (2025)">◀</button>
+        <button class="btn btn-nav" type="button">2025</button>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="gjeldende" aria-current="page">2026</span>
+        <span class="sep" aria-hidden="true">|</span>
+        <button class="btn btn-nav" type="button">2027</button>
+        <button class="btn btn-nav" type="button" aria-label="Neste kalenderår (2027)">▶</button>
+      </nav>
+      <button class="btn btn-primaer" type="button">Ny aktivitet</button>
+      <button class="btn btn-sekundaer" type="button" aria-disabled="true" aria-describedby="sperret-b">Last opp dokument</button>
+    </header>
+
+    <div class="indikator" role="status" aria-live="polite">
+      <span>Gjennomgang pågår: 8 av 15 forslag gjenstår</span>
+      <button class="btn btn-sekundaer vis-fokus" type="button">Gå til gjennomgangen</button>
+    </div>
+
+    <div class="sperret-arsak">
+      <div class="panel" id="sperret-b">
+        <p>Opplasting er sperret mens en gjennomgang pågår. Fullfør eller forkast gjennomgangen først.</p>
+        <a class="lenke" href="#">Gå til gjennomgangen →</a>
+      </div>
+    </div>
+
+    <main class="innhold">
+      <div class="hjul" tabindex="0" role="group" aria-label="Årshjul 2026. Bruk piltastene for å velge måned, Enter for å åpne måneden.">
+        <svg width="900" height="900" viewBox="0 0 900 900" aria-hidden="true" focusable="false">
+          <circle cx="450" cy="450" r="448" fill="#FFFFFF" stroke="#0B0B0B" stroke-width="2"/>
+          <g stroke="#0B0B0B" stroke-width="2">
+            <line x1="450" y1="360" x2="450" y2="2"/>
+            <line x1="495" y1="372.06" x2="674" y2="62.03"/>
+            <line x1="527.94" y1="405" x2="837.97" y2="226"/>
+            <line x1="540" y1="450" x2="898" y2="450"/>
+            <line x1="527.94" y1="495" x2="837.97" y2="674"/>
+            <line x1="495" y1="527.94" x2="674" y2="837.97"/>
+            <line x1="450" y1="540" x2="450" y2="898"/>
+            <line x1="405" y1="527.94" x2="226" y2="837.97"/>
+            <line x1="372.06" y1="495" x2="62.03" y2="674"/>
+            <line x1="360" y1="450" x2="2" y2="450"/>
+            <line x1="372.06" y1="405" x2="62.03" y2="226"/>
+            <line x1="405" y1="372.06" x2="226" y2="62.03"/>
+          </g>
+          <circle cx="450" cy="450" r="90" fill="#FFFFFF" stroke="#0B0B0B" stroke-width="2"/>
+        </svg>
+
+        <!-- Hjulet viser bare lagrede aktiviteter – samme tall og merker som i A (UJ-1 E5). -->
+        <ol>
+          <li class="maned" style="left:527.6px; top:160.2px" aria-label="Januar 2026, 4 aktiviteter: M 2, P 2">
+            <span class="maned-navn" aria-hidden="true">Jan</span>
+            <span class="maned-antall" aria-hidden="true">4</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">M 2</span><span class="kategorimerke">P 2</span></span>
+          </li>
+          <li class="maned" style="left:662.1px; top:237.9px" aria-label="Februar 2026, 6 aktiviteter: U 3, Ø 2, 1 øvrig aktivitet">
+            <span class="maned-navn" aria-hidden="true">Feb</span>
+            <span class="maned-antall" aria-hidden="true">6</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">U 3</span><span class="kategorimerke">Ø 2</span></span>
+            <span class="ovrige" aria-hidden="true">+1 øvrig aktivitet</span>
+          </li>
+          <li class="maned" style="left:739.8px; top:372.4px" aria-label="Mars 2026, 20 aktiviteter: U 4, M 4, Ø 3, F 3, P 2, L 2, E 2">
+            <span class="maned-navn" aria-hidden="true">Mar</span>
+            <span class="maned-antall" aria-hidden="true">20</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">U 4</span><span class="kategorimerke">M 4</span></span>
+            <span class="ovrige" aria-hidden="true">+12 øvrige aktiviteter</span>
+          </li>
+          <li class="maned" style="left:739.8px; top:527.6px" aria-label="April 2026, 9 aktiviteter: Ø 4, L 3, 2 øvrige aktiviteter">
+            <span class="maned-navn" aria-hidden="true">Apr</span>
+            <span class="maned-antall" aria-hidden="true">9</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">Ø 4</span><span class="kategorimerke">L 3</span></span>
+            <span class="ovrige" aria-hidden="true">+2 øvrige aktiviteter</span>
+          </li>
+          <li class="maned" style="left:662.1px; top:662.1px" aria-label="Mai 2026, 7 aktiviteter: U 4, S 3">
+            <span class="maned-navn" aria-hidden="true">Mai</span>
+            <span class="maned-antall" aria-hidden="true">7</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">U 4</span><span class="kategorimerke">S 3</span></span>
+          </li>
+          <li class="maned" style="left:527.6px; top:739.8px" aria-label="Juni 2026, 5 aktiviteter: Ø 3, P 2">
+            <span class="maned-navn" aria-hidden="true">Jun</span>
+            <span class="maned-antall" aria-hidden="true">5</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">Ø 3</span><span class="kategorimerke">P 2</span></span>
+          </li>
+          <li class="maned" style="left:372.4px; top:739.8px" aria-label="Juli 2026, 0 aktiviteter, ingen aktiviteter">
+            <span class="maned-navn" aria-hidden="true">Jul</span>
+            <span class="maned-antall" aria-hidden="true">0</span>
+            <span class="ingen" aria-hidden="true">Ingen aktiviteter</span>
+          </li>
+          <li class="maned" style="left:237.9px; top:662.1px" aria-label="August 2026, 3 aktiviteter: P 2, F 1">
+            <span class="maned-navn" aria-hidden="true">Aug</span>
+            <span class="maned-antall" aria-hidden="true">3</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">P 2</span><span class="kategorimerke">F 1</span></span>
+          </li>
+          <li class="maned" style="left:160.2px; top:527.6px" aria-label="September 2026, 8 aktiviteter: Ø 3, U 3, 2 øvrige aktiviteter">
+            <span class="maned-navn" aria-hidden="true">Sep</span>
+            <span class="maned-antall" aria-hidden="true">8</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">Ø 3</span><span class="kategorimerke">U 3</span></span>
+            <span class="ovrige" aria-hidden="true">+2 øvrige aktiviteter</span>
+          </li>
+          <li class="maned" style="left:160.2px; top:372.4px" aria-label="Oktober 2026, 11 aktiviteter: Ø 5, E 3, 3 øvrige aktiviteter">
+            <span class="maned-navn" aria-hidden="true">Okt</span>
+            <span class="maned-antall" aria-hidden="true">11</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">Ø 5</span><span class="kategorimerke">E 3</span></span>
+            <span class="ovrige" aria-hidden="true">+3 øvrige aktiviteter</span>
+          </li>
+          <li class="maned" style="left:237.9px; top:237.9px" aria-label="November 2026, 6 aktiviteter: U 3, M 2, 1 øvrig aktivitet">
+            <span class="maned-navn" aria-hidden="true">Nov</span>
+            <span class="maned-antall" aria-hidden="true">6</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">U 3</span><span class="kategorimerke">M 2</span></span>
+            <span class="ovrige" aria-hidden="true">+1 øvrig aktivitet</span>
+          </li>
+          <li class="maned" style="left:372.4px; top:160.2px" aria-label="Desember 2026, 4 aktiviteter: S 2, P 2">
+            <span class="maned-navn" aria-hidden="true">Des</span>
+            <span class="maned-antall" aria-hidden="true">4</span>
+            <span class="merker" aria-hidden="true"><span class="kategorimerke">S 2</span><span class="kategorimerke">P 2</span></span>
+          </li>
+        </ol>
+        <span class="aar" aria-hidden="true">2026</span>
+      </div>
+
+      <aside class="tegnforklaring" aria-labelledby="tf-b">
+        <h2 id="tf-b">Tegnforklaring</h2>
+        <ul>
+          <li><span class="kategorimerke">Ø</span> Øvelser og oppdrag</li>
+          <li><span class="kategorimerke">U</span> Utdanning og trening</li>
+          <li><span class="kategorimerke">S</span> Seremonier og oppstillinger</li>
+          <li><span class="kategorimerke">M</span> Møter og planlegging</li>
+          <li><span class="kategorimerke">P</span> Personell og velferd</li>
+          <li><span class="kategorimerke">L</span> Materiell og logistikk</li>
+          <li><span class="kategorimerke">E</span> Inspeksjon og evaluering</li>
+          <li><span class="kategorimerke">F</span> Frister</li>
+          <li><span class="kategorimerke">A</span> Annet</li>
+        </ul>
+      </aside>
+
+      <p class="forklaring">Tallene viser unike aktiviteter som berører måneden. En aktivitet over et månedsskifte telles i begge månedene, så tallene kan ikke summeres.</p>
+    </main>
+  </div>
+</div>
+<p class="state-note">Gjennomgang pågår: indikatoren under toppfeltet er vedvarende og kan ikke lukkes. «Last opp dokument» er synlig, men utilgjengelig, med årsaken som synlig tekst ved knappen. Hjulet viser bare lagrede aktiviteter. Den oransje ringen på «Gå til gjennomgangen» illustrerer tastaturfokus; i appen vises den bare ved tastaturnavigasjon.</p>
+
+</body>
+</html>

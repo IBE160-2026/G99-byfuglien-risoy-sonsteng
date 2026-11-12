@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nøkkelmock F2 – Månedsvisning</title>
+<style>
+/*
+  NØKKELMOCK F2 MÅNEDSVISNING – statisk illustrasjon (BMAD key-screens), ikke implementasjon.
+  Spinene vinner ved konflikt: DESIGN.md og EXPERIENCE.md går foran denne filen.
+
+  Styrende spine-seksjoner:
+  - DESIGN.md: frontmatter-tokener (colors, typography, rounded, spacing, components);
+    Typography (sidetittel «Mars 2026», aktivitet i månedscelle, metadata, tabulære tall);
+    Layout & Spacing (F2-rad: toppfelt med månedsnavigasjon og «Til årsvisning»; rutenett med
+    ukenummerkolonne og mandag–søndag); Elevation & Depth (kanter, ikke skygger); Shapes;
+    Components: Primærknapp, Sekundærknapp, Periodenavigasjon, Månedsrutenett, Dagsoversikt,
+    Kategorimerke (bokstavkode), Fokusring.
+  - EXPERIENCE.md: Kategoriliste og klassifisering (F2-raden); Information Architecture
+    (F2 inkl. dagsoversikt, Inngangspunkter); Component Patterns: Månedsrutenett (M6-1, maks to
+    blokker, «+N flere» er knapp, fortsettelsesmerking), Dagsoversikt (ikke modal, «Lukk»,
+    fokus tilbake til «+N flere»), Periodenavigasjon; State Patterns: F2 «Mer enn to aktiviteter
+    én dag», «Flerdagsaktivitet over måneds- eller årsskifte»; Accessibility Floor (F2).
+  - Layout og data: .working/flow-f2-f3-manedsvisning-v3-2026-11-03.excalidraw
+    (A månedsvisning mars 2026, B dagsoversikt 18. mars). C (F3) og D (IKKE VALGT) brukes ikke.
+  - Visuell konsistens: .working/key-f1-arsvisning.html.
+
+  Merknader:
+  - Fiktive data: de 20 marsaktivitetene fra F2/F3 v3-skissen (memlog 2026-11-11), uendret.
+    16 vises som blokker, 4 ligger bak «+1 flere» (12.3) og «+3 flere» (18.3).
+  - Ordlyd er foreløpig og skal språkvaskes [FORELØPIG].
+  - Ingen JavaScript: navigasjon, «+N flere», «Lukk», Esc og fokusretur er ikke implementert.
+  - Valgt måned i navigasjonen vises som sidetittel «Mars 2026» (typography.page-title);
+    markeringen fra F1-vedtaket 2026-11-12 (valgt kalenderår) er ikke utvidet til F2.
+  - Størrelser og lesbarhet er ikke testet på PC eller projektor [VALIDERES].
+*/
+
+:root {
+  --background: #FFFFFF;
+  --panel: #F3F5F8;
+  --text: #0B0B0B;
+  --text-muted: #3E3E3E;
+  --line-hairline: #BDBDBD;
+  --line-strong: #0B0B0B;
+  --primary: #0B0B0B;
+  --on-primary: #FFFFFF;
+  --focus: #C75000;
+  --focus-offset: #FFFFFF;
+
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --rounded-full: 9999px;
+  --rounded-lg: 16px;
+  --rounded-md: 10px;
+
+  --s1: 4px; --s2: 8px; --s3: 16px; --s4: 24px; --s5: 32px; --s6: 48px;
+  --target-min: 44px;
+
+  --ukekol: 72px;
+}
+
+* { box-sizing: border-box; }
+
+/* ---------- Side rundt mockene (ikke del av appen) ---------- */
+body {
+  margin: 0;
+  padding: 40px;
+  background: #E9EBEF;
+  color: var(--text);
+  font-family: var(--font);
+}
+.mock-banner {
+  max-width: 1680px;
+  margin: 0 auto 32px;
+  padding: 12px 20px;
+  border: 1px dashed var(--text-muted);
+  background: var(--background);
+  font-size: 16px;
+  line-height: 1.4;
+}
+.mock-banner strong { font-weight: 600; }
+.state-title {
+  max-width: 1680px;
+  margin: 0 auto 12px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.state-note {
+  max-width: 1680px;
+  margin: 12px auto 48px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+/* ---------- Nettleserramme ---------- */
+.browser {
+  max-width: 1680px;
+  margin: 0 auto;
+  border: 1px solid var(--line-hairline);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--background);
+}
+.browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 44px;
+  padding: 0 16px;
+  background: #DADDE2;
+  border-bottom: 1px solid var(--line-hairline);
+}
+.browser-dots { display: flex; gap: 8px; }
+.browser-dots span {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #A9ADB4;
+}
+.browser-address {
+  flex: 1;
+  max-width: 640px;
+  height: 28px;
+  padding: 0 14px;
+  border-radius: var(--rounded-full);
+  background: var(--background);
+  font-size: 14px;
+  line-height: 28px;
+  color: var(--text-muted);
+}
+
+/* ---------- App ---------- */
+.app {
+  background: var(--background);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Toppfelt */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s5);
+  border-bottom: 1px solid var(--line-hairline);
+}
+.topbar .mellomrom { margin-left: auto; }
+
+/* Periodenavigasjon (måned) */
+.periodenav {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+.periodenav .sep { color: var(--text-muted); font-weight: 400; }
+.periodenav h1 {
+  margin: 0;
+  padding: 0 var(--s3);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Knapper */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--target-min);
+  padding: 0 var(--s4);
+  border-radius: var(--rounded-full);
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primaer {
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2px solid var(--primary);
+}
+.btn-sekundaer {
+  background: var(--background);
+  color: var(--text);
+  border: 2px solid var(--line-strong);
+}
+.btn-nav {
+  min-width: var(--target-min);
+  padding: 0 var(--s3);
+  background: var(--background);
+  color: var(--text);
+  border: 2px solid transparent;
+}
+
+/* Fokusring – bare ved tastaturfokus */
+button:focus { outline: none; }
+button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--focus-offset);
+}
+
+/* Hovedinnhold */
+.innhold {
+  padding: var(--s4) var(--s5) var(--s5);
+}
+
+/* ---------- Månedsrutenett ---------- */
+.kalender {
+  position: relative;
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--rounded-lg);
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.ukehode,
+.uke {
+  display: grid;
+  grid-template-columns: var(--ukekol) repeat(7, minmax(0, 1fr));
+}
+.ukehode > div {
+  padding: var(--s2) var(--s3);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  border-left: 1px solid var(--line-hairline);
+  background: var(--background);
+}
+.ukehode > div:first-child { border-left: 0; }
+
+.uke {
+  grid-template-rows: var(--target-min) minmax(56px, auto) minmax(56px, auto);
+  padding-bottom: var(--s2);
+  border-top: 1px solid var(--line-hairline);
+}
+.ukenr {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  padding: var(--s2) var(--s3);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.dag {
+  grid-row: 1 / -1;
+  margin-bottom: calc(-1 * var(--s2));
+  border-left: 1px solid var(--line-hairline);
+}
+.dag.utenfor { background: var(--panel); }
+.dato {
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--s1) 0 var(--s3);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  position: relative;
+}
+.dato.utenfor { color: var(--text-muted); font-weight: 400; }
+
+/* «+N flere» – knapp som åpner dagsoversikten */
+.flere {
+  min-height: var(--target-min);
+  padding: 0 var(--s2);
+  background: transparent;
+  border: 0;
+  border-radius: var(--rounded-md);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Aktivitetsblokk */
+.akt {
+  position: relative;
+  align-self: start;
+  margin: 0 6px 6px;
+  padding: 4px 10px 5px;
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--rounded-md);
+  font-family: var(--font);
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+.akt .tittel {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+.akt .meta {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+.l1 { grid-row: 2; }
+.l2 { grid-row: 3; }
+
+/* Dagsoversikt (B) – utvidbar liste i månedsvisningen, ikke modal */
+.dag.anker { box-shadow: inset 0 0 0 2px var(--line-strong); }
+.dagsoversikt {
+  position: absolute;
+  z-index: 2;
+  top: 200px;
+  left: calc(var(--ukekol) + (100% - var(--ukekol)) * 3 / 7 + 12px);
+  width: calc((100% - var(--ukekol)) * 3 / 7 - 24px);
+  min-width: 440px;
+  padding: var(--s4);
+  background: var(--background);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--rounded-lg);
+}
+.dagsoversikt h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.dagsoversikt .hjelp {
+  margin: var(--s1) 0 var(--s3);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+.dagsoversikt ul {
+  list-style: none;
+  margin: 0 0 var(--s3);
+  padding: 0;
+  display: grid;
+  row-gap: var(--s2);
+}
+.dag-rad {
+  display: block;
+  width: 100%;
+  padding: var(--s2) var(--s3);
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--rounded-md);
+  font-family: var(--font);
+  text-align: left;
+  cursor: pointer;
+}
+.dag-rad .tittel {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.dag-rad .meta {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+.dagsoversikt .handling { display: flex; justify-content: flex-end; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Mindre PC-skjermer (f.eks. 1366 og 1440 px): samme layout, smalere marger og knapper.
+   Skriftstørrelser og tokener er uendret (som i F1-mocken). */
+@media (max-width: 1599px) {
+  body { padding: var(--s3); }
+  .mock-banner, .state-title, .state-note { max-width: none; }
+  .topbar { padding: var(--s3) var(--s4); gap: var(--s2); }
+  .innhold { padding: var(--s4); }
+  .btn { padding: 0 var(--s3); }
+  .btn-nav { padding: 0 var(--s2); }
+  .periodenav h1 { padding: 0 var(--s2); }
+}
+</style>
+</head>
+<body>
+
+<p class="mock-banner"><strong>Nøkkelmock F2 Månedsvisning</strong> – statisk illustrasjon, ikke endelig implementasjon. Fiktive data. Ordlyd foreløpig. DESIGN.md og EXPERIENCE.md vinner ved konflikt. Ikke testet på projektor, med tastatur eller skjermleser.</p>
+
+<!-- ===================================================================== -->
+<!-- A · HOVEDTILSTAND – MARS 2026                                         -->
+<!-- ===================================================================== -->
+<h2 class="state-title">A · Månedsvisning – mars 2026 (hovedtilstand)</h2>
+
+<div class="browser">
+  <div class="browser-chrome" aria-hidden="true">
+    <div class="browser-dots"><span></span><span></span><span></span></div>
+    <div class="browser-address">localhost</div>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <nav class="periodenav" aria-label="Måned">
+        <button class="btn btn-nav" type="button" aria-label="Forrige måned (februar 2026)">◀</button>
+        <button class="btn btn-nav" type="button">Februar 2026</button>
+        <span class="sep" aria-hidden="true">|</span>
+        <h1 aria-current="page">Mars 2026</h1>
+        <span class="sep" aria-hidden="true">|</span>
+        <button class="btn btn-nav" type="button">April 2026</button>
+        <button class="btn btn-nav" type="button" aria-label="Neste måned (april 2026)">▶</button>
+      </nav>
+      <button class="btn btn-sekundaer" type="button">Til årsvisning (2026)</button>
+      <span class="mellomrom"></span>
+      <button class="btn btn-primaer" type="button">Ny aktivitet</button>
+      <button class="btn btn-sekundaer" type="button">Last opp dokument</button>
+    </header>
+
+    <main class="innhold">
+      <div class="kalender">
+        <div class="ukehode" aria-hidden="true">
+          <div>Uke</div><div>Man</div><div>Tir</div><div>Ons</div><div>Tor</div><div>Fre</div><div>Lør</div><div>Søn</div>
+        </div>
+
+        <!-- Uke 9: 23.2–1.3. Dager i februar er grå og viser ingen aktiviteter (M6-1). -->
+        <div class="uke">
+          <div class="ukenr">Uke 9</div>
+          <div class="dag utenfor" style="grid-column:2"></div><div class="dag utenfor" style="grid-column:3"></div><div class="dag utenfor" style="grid-column:4"></div><div class="dag utenfor" style="grid-column:5"></div><div class="dag utenfor" style="grid-column:6"></div><div class="dag utenfor" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato utenfor" style="grid-column:2">23.2</div><div class="dato utenfor" style="grid-column:3">24.2</div><div class="dato utenfor" style="grid-column:4">25.2</div><div class="dato utenfor" style="grid-column:5">26.2</div><div class="dato utenfor" style="grid-column:6">27.2</div><div class="dato utenfor" style="grid-column:7">28.2</div><div class="dato" style="grid-column:8">1</div>
+          <button class="akt l1" type="button" style="grid-column:8"><span class="tittel">Overføring av personell</span><span class="meta">[P] forts. →</span></button>
+        </div>
+
+        <!-- Uke 10: 2.3–8.3 -->
+        <div class="uke">
+          <div class="ukenr">Uke 10</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag" style="grid-column:4"></div><div class="dag" style="grid-column:5"></div><div class="dag" style="grid-column:6"></div><div class="dag" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">2</div><div class="dato" style="grid-column:3">3</div><div class="dato" style="grid-column:4">4</div><div class="dato" style="grid-column:5">5</div><div class="dato" style="grid-column:6">6</div><div class="dato" style="grid-column:7">7</div><div class="dato" style="grid-column:8">8</div>
+          <button class="akt l1" type="button" style="grid-column:2"><span class="tittel">Overføring av personell</span><span class="meta">[P] ← forts.</span></button>
+          <button class="akt l1" type="button" style="grid-column:4"><span class="tittel">Planleggings&shy;møte</span><span class="meta">[M]</span></button>
+          <button class="akt l1" type="button" style="grid-column:6"><span class="tittel">Sanitetsdrill</span><span class="meta">[U]</span></button>
+          <button class="akt l2" type="button" style="grid-column:2 / 9"><span class="tittel">Vinterøvelse</span><span class="meta">[Ø] 2.3–13.3 · forts. neste uke →</span></button>
+        </div>
+
+        <!-- Uke 11: 9.3–15.3. 12.3 har tre aktiviteter: to blokker + «+1 flere» (Frist: vaktliste). -->
+        <div class="uke">
+          <div class="ukenr">Uke 11</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag" style="grid-column:4"></div><div class="dag" style="grid-column:5"></div><div class="dag" style="grid-column:6"></div><div class="dag" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">9</div><div class="dato" style="grid-column:3">10</div><div class="dato" style="grid-column:4">11</div><div class="dato" style="grid-column:5">12 <button class="flere" type="button">+1 flere</button></div><div class="dato" style="grid-column:6">13</div><div class="dato" style="grid-column:7">14</div><div class="dato" style="grid-column:8">15</div>
+          <button class="akt l1" type="button" style="grid-column:3 / 5"><span class="tittel">Sambandsøvelse</span><span class="meta">[Ø] 10.–11.3</span></button>
+          <button class="akt l1" type="button" style="grid-column:5"><span class="tittel">Lagførermøte</span><span class="meta">[M]</span></button>
+          <button class="akt l1" type="button" style="grid-column:6"><span class="tittel">Evaluering øvelse</span><span class="meta">[E]</span></button>
+          <button class="akt l2" type="button" style="grid-column:2 / 7"><span class="tittel">Vinterøvelse (forts.)</span><span class="meta">← forts. · [Ø] 2.3–13.3</span></button>
+        </div>
+
+        <!-- Uke 12: 16.3–22.3. 18.3 har fem aktiviteter: to blokker + «+3 flere». -->
+        <div class="uke">
+          <div class="ukenr">Uke 12</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag" style="grid-column:4"></div><div class="dag" style="grid-column:5"></div><div class="dag" style="grid-column:6"></div><div class="dag" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">16</div><div class="dato" style="grid-column:3">17</div><div class="dato" style="grid-column:4">18 <button class="flere" type="button" aria-expanded="false">+3 flere</button></div><div class="dato" style="grid-column:5">19</div><div class="dato" style="grid-column:6">20</div><div class="dato" style="grid-column:7">21</div><div class="dato" style="grid-column:8">22</div>
+          <button class="akt l1" type="button" style="grid-column:2"><span class="tittel">Frist: materiell&shy;status</span><span class="meta">[F]</span></button>
+          <button class="akt l1" type="button" style="grid-column:4 / 6"><span class="tittel">Førstehjelpskurs</span><span class="meta">[U] 18.–19.3</span></button>
+          <button class="akt l1" type="button" style="grid-column:6"><span class="tittel">Fysisk test</span><span class="meta">[U]</span></button>
+          <button class="akt l2" type="button" style="grid-column:4"><span class="tittel">Koordinerings&shy;møte</span><span class="meta">[M]</span></button>
+        </div>
+
+        <!-- Uke 13: 23.3–29.3 -->
+        <div class="uke">
+          <div class="ukenr">Uke 13</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag" style="grid-column:4"></div><div class="dag" style="grid-column:5"></div><div class="dag" style="grid-column:6"></div><div class="dag" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">23</div><div class="dato" style="grid-column:3">24</div><div class="dato" style="grid-column:4">25</div><div class="dato" style="grid-column:5">26</div><div class="dato" style="grid-column:6">27</div><div class="dato" style="grid-column:7">28</div><div class="dato" style="grid-column:8">29</div>
+          <button class="akt l1" type="button" style="grid-column:3"><span class="tittel">Skytedag</span><span class="meta">[Ø]</span></button>
+          <button class="akt l1" type="button" style="grid-column:5"><span class="tittel">Inspeksjon</span><span class="meta">[E]</span></button>
+          <button class="akt l2" type="button" style="grid-column:4 / 7"><span class="tittel">Kjøretøykurs</span><span class="meta">[U] 25.–27.3</span></button>
+        </div>
+
+        <!-- Uke 14: 30.3–5.4. Dager i april er grå; Påskeforberedelser (31.3–3.4) vises bare 31.3 (M6-1). -->
+        <div class="uke">
+          <div class="ukenr">Uke 14</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag utenfor" style="grid-column:4"></div><div class="dag utenfor" style="grid-column:5"></div><div class="dag utenfor" style="grid-column:6"></div><div class="dag utenfor" style="grid-column:7"></div><div class="dag utenfor" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">30</div><div class="dato" style="grid-column:3">31</div><div class="dato utenfor" style="grid-column:4">1.4</div><div class="dato utenfor" style="grid-column:5">2.4</div><div class="dato utenfor" style="grid-column:6">3.4</div><div class="dato utenfor" style="grid-column:7">4.4</div><div class="dato utenfor" style="grid-column:8">5.4</div>
+          <button class="akt l1" type="button" style="grid-column:2"><span class="tittel">Månedsmøte</span><span class="meta">[M]</span></button>
+          <button class="akt l1" type="button" style="grid-column:3"><span class="tittel">Påske&shy;forberedelser – materiell&shy;klargjøring</span><span class="meta">[L] forts. →</span></button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<p class="state-note">Hovedtilstand: alle ISO-uker som berører mars (uke 9–14), men bare aktiviteter som berører mars (M6-1). Maks to aktivitetsblokker per dag; 12.3 og 18.3 har flere, og «+N flere» åpner dagsoversikten. Flerdagsaktiviteter vises som én blokk per ukerad med fortsettelsesmerking. 20 aktiviteter: 16 som blokker og 4 bak «+N flere».</p>
+
+<!-- ===================================================================== -->
+<!-- B · DAGSOVERSIKT 18. MARS                                             -->
+<!-- ===================================================================== -->
+<h2 class="state-title">B · Dagsoversikt 18. mars (i månedsvisningen)</h2>
+
+<div class="browser">
+  <div class="browser-chrome" aria-hidden="true">
+    <div class="browser-dots"><span></span><span></span><span></span></div>
+    <div class="browser-address">localhost</div>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <nav class="periodenav" aria-label="Måned">
+        <button class="btn btn-nav" type="button" aria-label="Forrige måned (februar 2026)">◀</button>
+        <button class="btn btn-nav" type="button">Februar 2026</button>
+        <span class="sep" aria-hidden="true">|</span>
+        <h1 aria-current="page">Mars 2026</h1>
+        <span class="sep" aria-hidden="true">|</span>
+        <button class="btn btn-nav" type="button">April 2026</button>
+        <button class="btn btn-nav" type="button" aria-label="Neste måned (april 2026)">▶</button>
+      </nav>
+      <button class="btn btn-sekundaer" type="button">Til årsvisning (2026)</button>
+      <span class="mellomrom"></span>
+      <button class="btn btn-primaer" type="button">Ny aktivitet</button>
+      <button class="btn btn-sekundaer" type="button">Last opp dokument</button>
+    </header>
+
+    <main class="innhold">
+      <div class="kalender">
+        <div class="ukehode" aria-hidden="true">
+          <div>Uke</div><div>Man</div><div>Tir</div><div>Ons</div><div>Tor</div><div>Fre</div><div>Lør</div><div>Søn</div>
+        </div>
+
+        <div class="uke">
+          <div class="ukenr">Uke 9</div>
+          <div class="dag utenfor" style="grid-column:2"></div><div class="dag utenfor" style="grid-column:3"></div><div class="dag utenfor" style="grid-column:4"></div><div class="dag utenfor" style="grid-column:5"></div><div class="dag utenfor" style="grid-column:6"></div><div class="dag utenfor" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato utenfor" style="grid-column:2">23.2</div><div class="dato utenfor" style="grid-column:3">24.2</div><div class="dato utenfor" style="grid-column:4">25.2</div><div class="dato utenfor" style="grid-column:5">26.2</div><div class="dato utenfor" style="grid-column:6">27.2</div><div class="dato utenfor" style="grid-column:7">28.2</div><div class="dato" style="grid-column:8">1</div>
+          <button class="akt l1" type="button" style="grid-column:8"><span class="tittel">Overføring av personell</span><span class="meta">[P] forts. →</span></button>
+        </div>
+
+        <div class="uke">
+          <div class="ukenr">Uke 10</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag" style="grid-column:4"></div><div class="dag" style="grid-column:5"></div><div class="dag" style="grid-column:6"></div><div class="dag" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">2</div><div class="dato" style="grid-column:3">3</div><div class="dato" style="grid-column:4">4</div><div class="dato" style="grid-column:5">5</div><div class="dato" style="grid-column:6">6</div><div class="dato" style="grid-column:7">7</div><div class="dato" style="grid-column:8">8</div>
+          <button class="akt l1" type="button" style="grid-column:2"><span class="tittel">Overføring av personell</span><span class="meta">[P] ← forts.</span></button>
+          <button class="akt l1" type="button" style="grid-column:4"><span class="tittel">Planleggings&shy;møte</span><span class="meta">[M]</span></button>
+          <button class="akt l1" type="button" style="grid-column:6"><span class="tittel">Sanitetsdrill</span><span class="meta">[U]</span></button>
+          <button class="akt l2" type="button" style="grid-column:2 / 9"><span class="tittel">Vinterøvelse</span><span class="meta">[Ø] 2.3–13.3 · forts. neste uke →</span></button>
+        </div>
+
+        <div class="uke">
+          <div class="ukenr">Uke 11</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag" style="grid-column:4"></div><div class="dag" style="grid-column:5"></div><div class="dag" style="grid-column:6"></div><div class="dag" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">9</div><div class="dato" style="grid-column:3">10</div><div class="dato" style="grid-column:4">11</div><div class="dato" style="grid-column:5">12 <button class="flere" type="button">+1 flere</button></div><div class="dato" style="grid-column:6">13</div><div class="dato" style="grid-column:7">14</div><div class="dato" style="grid-column:8">15</div>
+          <button class="akt l1" type="button" style="grid-column:3 / 5"><span class="tittel">Sambandsøvelse</span><span class="meta">[Ø] 10.–11.3</span></button>
+          <button class="akt l1" type="button" style="grid-column:5"><span class="tittel">Lagførermøte</span><span class="meta">[M]</span></button>
+          <button class="akt l1" type="button" style="grid-column:6"><span class="tittel">Evaluering øvelse</span><span class="meta">[E]</span></button>
+          <button class="akt l2" type="button" style="grid-column:2 / 7"><span class="tittel">Vinterøvelse (forts.)</span><span class="meta">← forts. · [Ø] 2.3–13.3</span></button>
+        </div>
+
+        <!-- 18.3 er ankeret: dagruta har sterk ramme, «+3 flere» er utvidet. -->
+        <div class="uke">
+          <div class="ukenr">Uke 12</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag anker" style="grid-column:4"></div><div class="dag" style="grid-column:5"></div><div class="dag" style="grid-column:6"></div><div class="dag" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">16</div><div class="dato" style="grid-column:3">17</div><div class="dato" style="grid-column:4">18 <button class="flere" type="button" aria-expanded="true" aria-controls="dagsoversikt-18">+3 flere</button></div><div class="dato" style="grid-column:5">19</div><div class="dato" style="grid-column:6">20</div><div class="dato" style="grid-column:7">21</div><div class="dato" style="grid-column:8">22</div>
+          <button class="akt l1" type="button" style="grid-column:2"><span class="tittel">Frist: materiell&shy;status</span><span class="meta">[F]</span></button>
+          <button class="akt l1" type="button" style="grid-column:4 / 6"><span class="tittel">Førstehjelpskurs</span><span class="meta">[U] 18.–19.3</span></button>
+          <button class="akt l1" type="button" style="grid-column:6"><span class="tittel">Fysisk test</span><span class="meta">[U]</span></button>
+          <button class="akt l2" type="button" style="grid-column:4"><span class="tittel">Koordinerings&shy;møte</span><span class="meta">[M]</span></button>
+        </div>
+
+        <div class="uke">
+          <div class="ukenr">Uke 13</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag" style="grid-column:4"></div><div class="dag" style="grid-column:5"></div><div class="dag" style="grid-column:6"></div><div class="dag" style="grid-column:7"></div><div class="dag" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">23</div><div class="dato" style="grid-column:3">24</div><div class="dato" style="grid-column:4">25</div><div class="dato" style="grid-column:5">26</div><div class="dato" style="grid-column:6">27</div><div class="dato" style="grid-column:7">28</div><div class="dato" style="grid-column:8">29</div>
+          <button class="akt l1" type="button" style="grid-column:3"><span class="tittel">Skytedag</span><span class="meta">[Ø]</span></button>
+          <button class="akt l1" type="button" style="grid-column:5"><span class="tittel">Inspeksjon</span><span class="meta">[E]</span></button>
+          <button class="akt l2" type="button" style="grid-column:4 / 7"><span class="tittel">Kjøretøykurs</span><span class="meta">[U] 25.–27.3</span></button>
+        </div>
+
+        <div class="uke">
+          <div class="ukenr">Uke 14</div>
+          <div class="dag" style="grid-column:2"></div><div class="dag" style="grid-column:3"></div><div class="dag utenfor" style="grid-column:4"></div><div class="dag utenfor" style="grid-column:5"></div><div class="dag utenfor" style="grid-column:6"></div><div class="dag utenfor" style="grid-column:7"></div><div class="dag utenfor" style="grid-column:8"></div>
+          <div class="dato" style="grid-column:2">30</div><div class="dato" style="grid-column:3">31</div><div class="dato utenfor" style="grid-column:4">1.4</div><div class="dato utenfor" style="grid-column:5">2.4</div><div class="dato utenfor" style="grid-column:6">3.4</div><div class="dato utenfor" style="grid-column:7">4.4</div><div class="dato utenfor" style="grid-column:8">5.4</div>
+          <button class="akt l1" type="button" style="grid-column:2"><span class="tittel">Månedsmøte</span><span class="meta">[M]</span></button>
+          <button class="akt l1" type="button" style="grid-column:3"><span class="tittel">Påske&shy;forberedelser – materiell&shy;klargjøring</span><span class="meta">[L] forts. →</span></button>
+        </div>
+
+        <!-- Dagsoversikt: ikke modal, ingen demping, ingen fokusfelle.
+             «Lukk» eller Esc lukker listen og fokus går tilbake til «+3 flere» (ikke implementert her).
+             Rekkefølge og innhold som i skisse B. Fullt kategorinavn i tilgjengelig tekst. -->
+        <section class="dagsoversikt" id="dagsoversikt-18" aria-labelledby="do-tittel">
+          <h2 id="do-tittel">Onsdag 18. mars 2026 – 5 aktiviteter</h2>
+          <p class="hjelp">Velg en aktivitet for å se detaljene</p>
+          <ul>
+            <li><button class="dag-rad" type="button"><span class="tittel">Førstehjelpskurs</span><span class="meta">18.03.2026 – 19.03.2026 · [U]<span class="sr-only"> Utdanning og trening</span></span></button></li>
+            <li><button class="dag-rad" type="button"><span class="tittel">Koordineringsmøte</span><span class="meta">18.03.2026 · [M]<span class="sr-only"> Møter og planlegging</span></span></button></li>
+            <li><button class="dag-rad" type="button"><span class="tittel">Våpenkontroll</span><span class="meta">18.03.2026 · [L]<span class="sr-only"> Materiell og logistikk</span></span></button></li>
+            <li><button class="dag-rad" type="button"><span class="tittel">Frist: øvelsesrapport</span><span class="meta">18.03.2026 · [F]<span class="sr-only"> Frister</span></span></button></li>
+            <li><button class="dag-rad" type="button"><span class="tittel">Samtaler lagførere</span><span class="meta">18.03.2026 · [P]<span class="sr-only"> Personell og velferd</span></span></button></li>
+          </ul>
+          <div class="handling"><button class="btn btn-sekundaer" type="button">Lukk</button></div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+<p class="state-note">Dagsoversikt: utvidbar liste i månedsvisningen, åpnet med «+3 flere» på 18.3 – ikke modal, ingen demping av månedsvisningen. Viser alle fem aktiviteter den dagen: tittel på første linje, datoer og kategorikode på neste; fullt kategorinavn i tilgjengelig tekst. Valg av aktivitet åpner F3 som modal (ikke vist). «Lukk» eller Esc lukker listen med fokus tilbake til «+3 flere» (ikke implementert i mocken).</p>
+
+</body>
+</html>
