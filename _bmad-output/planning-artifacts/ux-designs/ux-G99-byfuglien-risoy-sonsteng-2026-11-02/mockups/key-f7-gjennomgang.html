@@ -25,14 +25,14 @@
     «Ingen eller ikke verifiserte kildeutdrag», «Fullføring sperret»; Interaction Primitives
     (validering, rekkefølge, ingen «godkjenn alle», automatisk videregang); Keyboard (F7);
     Key Flows UJ-1 (steg 3, E1, E1a, E4, E6, E9).
-  - Layout og data: .working/flow-f7-gjennomgang-v3-2026-11-03.excalidraw
+  - Layout og data: wireframes/flow-f7-gjennomgang-v3-2026-11-03.excalidraw
     (A oversikt synlig – standard; B oversikt skjult av brukeren). Historiske F7-skisser
     (v1, v2) er ikke brukt.
   - Memlog: F7-rekkefølge, oversikt og aktivt forslag, etter godkjenn/avvis, problemmerker
     (2026-11-03); oversikt synlig som standard; «Godkjenn» utilgjengelig ved blokkerende feil,
     godkjenning endrer ikke planen (2026-11-03); valgt/aktiv-markering (2026-11-09);
     OQ-3-presiseringer (2026-11-11); OQ-7/OQ-8 (2026-11-11).
-  - Visuell konsistens: .working/key-f1-arsvisning.html, key-f2-manedsvisning.html og
+  - Visuell konsistens: mockups/key-f1-arsvisning.html, key-f2-manedsvisning.html og
     key-f4-aktivitetsskjema.html (tokener, knapper, felt, «Må rettes», feiloppsummering).
 
   Merknader:
@@ -313,7 +313,7 @@ body {
   display: inline-block;
   padding: 0 6px;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 1.5;
   white-space: nowrap;
@@ -679,7 +679,7 @@ button:focus-visible, a:focus-visible {
               <button class="felt velg" id="f7a-kategori" type="button" aria-haspopup="listbox" aria-describedby="f7a-kategori-status">
                 <span>U – Utdanning og trening</span><span class="pil" aria-hidden="true">▾</span>
               </button>
-              <p class="kontrollmelding" id="f7a-kategori-status">? Kontroller: Usikker – kontroller mot kildeutdraget</p>
+              <p class="kontrollmelding" id="f7a-kategori-status">? Kontroller: Usikker – sammenlign med kildeutdraget</p>
             </div>
           </div>
 
@@ -730,7 +730,7 @@ Husk hørselvern og ammunisjonsliste.</textarea>
     <div class="handlingsrad">
       <button class="btn btn-sekundaer" type="button">Forkast gjennomgang</button>
       <div class="midt">
-        <p class="arsak" id="f7a-oppsummering-arsak">Kan ikke gå videre: 8 forslag er ikke behandlet. 1 godkjent forslag har felt som må rettes.</p>
+        <p class="arsak" id="f7a-oppsummering-arsak">Kan ikke gå til oppsummering ennå: 8 forslag er ikke behandlet. 1 godkjent forslag har felt som må rettes.</p>
         <button class="btn btn-sekundaer" type="button">Vis forslagene</button>
       </div>
       <button class="btn btn-primaer" type="button" aria-disabled="true" aria-describedby="f7a-oppsummering-arsak">Gå til oppsummering</button>
@@ -811,7 +811,7 @@ Husk hørselvern og ammunisjonsliste.</textarea>
               <button class="felt velg" id="f7b-kategori" type="button" aria-haspopup="listbox" aria-describedby="f7b-kategori-status">
                 <span>U – Utdanning og trening</span><span class="pil" aria-hidden="true">▾</span>
               </button>
-              <p class="kontrollmelding" id="f7b-kategori-status">? Kontroller: Usikker – kontroller mot kildeutdraget</p>
+              <p class="kontrollmelding" id="f7b-kategori-status">? Kontroller: Usikker – sammenlign med kildeutdraget</p>
             </div>
           </div>
 
@@ -862,7 +862,7 @@ Husk hørselvern og ammunisjonsliste.</textarea>
     <div class="handlingsrad">
       <button class="btn btn-sekundaer" type="button">Forkast gjennomgang</button>
       <div class="midt">
-        <p class="arsak" id="f7b-oppsummering-arsak">Kan ikke gå videre: 8 forslag er ikke behandlet. 1 godkjent forslag har felt som må rettes.</p>
+        <p class="arsak" id="f7b-oppsummering-arsak">Kan ikke gå til oppsummering ennå: 8 forslag er ikke behandlet. 1 godkjent forslag har felt som må rettes.</p>
         <button class="btn btn-sekundaer" type="button">Vis forslagene</button>
       </div>
       <button class="btn btn-primaer" type="button" aria-disabled="true" aria-describedby="f7b-oppsummering-arsak">Gå til oppsummering</button>

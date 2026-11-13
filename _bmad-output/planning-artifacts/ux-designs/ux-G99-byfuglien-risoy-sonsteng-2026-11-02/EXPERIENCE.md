@@ -7,22 +7,22 @@ sources:
   - '{planning_artifacts}/product-brief.md'
   - '{planning_artifacts}/tilbakemelding-product-brief.md'
   - 'docs/prd-validering/2026-11-01/'
-updated: 2026-11-11
+updated: 2026-11-13
 ---
 
 # KI-assistert interaktivt årshjul – EXPERIENCE.md (utkast)
 
-> **Status: førsteutkast (`status: draft`).** Kanoniske beslutninger står i `.memlog.md`; PRD-en styrer krav og begreper. OQ-3 ble avklart 2026-11-11. Dokumentet blir ikke `final` før OQ-7 er avklart og øvrige krav i workflowen er oppfylt; OQ-8 blokkerer ikke (gruppevedtak 2026-11-11, memlog).
+> **Status: utkast (`status: draft`).** Kanoniske beslutninger står i `.memlog.md`; PRD-en styrer krav og begreper. OQ-3 ble avklart 2026-11-11. Dokumentet blir ikke `final` før OQ-7 er avklart og øvrige krav i workflowen er oppfylt; OQ-8 blokkerer ikke (gruppevedtak 2026-11-11, memlog).
 >
 > **Statusmarkører**
-> - umerket = vedtatt (godkjent av Sebastian, bindende)
+> - umerket = vedtatt (godkjent av Sebastian eller prosjektgruppen, bindende)
 > - **[FORELØPIG]** = forslag, ikke godkjent
 > - **[ÅPENT: …]** / **[AVHENGER AV: …]** = åpent spørsmål med eier
 > - **[VALIDERES]** = må testes på PC, projektor, tastatur eller skjermleser; ikke testet ennå
 >
-> **Spinene vinner ved konflikt.** EXPERIENCE.md og DESIGN.md går foran wireframes og HTML-utkast i `.working/`. Wireframene er lavdetaljerte gråtoneskisser med fiktive data og foreløpig ordlyd. PNG-forhåndsvisningene er laget med en lokal, omtrentlig renderer; `.excalidraw`-filene er ikke åpnet i Excalidraw selv **[VALIDERES]**.
+> **Spinene vinner ved konflikt.** EXPERIENCE.md og DESIGN.md går foran wireframes i `wireframes/`, HTML-nøkkelmocker i `mockups/` og arbeidsfiler i `.working/`. Wireframene er lavdetaljerte gråtoneskisser med fiktive data og foreløpig ordlyd. PNG-forhåndsvisningene er laget med en lokal, omtrentlig renderer, ikke eksportert fra Excalidraw. Alle sju gjeldende `.excalidraw`-filer i `wireframes/` er åpnet i Excalidraw og bekreftet av Sebastian Byfuglien 2026-11-11 (memlog). Det er ikke en test på projektor, med tastatur eller skjermleser.
 >
-> **Prosjektstatus:** Den reviderte PRD-en (2026-11-01/02) er ikke validert på nytt etter BMAD-valideringen 2026-11-01. Valideringsfunnene gjelder teksten før revisjonen.
+> **Prosjektstatus:** Den reviderte PRD-en (sist oppdatert 2026-11-11) er ikke validert på nytt etter BMAD-valideringen 2026-11-01. Valideringsfunnene gjelder teksten før revisjonen.
 
 ## Foundation
 
@@ -106,15 +106,22 @@ flowchart LR
   F2 -->|"velg aktivitet"| F3["F3 Aktivitetsdetaljer"]
   DO -->|"velg aktivitet"| F3
   F3 -->|"Rediger"| F4["F4 Aktivitetsskjema"]
-  F4 -->|"Lagre / Avbryt"| F3
+  F4 -->|"Lagre / Avbryt (redigering)"| F3
+  F3 -->|"Lukk (åpnet fra rutenettet)"| F2
+  F3 -->|"Lukk (åpnet fra dagsoversikt)"| DO
   F3 -->|"Slett"| F5["F5 Slettebekreftelse"]
   F5 -->|"Avbryt"| F3
   F5 -->|"slettet"| F2
+  F5 -->|"slettet (åpnet fra dagsoversikt, dagen har fortsatt aktiviteter)"| DO
   F1 -->|"Ny aktivitet"| F4
   F2 -->|"Ny aktivitet"| F4
+  F4 -->|"Lagre / Avbryt (ny aktivitet fra F1)"| F1
+  F4 -->|"Lagre / Avbryt (ny aktivitet fra F2)"| F2
   F1 -->|"Last opp dokument"| F6["F6 Opplasting og analyse"]
   F2 -->|"Last opp dokument"| F6
   F6 -->|"forslag funnet"| F7["F7 Gjennomgang"]
+  F6 -->|"Lukk (startet fra F1)"| F1
+  F6 -->|"Lukk (startet fra F2)"| F2
   F7 -->|"Til årshjulet"| F1
   F1 -->|"Gå til gjennomgangen"| F7
   F2 -->|"Gå til gjennomgangen"| F7
@@ -122,6 +129,7 @@ flowchart LR
   F8 -->|"Tilbake til gjennomgangen"| F7
   F8 -->|"Fullfør og lagre"| F1
   F7 -->|"Forkast gjennomgang"| F8
+  F8 -->|"Forkast uten å lagre"| F1
 ```
 
 ### Inngangspunkter
@@ -143,7 +151,11 @@ Mens en gjennomgang er aktiv, vises en vedvarende stripe i både F1 og F2 med st
 | Avbrutt skjema (F4) | Der skjemaet ble åpnet fra (visningen eller F3) | Ingen melding |
 | Slettet aktivitet (F5), F3 åpnet fra rutenettet | Månedsvisningen (opprinnelig visning) | «‹Tittel› er slettet.» Fokus til varig element, f.eks. månedsoverskriften |
 | Slettet aktivitet (F5), F3 åpnet fra dagsoversikt | Oppdatert dagsoversikt hvis dagen fortsatt har aktiviteter, ellers månedsvisningen | Som over; fokus til dagsoversiktens overskrift eller månedsoverskriften |
+| «Lukk» i F3 åpnet fra rutenettet | Samme månedsvisning | Fokus tilbake til aktiviteten som åpnet modalen (gruppevedtak 2026-11-13) |
 | «Lukk» i F3 åpnet fra dagsoversikt | Samme dagsoversikt i samme måned | – |
+| Analyse med forslag (F6) | F7; gjennomgangen er aktiv | Se State Patterns › F6 «Forslag funnet» |
+| «Lukk» i F6 | F1 eller F2, der opplastingen ble startet | Fokus tilbake til «Last opp dokument» (gruppevedtak 2026-11-13) |
+| Feil, avvist fil eller ingen funn i F6 | Brukeren blir i den relevante F6-tilstanden til brukeren selv velger en tilgjengelig handling; ingen automatisk retur (gruppevedtak 2026-11-13) | Melding i dialogen, se State Patterns › F6 |
 | «Fullfør og lagre» (F8) vellykket | F1 | Antall lagrede aktiviteter og hvilke kalenderår de gjelder |
 | «Forkast uten å lagre» (F8) | F1, samme kalenderår som før gjennomgangen | «Gjennomgangen er forkastet. Ingen aktiviteter ble lagret.» Opplasting tilgjengelig igjen |
 | «← Til årshjulet» i F7 | F1 | Gjennomgangen er fortsatt aktiv; indikatoren vises |
@@ -185,21 +197,21 @@ Faste formuleringer (vedtatt):
 | Handlinger | «Gå til oppsummering», «Fullfør og lagre», «Forkast gjennomgang», «Fortsett gjennomgangen», «Forkast uten å lagre», «Prøv igjen», «Lukk», «Godkjenn», «Avvis», «Rediger», «Slett», «Avbryt», «Ny aktivitet», «Last opp dokument», «Gå til gjennomgangen» |
 | Påminnelse i F6 | «Bruk bare fiktive dokumenter – ikke last opp ekte dokumenter fra Forsvaret.» (fast og obligatorisk) |
 
-Eksempler fra wireframene **[FORELØPIG ordlyd]** – beholdes som foreløpig tekst og språkvaskes før ferdigstilling (vedtatt 2026-11-09):
+Eksempler fra wireframene, språkvasket og godkjent (gruppevedtak 2026-11-13): fire formuleringer er endret, og de øvrige er godkjent uendret. Tallene i eksemplene (f.eks. «120» og «8 forslag») er fiktive; tegngrensen er ikke fastsatt (OQ-8). Unntak: setningen om demo-modus i eksemplet om feilet analyse avventer OQ-7.
 
 | Gjør | Ikke gjør |
 |---|---|
 | «Kan ikke godkjennes ennå: Sluttdato og Ansvarsområde må rettes.» | «Ugyldig skjema» |
 | «! Må rettes: Ugyldig – sluttdato er før startdato» | «Feil i dato» |
-| «! Må rettes: Ugyldig – 120 tegn for mye. Teksten forkortes ikke automatisk.» | Stille forkorting av merknaden |
-| «? Kontroller: Usikker – kontroller mot kildeutdraget» | «Advarsel!» |
+| «! Må rettes: Ugyldig – 120 tegn for mye. Kort ned teksten eller fjern merknaden. Teksten forkortes ikke automatisk.» | Stille forkorting av merknaden |
+| «? Kontroller: Usikker – sammenlign med kildeutdraget» | «Advarsel!» |
 | «Verifisert – Teksten finnes i dokumentet. Det betyr ikke at forslaget er riktig.» | «Bekreftet av kilden» |
 | «Ikke verifisert – Teksten ble ikke funnet i dokumentet. Kontroller forslaget selv.» | «Kilde OK?» |
-| «Kan ikke gå videre: 8 forslag er ikke behandlet. 1 godkjent forslag har felt som må rettes.» | Grå knapp uten forklaring |
+| «Kan ikke gå til oppsummering ennå: 8 forslag er ikke behandlet. 1 godkjent forslag har felt som må rettes.» | Grå knapp uten forklaring |
 | «Opplasting er sperret mens en gjennomgang pågår. Fullfør eller forkast gjennomgangen først.» | Verktøytips som eneste forklaring |
-| «Lagringen mislyktes. Ingen aktiviteter er lagret. Valgene dine er beholdt – prøv igjen.» | «Feil 500» |
+| «Lagringen mislyktes. Ingen aktiviteter er lagret. Valgene dine er beholdt. Prøv igjen.» | «Feil 500» |
 | «Appen kontrollerer ikke om aktivitetene allerede finnes i planen. Mulige duplikater må du sjekke selv.» | Å antyde duplikatkontroll |
-| «Analysen kunne ikke gjennomføres. Språkmodellen svarte ikke eller ga et ugyldig svar. Planen er uendret. Demo-modus finnes for støttede testdokumenter.» | Automatisk overgang til demo-modus |
+| «Analysen kunne ikke gjennomføres. Språkmodellen svarte ikke eller ga et ugyldig svar. Planen er uendret. Demo-modus finnes for støttede testdokumenter.» Setningen om demo-modus **[AVHENGER AV: OQ-7 – arkitektur]** | Automatisk overgang til demo-modus |
 | «Dokumentet kan ikke leses. Skannede PDF-er og bilder støttes ikke. Bruk .docx eller tekstbasert PDF.» | «Ugyldig fil» |
 | «Fant ingen aktiviteter i «Notat_FIKTIV.docx». Planen er uendret.» | Tom gjennomgang |
 | «Slette aktiviteten? «Koordineringsmøte» (18.03.2026) fjernes fra planen. Slettingen kan ikke angres.» | «Er du sikker?» |
@@ -220,16 +232,16 @@ Atferd. Utseende står i DESIGN.md › Components med samme navn.
 | **Deaktivert kontroll med årsak** | «Godkjenn», «Gå til oppsummering», «Last opp dokument» under aktiv gjennomgang, «Analyser dokumentet» før fil er valgt | Kontrollen er synlig, men utilgjengelig. Årsaken står som synlig tekst ved kontrollen og er knyttet til den for skjermleser – aldri hover eller farge alene. Årsaken oppdateres når et felt forlates eller endres. Ingen generell regel om at utilgjengelige kontroller skal kunne få fokus. Per komponent velges vanlig `disabled` eller `aria-disabled`; brukes `aria-disabled`, må aktivering faktisk hindres. Forklaringen må uansett være tilgjengelig med tastatur og skjermleser (vedtatt 2026-11-09) **[VALIDERES]**. |
 | **Panel** | Gruppering | Ingen egen atferd. |
 | **Fokusring** | Alle interaktive elementer | Vises bare ved tastaturfokus (`:focus-visible`), ikke ved museklikk. Ingen andre betydninger. |
-| **Valgt/aktiv-markering** | Valgt måned i F1, aktivt forslag i F7 | Skilles fra fokus og fra blokkerende feil. Bæres av tekst («Valgt: Mars 2026», «Aktiv»). I F1 markeres sist besøkte måned nøytralt når brukeren kommer tilbake fra F2 (vedtatt 2026-11-09). Aldri oransje. |
-| **Felt med etikett** | F4, aktivt forslag i F7 | Synlig etikett over feltet. «(obligatorisk)» som tekst. Kategori er nedtrekksliste med bare kategorilisten (de ni vedtatte kategoriene) – ingen fritekst, ingen «opprett ny» (FR-1, FR-2). Datoer i formatet dd.mm.åååå, med både tastaturinntasting og datovelger (vedtatt 2026-11-09). Merknader har tegnteller **[AVHENGER AV: OQ-8 – arkitektur]** for grensen. |
+| **Valgt/aktiv-markering** | Valgt måned i F1, valgt kalenderår i F1, aktivt forslag i F7 | Skilles fra fokus og fra blokkerende feil. Bæres av tekst («Valgt: Mars 2026», «Aktiv»). I F1 markeres sist besøkte måned nøytralt når brukeren kommer tilbake fra F2 (vedtatt 2026-11-09). Valgt kalenderår i årvelgeren i F1 bruker samme nøytrale markering i begge F1-tilstander, tydelig forskjellig fra primærknappen «Ny aktivitet» (gruppevedtak 2026-11-12, alternativ B; ingen nye navigasjonsregler eller komponenter). I kalenderårvelgeren er årstallet (f.eks. «2026») sammen med den nøytrale markeringen og `aria-current` tilstrekkelig; ordet «Valgt:» kreves ikke der. Presiseringen gjelder bare denne velgeren, ikke andre komponenter (gruppevedtak 2026-11-13). Aldri oransje. |
+| **Felt med etikett** | F4, aktivt forslag i F7 | Synlig etikett over feltet. «(obligatorisk)» som tekst. Kategori er nedtrekksliste med bare kategorilisten (de ni vedtatte kategoriene) – ingen fritekst, ingen «opprett ny» (FR-1, FR-2). Datoer i formatet dd.mm.åååå, med både tastaturinntasting og datovelger (vedtatt 2026-11-09). Merknader har tegnteller **[AVHENGER AV: OQ-8 – arkitektur]** for grensen. Formulering i den godkjente F4-mocken (2026-11-13): «0 tegn» for tom merknad og «N tegn over grensen» når merknaden er for lang. Telleren fastsetter ingen grense; tallene i mockene er fiktive. |
 | **Feltstatusmelding** | Under felt i F4 og F7 | «Må rettes» (manglende/ugyldig) blokkerer lagring og godkjenning; «Kontroller» (usikker) blokkerer ikke. Status står direkte ved feltet, uten hover. KI-status vises straks; brukerendrede felt valideres når feltet forlates og ved lagring. Avhengige felt vurderes på nytt (f.eks. forsvinner «ugyldig sluttdato» når startdatoen rettes). Når brukeren har endret et felt, gjelder ikke lenger KI-statusen (FR-22). Fritekst med bare mellomrom = manglende (FR-2). |
 | **Feiloppsummering** | F4 ved «Lagre» med feil; aktivt forslag i F7 | Lister feltene som må rettes. I F4 flyttes fokus til første relevante feil. Hvert felt i oppsummeringen er en lenke som flytter fokus til feltet (vedtatt 2026-11-09). |
 | **Kildeutdragskort** | F7 | Ett kort per kildeutdrag, vist samtidig med forslagets felt (FR-27). Status per utdrag (FR-28). Tomt utdrag eller bare mellomrom/linjeskift = mangler, ikke verifisert. Mangler/ikke verifisert blokkerer ikke godkjenning (FR-29). Ren tekst (NFR-9). Ingen dokumentviser eller navigasjon i dokumentet (§4.5). |
 | **Kategorimerke** | F1, F2, F3, F7 | Viser kategori som bokstavkode (og antall i F1). Samme identitet i F1 og F2 og mellom økter (FR-12). Koder: Ø, U, S, M, P, L, E, F, A – se Kategoriliste og klassifisering (gruppevedtak 2026-11-11). |
-| **Modal/dialog** | F3–F5 (én modal som bytter innhold), F6, bekreftelser i F7/F8 | **Én aktiv modal om gangen** (vedtatt 2026-11-09). F4 og F5 erstatter F3-innholdet i samme modal; «Avbryt» i F5 viser F3 igjen med samme aktivitet. «Forkaste endringene?» vises inne i samme modal. Ingen stablede modaler eller konkurrerende fokusfeller. Fokus holdes inne. Esc = trygt valg (unntak: under analyse i F6 gjør Esc ingenting). Fokus tilbake til elementet som åpnet modalen. Dagsoversikten er ikke en modal (se Dagsoversikt). Ved åpning av skjema får «Tittel» (F4) eller «Velg fil» (F6) innledende fokus (vedtatt 2026-11-09). I dialoger står det trygge standardvalget først/til venstre, destruktiv handling til høyre. |
+| **Modal/dialog** | F3–F5 (én modal som bytter innhold), F6, forkastingsdialogen i F8 (over F7) | **Én aktiv modal om gangen** (vedtatt 2026-11-09). F4 og F5 erstatter F3-innholdet i samme modal; «Avbryt» i F5 viser F3 igjen med samme aktivitet. «Forkaste endringene?» vises inne i samme modal. Ingen stablede modaler eller konkurrerende fokusfeller. Fokus holdes inne. Esc = trygt valg (unntak: under analyse i F6 gjør Esc ingenting). Fokus tilbake til elementet som åpnet modalen. Dagsoversikten er ikke en modal (se Dagsoversikt). Ved åpning av skjema får «Tittel» (F4) eller «Velg fil» (F6) innledende fokus (vedtatt 2026-11-09). I dialoger står det trygge standardvalget først/til venstre, destruktiv handling til høyre. |
 | **Gjennomgangsindikator** | F1, F2 under aktiv gjennomgang | Vedvarende, ikke lukkbar. Viser antall forslag som gjenstår. «Gå til gjennomgangen» åpner F7 med uendrede valg. Endringer annonseres via aria-live. |
 | **Meldingsstripe** | Bekreftelser og feil i F1/F2 | Full bredde under toppfeltet, annonseres via aria-live. Fokus flyttes ikke til meldingen. Forsvinner ikke automatisk, heller ikke ved neste brukerhandling. Blir stående til brukeren lukker den («Lukk») eller meldingen ikke lenger er relevant (vedtatt 2026-11-09). |
-| **Periodenavigasjon** | F1 kalenderår, F2 måned | Kalenderår uten fast grense (FR-9). Månedsnavigasjon går over årsskiftet til tilstøtende kalenderår (FR-10). |
+| **Periodenavigasjon** | F1 kalenderår, F2 måned | Kalenderår uten fast grense (FR-9). Månedsnavigasjon går over årsskiftet til tilstøtende kalenderår (FR-10). Valgt kalenderår i F1 har valgt/aktiv-markering; oransje brukes bare til tastaturfokus (gruppevedtak 2026-11-12). |
 | **Årshjulsirkel** | F1 | Ett tabulatorstopp. Piltaster flytter fokus mellom måneder uten å åpne eller bytte visning; Home/End til januar/desember; Enter/Space åpner F2 for måneden i fokus. Klikk på en måned åpner F2 direkte, uten mellomsteg. Månedstall = antall unike aktiviteter som berører måneden (FR-8, FR-11); summen kan være større enn antall aktiviteter, og dette forklares i visningen. Aktiviteter kan ikke åpnes direkte fra hjulet; veien går via F2 (FR-3, vedtatt tolkning). Kategorifordeling (gruppevedtak 2026-11-11): inntil to kategorimerker med kode og antall for de to største kategoriene, sortert etter antall og ved likt antall Ø, U, S, M, P, L, E, F, A; «+N øvrige aktiviteter» når andre kategorier også har aktiviteter (N = antall aktiviteter), slik at merketallene + N = månedens antall; ingen merker eller restindikator ved 0. Månedens tilgjengelige navn gir hele fordelingen, f.eks. «Mars 2026, 20 aktiviteter: U 4, M 4, Ø 3, F 3, P 2, L 2, E 2» (skjermleser ikke testet). |
 | **Månedsrutenett** | F2 | Viser alle ISO-uker som berører måneden, men bare aktiviteter som faktisk berører kalendermåneden (M6-1). Maks to aktivitetsblokker per dag; «+N flere» er en knapp som åpner dagsoversikten. Flerukesaktiviteter har fortsettelsesmerking i hver ukerad, er én aktivitet og telles én gang. |
 | **Dagsoversikt** | F2 | Utvidbar liste i månedsvisningen, **ikke en modal** (vedtatt 2026-11-09). «+N flere» åpner listen; den viser alle aktiviteter den dagen. F3 kan åpnes som modal fra listen; når F3 lukkes, er brukeren tilbake i samme dagsoversikt og måned. Ingen egen modal fokusfelle. Esc eller «Lukk» lukker listen med fokus tilbake til «+N flere». Ikke en dagsvisning med tidsluker (PRD §7). Hver rad viser tittel, datoer og kategorikode; tilgjengelig tekst gir fullt kategorinavn (gruppevedtak 2026-11-11). |
@@ -238,6 +250,8 @@ Atferd. Utseende står i DESIGN.md › Components med samme navn.
 | **Fremdriftsindikator** | F6 under analyse | Ubestemt; statusteksten annonseres via aria-live. Ingen avbryt-knapp. |
 
 ## State Patterns
+
+Statiske illustrasjoner (spinene vinner ved konflikt): F1 årshjulet og gjennomgang aktiv ([`mockups/key-f1-arsvisning.html`](mockups/key-f1-arsvisning.html)) · F2 måned og dagsoversikt ([`mockups/key-f2-manedsvisning.html`](mockups/key-f2-manedsvisning.html)) · F4 tomt skjema og lagring stoppet ([`mockups/key-f4-aktivitetsskjema.html`](mockups/key-f4-aktivitetsskjema.html)) · F7 aktivt forslag med blokkerende feil og fullføring sperret ([`mockups/key-f7-gjennomgang.html`](mockups/key-f7-gjennomgang.html)).
 
 | Flate | Tilstand | Behandling |
 |---|---|---|
@@ -248,7 +262,7 @@ Atferd. Utseende står i DESIGN.md › Components med samme navn.
 | F1 | Etter fullføring/forkasting | Meldingsstripe (se Returregler). |
 | F1 | Retur fra F2 | Sist besøkte måned er nøytralt markert, f.eks. «Valgt: Mars 2026». Aldri oransje (vedtatt 2026-11-09). |
 | F1/F2 | Oppstart | Inneværende kalenderår (FR-9). Oppstart uten API-nøkkel **[AVHENGER AV: OQ-7 – arkitektur]**. |
-| F2 | Tom måned | Rutenettet vises; tydelig melding om at ingen aktiviteter er lagt inn. Vurderes etter M6-1: aktiviteter bare i nabomånedens dager teller ikke (FR-14). |
+| F2 | Tom måned | Rutenettet vises; tydelig melding om at ingen aktiviteter er lagt inn. Etter M6-1 teller ikke aktiviteter som bare ligger i nabomånedens dager (FR-14). |
 | F2 | Uker over årsskifte | Riktige ISO-ukenumre, f.eks. uke 1 i desember, uke 53 (UJ-3 E2). |
 | F2 | Flerdagsaktivitet over måneds- eller årsskifte | Vises i alle måneder og uker den berører; én aktivitet (UJ-3 E1). |
 | F2 | Mer enn to aktiviteter én dag | «+N flere» → dagsoversikt. |
@@ -256,7 +270,7 @@ Atferd. Utseende står i DESIGN.md › Components med samme navn.
 | F3 | Sletting feilet | Feilen vises i slettebekreftelsen (F5) i samme modal, se F5. |
 | F4 | Tomt skjema | Ingen dato forhåndsutfylt; «Tittel» får innledende fokus (vedtatt 2026-11-09). |
 | F4 | Lagring stoppet | «Lagre» kan alltid aktiveres. Feiloppsummering + feltstatusmeldinger; fokus til første relevante feil (FR-2, UJ-2 E1/E2). |
-| F4 | Merknad over grensen | Status *ugyldig*; antall tegn som må fjernes; lagring sperret; aldri automatisk forkorting; brukeren korter ned eller fjerner selv. Tom merknad er gyldig. Samme regel for KI-merknader i F7 (godkjenning og fullføring sperret), og hele KI-merknaden bevares. Grensen **[AVHENGER AV: OQ-8 – arkitektur]** (M11-a, gruppevedtak 2026-11-11; FR-2, FR-6, FR-22, FR-23). |
+| F4 | Merknad over grensen | Status *ugyldig*; antall tegn som må fjernes (ordlyd i teller og melding: se Felt med etikett og Voice and Tone); lagring sperret; aldri automatisk forkorting; brukeren korter ned eller fjerner selv. Tom merknad er gyldig. Samme regel for KI-merknader i F7 (godkjenning og fullføring sperret), og hele KI-merknaden bevares. Grensen **[AVHENGER AV: OQ-8 – arkitektur]** (M11-a, gruppevedtak 2026-11-11; FR-2, FR-6, FR-22, FR-23). |
 | F4 | Lagringsfeil | Skjemaet blir stående med brukerens verdier; «Lagringen mislyktes. Ingen endringer er lagret. Prøv igjen.» Ingen melding om vellykket lagring (NFR-1, FR-4). Meldingen vises øverst i modalen, med tilgjengelig fokushåndtering (vedtatt 2026-11-09). |
 | F4 | Ulagrede endringer ved Avbryt/Esc | «Forkaste endringene?» i samme modal; «Fortsett redigeringen» er trygt standardvalg. Uten endringer lukkes skjemaet direkte (F4-4). |
 | F5 | Bekreftelse | Erstatter F3-innholdet i samme modal (én aktiv modal). «Avbryt» er trygt, fremhevet standardvalg og viser F3 igjen med samme aktivitet; Esc = Avbryt (UJ-2 E3). |
@@ -282,7 +296,7 @@ Atferd. Utseende står i DESIGN.md › Components med samme navn.
 | F7 | Økten avsluttes | Lukking, krasj eller omlasting før fullføring: gjennomgangen er tapt, ingen aktiviteter lagret (UJ-1 E5). |
 | F8 | Oppsummering | Antall som lagres og forkastes, berørte kalenderår, påminnelse om at duplikater ikke kontrolleres (UJ-1 E11). |
 | F8 | Alle avvist | «0 aktiviteter lagres»; etter fullføring: ingen aktiviteter ble lagret, samme kalenderår beholdes. |
-| F8 | Lagringsfeil | Brukeren blir i oppsummeringen; «Lagringen mislyktes. Ingen aktiviteter er lagret. Valgene dine er beholdt – prøv igjen.» Ingen delvis lagring vist som vellykket (UJ-1 E10, NFR-1). |
+| F8 | Lagringsfeil | Brukeren blir i oppsummeringen; «Lagringen mislyktes. Ingen aktiviteter er lagret. Valgene dine er beholdt. Prøv igjen.» Ingen delvis lagring vist som vellykket (UJ-1 E10, NFR-1). |
 | F8 | Forkasting | Dialog «Forkaste gjennomgangen?»; «Fortsett gjennomgangen» trygt, fremhevet standardvalg; «Forkast uten å lagre» tilgjengelig. Avvisning av enkeltforslag krever ingen bekreftelse. |
 | Alle | Fokus | Fokusring bare ved tastatur (DESIGN.md `{colors.focus}`). |
 | Alle | Valgt/aktiv | Nøytral markering + tekst; aldri oransje. |
@@ -318,13 +332,14 @@ Atferd. Kontrast står i DESIGN.md. Grunnlaget er NFR-7 (tastatur, synlig fokus,
 
 **Fokusretur**
 
+- F3 lukket fra rutenettet → aktiviteten som åpnet modalen, i samme månedsvisning (gruppevedtak 2026-11-13).
 - F3 lukket fra dagsoversikt → dagsoversikten beholdes i samme måned.
 - Dagsoversikt lukket med Esc eller «Lukk» → fokus tilbake til «+N flere» som åpnet den (følger regelen om fokusretur).
 - Etter oppretting → «Ny aktivitet» eller tilsvarende varig element.
 - Etter redigering → F3 i samme modal; ved Avbryt uten endringer → «Rediger».
 - Etter sletting → varig element i gjenværende visning (dagsoversiktens overskrift eller månedsoverskriften), ikke meldingen.
 - F5 avbrutt → «Slett».
-- F6 lukket → «Last opp dokument».
+- F6 lukket → «Last opp dokument» i F1 eller F2, der opplastingen ble startet (gruppevedtak 2026-11-13).
 
 **Annonsering (aria-live):** meldingsstripe, gjennomgangsindikator, statustekst under analyse, resultat av analyse, slettebekreftelse.
 
@@ -346,7 +361,7 @@ Atferd. Kontrast står i DESIGN.md. Grunnlaget er NFR-7 (tastatur, synlig fokus,
 
 Feilveier:
 
-| Edge case | Flate | Tilstand |
+| Feilvei | Flate | Tilstand |
 |---|---|---|
 | E1 obligatorisk felt manglende/ugyldig | F7 | «Godkjenn» utilgjengelig med felt og årsak |
 | E1a kategori manglende/usikker | F7 | Manglende: velg fra kategorilisten. Usikker: «? Kontroller:», kan godkjennes |
@@ -374,7 +389,7 @@ Forkasting: «Forkast gjennomgang» → dialog → «Forkast uten å lagre» →
 
 Feilveier:
 
-| Edge case | Flate | Tilstand |
+| Feilvei | Flate | Tilstand |
 |---|---|---|
 | E1 obligatorisk felt mangler | F4 | Feiloppsummering + «! Må rettes»; fokus til første feil |
 | E2 sluttdato før startdato | F4 | «! Må rettes: Ugyldig – sluttdato er før startdato» |
@@ -396,7 +411,7 @@ Feilveier:
 
 Feilveier:
 
-| Edge case | Flate | Tilstand |
+| Feilvei | Flate | Tilstand |
 |---|---|---|
 | E1 aktivitet over måneds- eller årsskifte | F1, F2 | Telles i alle berørte måneder og år; fortsettelsesmerking; én aktivitet |
 | E2 ISO-uker ved årsskifte | F2 | Riktig ukenummer (uke 1 / uke 53) |
@@ -426,43 +441,58 @@ Feilveier:
 
 ## Visuelle referanser
 
+**Mockdekning (gruppevedtak 2026-11-13):** F1, F2, F4 og F7 har HTML-mock, wireframe og spine. F3, F5, F6 og F8 har ingen egne HTML-mocker, men dekkes av gjeldende Excalidraw-skisser i `wireframes/` og beskrivelsene i DESIGN.md og EXPERIENCE.md. Vedtaket gjelder dokumentasjonsdekningen i UX-leveransen; ingen flate utelates fra implementasjonen.
+
 | Fil | Viser |
 |---|---|
-| [`.working/flow-f1-arsvisning-2026-11-03.forhandsvisning.png`](.working/flow-f1-arsvisning-2026-11-03.forhandsvisning.png) ([kilde](.working/flow-f1-arsvisning-2026-11-03.excalidraw)) | F1: hovedtilstand, gjennomgang pågår med sperret opplasting, tomt kalenderår |
-| [`.working/flow-f2-f3-manedsvisning-v3-2026-11-03.forhandsvisning.png`](.working/flow-f2-f3-manedsvisning-v3-2026-11-03.forhandsvisning.png) ([kilde](.working/flow-f2-f3-manedsvisning-v3-2026-11-03.excalidraw)) | F2 mars 2026 (M6-1, «+N flere», fortsettelsesmerking), dagsoversikt, F3 som modal; D sidepanel er IKKE VALGT |
-| [`.working/flow-f4-aktivitetsskjema-2026-11-09.forhandsvisning.png`](.working/flow-f4-aktivitetsskjema-2026-11-09.forhandsvisning.png) ([kilde](.working/flow-f4-aktivitetsskjema-2026-11-09.excalidraw)) | F4: tomt skjema, lagring stoppet med feiloppsummering, lagret + utenfor periode, redigering i samme modal, lagringsfeil, avbryt med/uten endringer |
-| [`.working/flow-f5-sletting-2026-11-09.forhandsvisning.png`](.working/flow-f5-sletting-2026-11-09.forhandsvisning.png) ([kilde](.working/flow-f5-sletting-2026-11-09.excalidraw)) | F5: bekreftelse, avbrutt, slettet fra månedsvisning og fra dagsoversikt, slettefeil |
-| [`.working/flow-f6-opplasting-analyse-2026-11-09.forhandsvisning.png`](.working/flow-f6-opplasting-analyse-2026-11-09.forhandsvisning.png) ([kilde](.working/flow-f6-opplasting-analyse-2026-11-09.excalidraw)) | F6: velg fil, avvisning, analyse pågår, forslag → F7, ingen funnet, feilet, demo-modus, opplasting sperret |
-| [`.working/flow-f7-gjennomgang-v3-2026-11-03.forhandsvisning.png`](.working/flow-f7-gjennomgang-v3-2026-11-03.forhandsvisning.png) ([kilde](.working/flow-f7-gjennomgang-v3-2026-11-03.excalidraw)) | F7: oversikt synlig/skjult, aktivt forslag med feltstatus, kildeutdrag, utilgjengelig «Godkjenn» og «Gå til oppsummering» med årsak |
-| [`.working/flow-f8-oppsummering-forkasting-2026-11-03.forhandsvisning.png`](.working/flow-f8-oppsummering-forkasting-2026-11-03.forhandsvisning.png) ([kilde](.working/flow-f8-oppsummering-forkasting-2026-11-03.excalidraw)) | F8: oppsummering, vellykket lagring, lagringsfeil, forkasting. Oppdatert 2026-11-09: «Fortsett gjennomgangen» er fremhevet standardvalg i forkastingsdialogen. |
-| [`.working/kombinert-retning-1.html`](.working/kombinert-retning-1.html) | Godkjent palett og formspråk (se DESIGN.md) |
+| [`mockups/key-f1-arsvisning.html`](mockups/key-f1-arsvisning.html) | F1 HTML-nøkkelmock (statisk): A årshjulet 2026, B gjennomgang pågår med sperret opplasting |
+| [`mockups/key-f2-manedsvisning.html`](mockups/key-f2-manedsvisning.html) | F2 HTML-nøkkelmock (statisk): A mars 2026 med «+N flere», B ikke-modal dagsoversikt 18. mars |
+| [`mockups/key-f4-aktivitetsskjema.html`](mockups/key-f4-aktivitetsskjema.html) | F4 HTML-nøkkelmock (statisk): A tomt skjema med innfelt datovelger og kategoriliste, B lagring stoppet med fire feltfeil |
+| [`mockups/key-f7-gjennomgang.html`](mockups/key-f7-gjennomgang.html) | F7 HTML-nøkkelmock (statisk): A oversikt synlig, B oversikt skjult; blokkerende feil, usikker kategori, kildeutdrag med status, utilgjengelig «Godkjenn» og «Gå til oppsummering» med årsak |
+| [`wireframes/flow-f1-arsvisning-2026-11-03.forhandsvisning.png`](wireframes/flow-f1-arsvisning-2026-11-03.forhandsvisning.png) ([kilde](wireframes/flow-f1-arsvisning-2026-11-03.excalidraw)) | F1: hovedtilstand, gjennomgang pågår med sperret opplasting, tomt kalenderår |
+| [`wireframes/flow-f2-f3-manedsvisning-v3-2026-11-03.forhandsvisning.png`](wireframes/flow-f2-f3-manedsvisning-v3-2026-11-03.forhandsvisning.png) ([kilde](wireframes/flow-f2-f3-manedsvisning-v3-2026-11-03.excalidraw)) | F2 mars 2026 (M6-1, «+N flere», fortsettelsesmerking), dagsoversikt, F3 som modal; D sidepanel er IKKE VALGT |
+| [`wireframes/flow-f4-aktivitetsskjema-2026-11-09.forhandsvisning.png`](wireframes/flow-f4-aktivitetsskjema-2026-11-09.forhandsvisning.png) ([kilde](wireframes/flow-f4-aktivitetsskjema-2026-11-09.excalidraw)) | F4: tomt skjema, lagring stoppet med feiloppsummering, lagret + utenfor periode, redigering i samme modal, lagringsfeil, avbryt med/uten endringer |
+| [`wireframes/flow-f5-sletting-2026-11-09.forhandsvisning.png`](wireframes/flow-f5-sletting-2026-11-09.forhandsvisning.png) ([kilde](wireframes/flow-f5-sletting-2026-11-09.excalidraw)) | F5: bekreftelse, avbrutt, slettet fra månedsvisning og fra dagsoversikt, slettefeil |
+| [`wireframes/flow-f6-opplasting-analyse-2026-11-09.forhandsvisning.png`](wireframes/flow-f6-opplasting-analyse-2026-11-09.forhandsvisning.png) ([kilde](wireframes/flow-f6-opplasting-analyse-2026-11-09.excalidraw)) | F6: velg fil, avvisning, analyse pågår, forslag → F7, ingen funnet, feilet, demo-modus, opplasting sperret |
+| [`wireframes/flow-f7-gjennomgang-v3-2026-11-03.forhandsvisning.png`](wireframes/flow-f7-gjennomgang-v3-2026-11-03.forhandsvisning.png) ([kilde](wireframes/flow-f7-gjennomgang-v3-2026-11-03.excalidraw)) | F7: oversikt synlig/skjult, aktivt forslag med feltstatus, kildeutdrag, utilgjengelig «Godkjenn» og «Gå til oppsummering» med årsak |
+| [`wireframes/flow-f8-oppsummering-forkasting-2026-11-03.forhandsvisning.png`](wireframes/flow-f8-oppsummering-forkasting-2026-11-03.forhandsvisning.png) ([kilde](wireframes/flow-f8-oppsummering-forkasting-2026-11-03.excalidraw)) | F8: oppsummering, vellykket lagring, lagringsfeil, forkasting. Oppdatert 2026-11-09: «Fortsett gjennomgangen» er fremhevet standardvalg i forkastingsdialogen. |
+| [`.working/kombinert-retning-1.html`](.working/kombinert-retning-1.html) | Historisk arbeidsfil som kan brukes som referanse for palett og formspråk (se DESIGN.md). Viser utdaterte kategoriplassholdere («Kat. A–I») og er ikke styrende for gjeldende kategorier eller funksjonelle UX-regler. |
 
 Historikk, ikke gjeldende: tidligere F1/F2/F7-versjoner (`flow-f2-manedsvisning-2026-11-03`, `flow-f2-f3-manedsvisning-v2-…`, `flow-f7-gjennomgang-2026-11-03`, `flow-f7-gjennomgang-v2-…`), `direction-1/2/3-*.html` og `color-themes-lys-1.html`. Alle filene ligger fortsatt i `.working/`; de er ikke flyttet til `wireframes/` eller `mockups/`.
 
 ## Åpne spørsmål, avhengigheter og validering
 
+### Åpne
+
 | Punkt | Status | Eier | Kilde | Påvirker |
 |---|---|---|---|---|
-| OQ-3 Kategoriliste – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien): ni kategorier med koder Ø, U, S, M, P, L, E, F, A, inkl. «Frister» og restkategorien «Annet», og klassifisering etter primært formål. Se Kategoriliste og klassifisering. PRD §10.3 og FR-17/UJ-1 E1a presisert 2026-11-11. | Vedtatt | Gruppen | PRD §10.3; memlog 2026-11-02/03, 2026-11-11 | Kategorimerke, F4 kategoriliste, F7 |
 | Klassifiseringstest: 25–30 fiktive aktiviteter kategorisert hver for seg av gruppens medlemmer | [VALIDERES] – ikke gjennomført | Gruppen | memlog 2026-11-02 | Kategoriliste og klassifisering |
-| M11-a – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien, alternativ A): utfylt merknad over tegngrensen er *ugyldig* og blokkerer lagring, godkjenning og fullføring; aldri automatisk forkorting; gjelder bruker- og KI-merknader. PRD presisert 2026-11-11 (FR-2, FR-6, FR-22, FR-23, Glossary Feltstatus, OQ-8). | Vedtatt | Gruppen | memlog 2026-11-03, 2026-11-11 | F4, F7, E9 |
 | OQ-7 Hvordan demo-modus aktiveres, hvordan støttede testdokumenter gjenkjennes, oppstart uten API-nøkkel. **Blokkerer `status: final`** (gruppevedtak 2026-11-11): aktivering og oppstart kan påvirke UX-flyten. Ingen teknisk løsning er valgt. | [AVHENGER AV] – åpen, blokkerer final | Arkitektur | PRD §10.4; memlog 2026-11-11 | Demo-modus-merke, F6 |
 | OQ-8 Tidsgrense for analyse, tegngrense for merknader, maks dokumentstørrelse, nettlesere. **Blokkerer ikke Finalize** (gruppevedtak 2026-11-11): eksakte verdier fastsettes i arkitekturen; gjeldende regler for validering, feilmeldinger og ugyldige merknader beholdes; endrer arkitekturen brukerflyten, oppdateres UX. | [AVHENGER AV] – åpen, ikke-blokkerende | Arkitektur | PRD §10.4, FR-6, NFR-2, NFR-3; memlog 2026-11-11 | F4 tegnteller, F6 meldinger |
 | OQ-2 Endelig produktnavn | [ÅPENT] | Gruppen | PRD §10.2 | Toppfelt |
-| Når valgt måned vises i F1 – **løst 2026-11-09:** sist besøkte måned markeres nøytralt ved retur fra F2 | Vedtatt | Sebastian | memlog 2026-11-09 | Valgt/aktiv-markering, Årshjulsirkel |
-| Kategorifordelingens visualisering i hjulet (OQ-4-detalj) – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien): inntil to kategorimerker, «+N øvrige aktiviteter», tegnforklaring ved siden av hjulet. Se Årshjulsirkel. | Vedtatt | Gruppen | memlog 2026-11-03, 2026-11-11 | Årshjulsirkel, Kategorimerke |
 | Størrelse, plassering og lesbarhet av kategorimerker, restindikator og tegnforklaring i F1 på PC og projektor | [VALIDERES] – ikke gjennomført | Gruppen | memlog 2026-11-11 | Årshjulsirkel |
-| Kategorivisning i dagsoversikten – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien): tittel og kategorikode; fullt navn i tilgjengelig tekst og i F3. Kategorifarger brukes ikke uten eget vedtak. | Vedtatt | Gruppen | memlog 2026-11-11 | Dagsoversikt, Kategorimerke |
-| De 13 foreløpige detaljene (innledende fokus, lagringsfeil i F4, meldingsstripe, lenker i feiloppsummering, knapperekkefølge, valgt/aktiv 2 px, melding om for stor fil, ingen dra-og-slipp, mikrotekst, datoformat, utilgjengelige kontroller, skjult oversikt, visuelle detaljer) samt dagsoversikt og feil ved sletting – **løst 2026-11-09** | Vedtatt | Sebastian | memlog 2026-11-09 | Flere komponenter |
-| Mikrotekst fra skissene beholdes som foreløpig tekst og språkvaskes før ferdigstilling | [FORELØPIG] | Sebastian | memlog 2026-11-09 | Alle |
 | Visuelle detaljer fra skissene (demping bak modal, rammer og kanter, demo-modus-merke, fremdriftsindikator) er utgangspunkt, ikke validert | [VALIDERES] | Gruppen | memlog 2026-11-09 | DESIGN.md › Components |
 | Valg av `disabled` eller `aria-disabled` per komponent, og at forklaringen nås med tastatur og skjermleser | [VALIDERES] | Gruppen | memlog 2026-11-09 | Deaktivert kontroll med årsak |
-| F5 over F3 – **løst 2026-11-09:** én aktiv modal; F5 erstatter F3-innholdet i samme modal | Vedtatt | Sebastian | memlog 2026-11-09; F5-wireframe | Modal/dialog |
 | Lesbarhet (tekststørrelser, kontrast, kategorimerker) på vanlig PC og ekte projektor | [VALIDERES] | Gruppen | memlog 2026-11-09 | DESIGN.md |
 | Fokusringens synlighet på projektor (særlig mot deaktivert flate, ~3,0:1) | [VALIDERES] | Gruppen | kombinert-retning-1 | Fokusring |
 | Tastaturflyt og skjermleseropplesning | [VALIDERES] | Gruppen | memlog 2026-11-09 | Accessibility Floor |
 | Valgt-markering vs. «Må rettes»-ramme kan forveksles (begge mørk kant) | [VALIDERES] | Gruppen | kombinert-retning-1 | Valgt/aktiv-markering, Feltstatusmelding |
-| Åpning i Excalidraw: bekreftet av Sebastian Byfuglien 2026-11-11 for alle sju gjeldende skisser (F1, F2/F3, F4, F5, F6, F7, F8). Forhåndsvisningene er visuelt gjennomgått. Dette er ikke projektor-, tastatur- eller skjermlesertesting (egne rader). | Bekreftet (åpning) | Gruppen | memlog 2026-11-03/09 | Visuelle referanser |
 | Gjeldende wireframes F1–F8 er oppdatert med vedtatte kategorikoder 2026-11-11 (F6 hadde ingen kategorier). `kombinert-retning-1.html` og historiske skisser viser fortsatt plassholderne «Kat. A–I». Gjeldende koder står i Kategoriliste og klassifisering. | Dokumentert avvik | Sebastian | memlog 2026-11-11 | Visuelle referanser |
 | Revidert PRD ikke validert på nytt etter 2026-11-01 | Dokumentert prosjektstatus | Gruppen | KI-logg 2026-11-01; memlog | Alle |
+| Ordlyd om demo-modus: merket «DEMO-MODUS – forhåndsdefinerte forslag, ingen språkmodell» og setningen «Demo-modus finnes for støttede testdokumenter.» i meldingen om feilet analyse | [FORELØPIG] / [AVHENGER AV: OQ-7] | Gruppen | memlog 2026-11-09, 2026-11-13 | Demo-modus-merke, F6 |
+| Øvrig mikrotekst fra skissene som ikke står i eksemplene i Voice and Tone og ikke er merket vedtatt, er ikke språkvasket samlet | [FORELØPIG] | Sebastian | memlog 2026-11-09 | Alle |
+
+### Avklart
+
+| Punkt | Status | Eier | Kilde | Påvirker |
+|---|---|---|---|---|
+| OQ-3 Kategoriliste – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien): ni kategorier med koder Ø, U, S, M, P, L, E, F, A, inkl. «Frister» og restkategorien «Annet», og klassifisering etter primært formål. Se Kategoriliste og klassifisering. PRD §10.3 og FR-17/UJ-1 E1a presisert 2026-11-11. | Vedtatt | Gruppen | PRD §10.3; memlog 2026-11-02/03, 2026-11-11 | Kategorimerke, F4 kategoriliste, F7 |
+| M11-a – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien, alternativ A): utfylt merknad over tegngrensen er *ugyldig* og blokkerer lagring, godkjenning og fullføring; aldri automatisk forkorting; gjelder bruker- og KI-merknader. PRD presisert 2026-11-11 (FR-2, FR-6, FR-22, FR-23, Glossary Feltstatus, OQ-8). | Vedtatt | Gruppen | memlog 2026-11-03, 2026-11-11 | F4, F7, E9 |
+| Når valgt måned vises i F1 – **løst 2026-11-09:** sist besøkte måned markeres nøytralt ved retur fra F2 | Vedtatt | Sebastian | memlog 2026-11-09 | Valgt/aktiv-markering, Årshjulsirkel |
+| Kategorifordelingens visualisering i hjulet (OQ-4-detalj) – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien): inntil to kategorimerker, «+N øvrige aktiviteter», tegnforklaring ved siden av hjulet. Se Årshjulsirkel. | Vedtatt | Gruppen | memlog 2026-11-03, 2026-11-11 | Årshjulsirkel, Kategorimerke |
+| Kategorivisning i dagsoversikten – **avklart 2026-11-11** (gruppevedtak opplyst av Sebastian Byfuglien): tittel og kategorikode; fullt navn i tilgjengelig tekst og i F3. Kategorifarger brukes ikke uten eget vedtak. | Vedtatt | Gruppen | memlog 2026-11-11 | Dagsoversikt, Kategorimerke |
+| De 13 foreløpige detaljene (innledende fokus, lagringsfeil i F4, meldingsstripe, lenker i feiloppsummering, knapperekkefølge, valgt/aktiv 2 px, melding om for stor fil, ingen dra-og-slipp, mikrotekst, datoformat, utilgjengelige kontroller, skjult oversikt, visuelle detaljer) samt dagsoversikt og feil ved sletting – **løst 2026-11-09** | Vedtatt | Sebastian | memlog 2026-11-09 | Flere komponenter |
+| F5 over F3 – **løst 2026-11-09:** én aktiv modal; F5 erstatter F3-innholdet i samme modal | Vedtatt | Sebastian | memlog 2026-11-09; F5-wireframe | Modal/dialog |
+| Åpning i Excalidraw: bekreftet av Sebastian Byfuglien 2026-11-11 for alle sju gjeldende skisser (F1, F2/F3, F4, F5, F6, F7, F8). Forhåndsvisningene er visuelt gjennomgått. Dette er ikke projektor-, tastatur- eller skjermlesertesting (egne rader). | Bekreftet (åpning) | Gruppen | memlog 2026-11-03/09 | Visuelle referanser |
 | UX-tolkninger registrert uten PRD-endring: M6-1 (månedsvisningens innhold), tomt kildeutdrag = mangler (FR-27/FR-28), FR-3 via månedsvisningen. Gruppen kan vurdere å presisere PRD-en. | Vedtatt i UX | Gruppen | memlog 2026-11-03 | F2, F7, F1 |
+| Eksemplene i Voice and Tone – **avklart 2026-11-13** (gruppevedtak bekreftet av Sebastian Byfuglien på vegne av prosjektgruppen): fire formuleringer er språkvasket (for lang merknad, usikker kategori, sperret oppsummering, feil ved lagring), og de øvrige eksemplene er godkjent uendret. Demo-modus-teksten er unntatt (se Åpne). | Vedtatt | Gruppen | memlog 2026-11-09, 2026-11-13 | Voice and Tone, F4, F7, F8 |
