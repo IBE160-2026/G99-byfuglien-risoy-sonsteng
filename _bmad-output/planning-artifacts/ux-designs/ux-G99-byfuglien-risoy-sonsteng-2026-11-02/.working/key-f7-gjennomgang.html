@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nøkkelmock F7 – Gjennomgang</title>
+<style>
+/*
+  NØKKELMOCK F7 GJENNOMGANG – statisk illustrasjon (BMAD key-screens), ikke implementasjon.
+  Spinene vinner ved konflikt: DESIGN.md og EXPERIENCE.md går foran denne filen.
+
+  Styrende spine-seksjoner:
+  - DESIGN.md: frontmatter-tokener (colors, typography, rounded, spacing, components);
+    Layout (F7: toppfelt med teller og «← Til årshjulet»; tre soner: forslagsoversikt ·
+    aktivt forslag · kildeutdrag; handlingsrad nederst); Elevation & Depth (kanter, ikke
+    skygger); Shapes; Components: Forslagsoversikt, Valgt/aktiv-markering, Felt med etikett,
+    Feltstatusmelding «Må rettes» og «Kontroller», Feiloppsummering, Kildeutdragskort,
+    Deaktivert kontroll med årsak, Primærknapp, Sekundærknapp; Do's and Don'ts.
+  - EXPERIENCE.md: Kategoriliste og klassifisering (F7-raden: «U – Utdanning og trening»,
+    usikker kategori «? Kontroller:» kan godkjennes); Information Architecture (F7);
+    Voice and Tone (kildeutdrag «Verifisert»/«Ikke verifisert» med forklaring, aldri
+    «korrekt»/«bekreftet»); Component Patterns: Forslagsoversikt, Deaktivert kontroll med
+    årsak, Feltstatusmelding, Feiloppsummering, Kildeutdragskort, Valgt/aktiv-markering;
+    State Patterns F7: «Aktivt forslag», «Blokkerende feil i forslaget», «Usikkert felt»,
+    «Ingen eller ikke verifiserte kildeutdrag», «Fullføring sperret»; Interaction Primitives
+    (validering, rekkefølge, ingen «godkjenn alle», automatisk videregang); Keyboard (F7);
+    Key Flows UJ-1 (steg 3, E1, E1a, E4, E6, E9).
+  - Layout og data: .working/flow-f7-gjennomgang-v3-2026-11-03.excalidraw
+    (A oversikt synlig – standard; B oversikt skjult av brukeren). Historiske F7-skisser
+    (v1, v2) er ikke brukt.
+  - Memlog: F7-rekkefølge, oversikt og aktivt forslag, etter godkjenn/avvis, problemmerker
+    (2026-11-03); oversikt synlig som standard; «Godkjenn» utilgjengelig ved blokkerende feil,
+    godkjenning endrer ikke planen (2026-11-03); valgt/aktiv-markering (2026-11-09);
+    OQ-3-presiseringer (2026-11-11); OQ-7/OQ-8 (2026-11-11).
+  - Visuell konsistens: .working/key-f1-arsvisning.html, key-f2-manedsvisning.html og
+    key-f4-aktivitetsskjema.html (tokener, knapper, felt, «Må rettes», feiloppsummering).
+
+  Merknader:
+  - Mocken viser vanlig modus. Demo-modus-merket (DEMO-MODUS i skissen) vises ikke: det vises
+    bare i demo-modus, og aktivering avhenger av OQ-7 (åpen).
+  - Feltetikettene har «(obligatorisk)»/«(valgfritt)» etter DESIGN.md › Felt med etikett;
+    skissen mangler dette. Feiloppsummeringen lister feltene som lenker etter
+    DESIGN.md › Feiloppsummering.
+  - Tegntelleren («68 tegn») viser bare antall tegn i den fiktive merknaden og fastsetter
+    ingen maksimalgrense (OQ-8, åpen).
+  - Forslag 9–15 finnes ikke i skissen og er ikke konstruert; den statiske mocken viser bare
+    forslag 1–8. I den planlagte applikasjonen kan listen rulles for å vise resten.
+  - Utilgjengelige knapper er vist med aria-disabled; valget mellom disabled og aria-disabled
+    per komponent er ikke tatt [VALIDERES].
+  - Kanttype per kildeutdragsstatus (heltrukket/stiplet) og rammer på problemmerkene er
+    utgangspunkt fra skissen [VALIDERES]. Kolonnebredder fra skissen [VALIDERES].
+  - Ordlyd er foreløpig og skal språkvaskes [FORELØPIG]. Fiktive data.
+  - Ingen JavaScript: valg av forslag, redigering, validering, godkjenning, avvisning,
+    skjul/vis oversikt og navigasjon er ikke implementert. Ingen fokusring er tegnet fordi
+    skissen ikke angir fokusplassering.
+  - Størrelser og lesbarhet er ikke testet på PC eller projektor [VALIDERES].
+*/
+
+:root {
+  --background: #FFFFFF;
+  --panel: #F3F5F8;
+  --text: #0B0B0B;
+  --text-muted: #3E3E3E;
+  --line-hairline: #BDBDBD;
+  --line-strong: #0B0B0B;
+  --primary: #0B0B0B;
+  --on-primary: #FFFFFF;
+  --focus: #C75000;
+  --focus-offset: #FFFFFF;
+  --status-blocking-text: #7D1010;
+  --status-blocking-bg: #FFFFFF;
+  --status-blocking-line: #0B0B0B;
+  --status-uncertain-text: #5C4300;
+  --status-uncertain-bg: #FFFFFF;
+  --status-uncertain-line: #3E3E3E;
+  --disabled-text: #4A4A4A;
+  --disabled-bg: #E6E6E6;
+
+  --font: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --rounded-full: 9999px;
+  --rounded-lg: 16px;
+  --rounded-md: 10px;
+
+  --s1: 4px; --s2: 8px; --s3: 16px; --s4: 24px; --s5: 32px; --s6: 48px;
+  --target-min: 44px;
+}
+
+* { box-sizing: border-box; }
+
+/* ---------- Side rundt mockene (ikke del av appen) ---------- */
+body {
+  margin: 0;
+  padding: 40px;
+  background: #E9EBEF;
+  color: var(--text);
+  font-family: var(--font);
+}
+.mock-banner {
+  max-width: 1680px;
+  margin: 0 auto 32px;
+  padding: 12px 20px;
+  border: 1px dashed var(--text-muted);
+  background: var(--background);
+  font-size: 16px;
+  line-height: 1.4;
+}
+.mock-banner strong { font-weight: 600; }
+.state-title {
+  max-width: 1680px;
+  margin: 0 auto 12px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.state-note {
+  max-width: 1680px;
+  margin: 12px auto 48px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+/* ---------- Nettleserramme ---------- */
+.browser {
+  max-width: 1680px;
+  margin: 0 auto;
+  border: 1px solid var(--line-hairline);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--background);
+}
+.browser-chrome {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 44px;
+  padding: 0 16px;
+  background: #DADDE2;
+  border-bottom: 1px solid var(--line-hairline);
+}
+.browser-dots { display: flex; gap: 8px; }
+.browser-dots span {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #A9ADB4;
+}
+.browser-address {
+  flex: 1;
+  max-width: 640px;
+  height: 28px;
+  padding: 0 14px;
+  border-radius: var(--rounded-full);
+  background: var(--background);
+  font-size: 14px;
+  line-height: 28px;
+  color: var(--text-muted);
+}
+
+/* ---------- App ---------- */
+.app {
+  background: var(--background);
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Toppfelt: tittel, «← Til årshjulet», (B: «Vis alle forslag (15)»), teller */
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s5);
+  border-bottom: 1px solid var(--line-hairline);
+}
+.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.topbar .mellomrom { margin-left: auto; }
+.teller-gjennomgang {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: 0 var(--s3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--rounded-md);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Tre soner (A) / to soner (B) */
+.soner {
+  display: grid;
+  gap: var(--s3);
+  padding: var(--s4) var(--s5) var(--s3);
+  align-items: start;
+}
+.soner.tre { grid-template-columns: minmax(260px, 340fr) minmax(0, 760fr) minmax(0, 756fr); }
+.soner.to  { grid-template-columns: minmax(0, 940fr) minmax(0, 932fr); }
+
+.sone {
+  min-width: 0;
+  background: var(--background);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--rounded-lg);
+  padding: var(--s3) var(--s4) var(--s4);
+}
+.sone-hode {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s3);
+  margin-bottom: var(--s3);
+}
+.sone-hode h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.sone-hode .hoyre { margin-left: auto; display: flex; gap: var(--s2); }
+
+/* ---------- Knapper ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--target-min);
+  padding: 0 var(--s4);
+  border-radius: var(--rounded-full);
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primaer {
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2px solid var(--primary);
+}
+.btn-sekundaer {
+  background: var(--background);
+  color: var(--text);
+  border: 2px solid var(--line-strong);
+}
+/* Deaktivert kontroll med årsak: synlig, men utilgjengelig; årsaken står som tekst ved kontrollen */
+.btn[aria-disabled="true"] {
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
+  border-color: var(--disabled-bg);
+  cursor: not-allowed;
+}
+.arsak {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* ---------- Forslagsoversikt ---------- */
+.forslagsliste {
+  display: grid;
+  row-gap: var(--s2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.forslag {
+  display: block;
+  width: 100%;
+  padding: var(--s2) var(--s3);
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--rounded-md);
+  font-family: var(--font);
+  text-align: left;
+  cursor: pointer;
+}
+/* Valgt/aktiv-markering: nøytral, 2 px sterk kant + panelflate + ordet «Aktiv» – aldri oransje */
+.forslag.aktiv {
+  background: var(--panel);
+  border: 2px solid var(--line-strong);
+  padding: 7px 15px;
+}
+.forslag .navn {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.forslag .linje2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s1) var(--s2);
+  margin-top: var(--s1);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+.forslag.aktiv .linje2 .behandling { font-weight: 600; }
+/* Problemmerker: separate fra behandlingsstatus; teksten bærer betydningen, kanten er støtte */
+.merke {
+  display: inline-block;
+  padding: 0 6px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.merke-ma-rettes {
+  color: var(--status-blocking-text);
+  background: var(--status-blocking-bg);
+  border: 2px solid var(--status-blocking-line);
+}
+.merke-usikker {
+  color: var(--status-uncertain-text);
+  background: var(--status-uncertain-bg);
+  border: 1px dashed var(--status-uncertain-line);
+}
+.merke-kilde {
+  color: var(--text);
+  background: var(--background);
+  border: 1px dashed var(--text-muted);
+}
+.flere-forslag {
+  margin: var(--s3) 0 0;
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+
+/* ---------- Aktivt forslag: felt ---------- */
+.skjema { display: grid; row-gap: var(--s4); }
+.rad2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: var(--s4);
+  align-items: start;
+}
+.feltgruppe { display: grid; row-gap: var(--s1); min-width: 0; }
+.etikett {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.felt {
+  display: block;
+  width: 100%;
+  min-height: var(--target-min);
+  padding: 0 var(--s3);
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--rounded-md);
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+textarea.felt {
+  padding: var(--s2) var(--s3);
+  resize: vertical;
+}
+.felt:focus { outline: none; }
+/* Fokusring på felt ved tastaturfokus (samme fokustokener som knapper og lenker) */
+.felt:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--focus-offset);
+}
+
+.datofelt { position: relative; }
+.datofelt .felt { padding-right: 56px; font-variant-numeric: tabular-nums; }
+.datoknapp {
+  position: absolute;
+  top: 0; right: 0;
+  width: var(--target-min);
+  height: var(--target-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  border-left: 1px solid var(--line-strong);
+  border-radius: 0 var(--rounded-md) var(--rounded-md) 0;
+  font-family: var(--font);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.velg {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+  text-align: left;
+  cursor: pointer;
+}
+.velg .pil { flex: none; }
+
+.teller {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Feltstatusmelding «Må rettes»: 4 px heltrukken ramme rundt felt og melding */
+.ma-rettes {
+  display: grid;
+  row-gap: var(--s2);
+  padding: var(--s2);
+  background: var(--status-blocking-bg);
+  border: 4px solid var(--status-blocking-line);
+  border-radius: var(--rounded-md);
+}
+.feilmelding {
+  margin: 0;
+  color: var(--status-blocking-text);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Feltstatusmelding «Kontroller»: 1 px stiplet ramme rundt felt og melding */
+.kontroller {
+  display: grid;
+  row-gap: var(--s2);
+  padding: var(--s2);
+  background: var(--status-uncertain-bg);
+  border: 1px dashed var(--status-uncertain-line);
+  border-radius: var(--rounded-md);
+}
+.kontrollmelding {
+  margin: 0;
+  color: var(--status-uncertain-text);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Feiloppsummering */
+.feiloppsummering {
+  margin: 0 0 var(--s4);
+  padding: var(--s3);
+  border: 4px solid var(--status-blocking-line);
+  border-radius: var(--rounded-md);
+  background: var(--status-blocking-bg);
+}
+.feiloppsummering .tittel {
+  margin: 0 0 var(--s2);
+  color: var(--status-blocking-text);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.feiloppsummering ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--s4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.feiloppsummering a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.5;
+  text-decoration: underline;
+}
+
+/* Godkjenn / Avvis med årsak */
+.forslagshandlinger {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  margin-top: var(--s4);
+}
+.forslagshandlinger .arsak { flex: 1 1 220px; min-width: 0; }
+
+/* ---------- Kildeutdragskort ---------- */
+.utdrag-liste { display: grid; row-gap: var(--s3); }
+.utdrag {
+  padding: var(--s3);
+  background: var(--background);
+  border-radius: var(--rounded-md);
+}
+.utdrag.verifisert { border: 1px solid var(--line-hairline); }
+.utdrag.ikke-verifisert { border: 1px dashed var(--text-muted); }
+.utdrag h3 {
+  margin: 0 0 var(--s2);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.utdrag-status {
+  margin: 0 0 var(--s2);
+  padding: var(--s2) var(--s3);
+  border-radius: var(--rounded-md);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.verifisert .utdrag-status { border: 1px solid var(--line-strong); }
+.ikke-verifisert .utdrag-status { border: 1px dashed var(--text-muted); }
+.utdrag-tekst {
+  margin: 0;
+  padding: var(--s2) var(--s3);
+  background: var(--panel);
+  border-radius: var(--rounded-md);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* ---------- Handlingsrad nederst ---------- */
+.handlingsrad {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s3);
+  margin: 0 var(--s5) var(--s4);
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--line-hairline);
+  border-radius: var(--rounded-lg);
+}
+.handlingsrad .midt {
+  flex: 1 1 360px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2) var(--s3);
+  min-width: 0;
+}
+.handlingsrad .midt .arsak { flex: 1 1 300px; min-width: 0; }
+
+/* Fokusring – bare ved tastaturfokus */
+button:focus, a:focus { outline: none; }
+button:focus-visible, a:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--focus-offset);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Mindre PC-skjermer (f.eks. 1366 og 1440 px): samme layout, smalere marger og knapper.
+   Skriftstørrelser og tokener er uendret (som i F1-, F2- og F4-mockene). */
+@media (max-width: 1599px) {
+  body { padding: var(--s3); }
+  .mock-banner, .state-title, .state-note { max-width: none; }
+  .topbar { padding: var(--s3) var(--s4); gap: var(--s2) var(--s3); }
+  .soner { padding: var(--s3) var(--s4) var(--s3); gap: var(--s3); }
+  .sone { padding: var(--s3); }
+  .handlingsrad { margin: 0 var(--s4) var(--s4); padding: var(--s3); }
+  .btn { padding: 0 var(--s3); }
+  .rad2 { column-gap: var(--s3); }
+}
+</style>
+</head>
+<body>
+
+<p class="mock-banner"><strong>Nøkkelmock F7 Gjennomgang</strong> – statisk illustrasjon, ikke endelig implementasjon. Fiktive data fra F7-skissen (v3). Ordlyd foreløpig. Vanlig modus – demo-modus-merket vises ikke (avhenger av OQ-7). Tegngrensen for merknader er ikke fastsatt (OQ-8). Godkjente forslag er ikke lagrede aktiviteter før «Fullfør og lagre». DESIGN.md og EXPERIENCE.md vinner ved konflikt. Ikke testet på projektor, med tastatur eller skjermleser.</p>
+
+<!-- ===================================================================== -->
+<!-- A · AKTIV GJENNOMGANG – OVERSIKT SYNLIG (STANDARD)                    -->
+<!-- ===================================================================== -->
+<h2 class="state-title">A · Aktiv gjennomgang – oversikt synlig (hovedtilstand)</h2>
+
+<div class="browser">
+  <div class="browser-chrome" aria-hidden="true">
+    <div class="browser-dots"><span></span><span></span><span></span></div>
+    <div class="browser-address">localhost</div>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <h1>Gjennomgang – Ordre_vinter_FIKTIV.docx</h1>
+      <button class="btn btn-sekundaer" type="button">← Til årshjulet</button>
+      <span class="mellomrom"></span>
+      <p class="teller-gjennomgang" role="status">Godkjent 5 · Avvist 2 · Ubehandlet 8</p>
+    </header>
+
+    <div class="soner tre">
+      <!-- Forslagsoversikt -->
+      <section class="sone" aria-labelledby="f7a-oversikt">
+        <div class="sone-hode">
+          <h2 id="f7a-oversikt">Forslag (15)</h2>
+          <div class="hoyre"><button class="btn btn-sekundaer" type="button">Skjul</button></div>
+        </div>
+        <ol class="forslagsliste">
+          <li><button class="forslag" type="button"><span class="navn">1&nbsp;&nbsp;Vinterøvelse</span><span class="linje2"><span class="behandling">Godkjent</span></span></button></li>
+          <li><button class="forslag" type="button"><span class="navn">2&nbsp;&nbsp;Koordineringsmøte</span><span class="linje2"><span class="behandling">Godkjent</span><span class="merke merke-usikker">? Usikker</span></span></button></li>
+          <li><button class="forslag" type="button"><span class="navn">3&nbsp;&nbsp;Materiellstatus</span><span class="linje2"><span class="behandling">Avvist</span></span></button></li>
+          <li><button class="forslag aktiv" type="button" aria-current="true"><span class="navn">4&nbsp;&nbsp;Skytedag</span><span class="linje2"><span class="behandling">Aktiv · Ubehandlet</span><span class="merke merke-ma-rettes">! 2 må rettes</span><span class="merke merke-usikker">? Usikker</span><span class="merke merke-kilde">Kilde ikke verifisert</span></span></button></li>
+          <li><button class="forslag" type="button"><span class="navn">5&nbsp;&nbsp;Førstehjelpskurs</span><span class="linje2"><span class="behandling">Ubehandlet</span><span class="merke merke-kilde">Ingen kilde</span></span></button></li>
+          <li><button class="forslag" type="button"><span class="navn">6&nbsp;&nbsp;Oppstilling</span><span class="linje2"><span class="behandling">Ubehandlet</span></span></button></li>
+          <li><button class="forslag" type="button"><span class="navn">7&nbsp;&nbsp;Evaluering</span><span class="linje2"><span class="behandling">Ubehandlet</span><span class="merke merke-usikker">? Usikker</span></span></button></li>
+          <li><button class="forslag" type="button"><span class="navn">8&nbsp;&nbsp;HMS-gjennomgang</span><span class="linje2"><span class="behandling">Ubehandlet</span><span class="merke merke-ma-rettes">! 1 må rettes</span></span></button></li>
+        </ol>
+        <p class="flere-forslag">7 forslag (9–15) er ikke vist i denne statiske mocken.</p>
+      </section>
+
+      <!-- Aktivt forslag -->
+      <section class="sone" aria-labelledby="f7a-aktivt">
+        <div class="sone-hode">
+          <h2 id="f7a-aktivt">Aktivt forslag 4 av 15</h2>
+          <div class="hoyre">
+            <button class="btn btn-sekundaer" type="button">◀ Forrige</button>
+            <button class="btn btn-sekundaer" type="button">Neste ▶</button>
+          </div>
+        </div>
+
+        <div class="feiloppsummering" role="group" aria-labelledby="f7a-oppsummering">
+          <p class="tittel" id="f7a-oppsummering">! 2 felt må rettes før godkjenning:</p>
+          <ul>
+            <li><a href="#f7a-sluttdato">Sluttdato</a></li>
+            <li><a href="#f7a-ansvar">Ansvarsområde</a></li>
+          </ul>
+        </div>
+
+        <form class="skjema" novalidate>
+          <div class="feltgruppe">
+            <label class="etikett" for="f7a-aktivitet">Tittel (obligatorisk)</label>
+            <input class="felt" id="f7a-aktivitet" type="text" value="Skytedag">
+          </div>
+
+          <div class="rad2">
+            <div class="feltgruppe">
+              <label class="etikett" for="f7a-startdato">Startdato (obligatorisk)</label>
+              <div class="datofelt">
+                <input class="felt" id="f7a-startdato" type="text" inputmode="numeric" value="24.03.2026">
+                <button class="datoknapp" type="button" aria-label="Åpne datovelger for startdato">▦</button>
+              </div>
+            </div>
+            <div class="feltgruppe">
+              <label class="etikett" for="f7a-sluttdato">Sluttdato (obligatorisk)</label>
+              <div class="ma-rettes">
+                <div class="datofelt">
+                  <input class="felt" id="f7a-sluttdato" type="text" inputmode="numeric" value="20.03.2026" aria-invalid="true" aria-describedby="f7a-sluttdato-feil">
+                  <button class="datoknapp" type="button" aria-label="Åpne datovelger for sluttdato">▦</button>
+                </div>
+                <p class="feilmelding" id="f7a-sluttdato-feil">! Må rettes: Ugyldig – sluttdato er før startdato</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="feltgruppe">
+            <label class="etikett" for="f7a-kategori">Kategori (obligatorisk)</label>
+            <div class="kontroller">
+              <button class="felt velg" id="f7a-kategori" type="button" aria-haspopup="listbox" aria-describedby="f7a-kategori-status">
+                <span>U – Utdanning og trening</span><span class="pil" aria-hidden="true">▾</span>
+              </button>
+              <p class="kontrollmelding" id="f7a-kategori-status">? Kontroller: Usikker – kontroller mot kildeutdraget</p>
+            </div>
+          </div>
+
+          <div class="feltgruppe">
+            <label class="etikett" for="f7a-ansvar">Ansvarsområde (obligatorisk)</label>
+            <div class="ma-rettes">
+              <input class="felt" id="f7a-ansvar" type="text" value="" aria-invalid="true" aria-describedby="f7a-ansvar-feil">
+              <p class="feilmelding" id="f7a-ansvar-feil">! Må rettes: Mangler – må fylles ut</p>
+            </div>
+          </div>
+
+          <div class="feltgruppe">
+            <label class="etikett" for="f7a-merknader">Merknader (valgfritt)</label>
+            <textarea class="felt" id="f7a-merknader" rows="3" aria-describedby="f7a-teller">Oppmøte på standplass kl. 0800.
+Husk hørselvern og ammunisjonsliste.</textarea>
+            <p class="teller" id="f7a-teller">68 tegn</p>
+          </div>
+        </form>
+
+        <div class="forslagshandlinger">
+          <button class="btn btn-primaer" type="button" aria-disabled="true" aria-describedby="f7a-godkjenn-arsak">Godkjenn</button>
+          <button class="btn btn-sekundaer" type="button">Avvis</button>
+          <p class="arsak" id="f7a-godkjenn-arsak">Kan ikke godkjennes ennå: Sluttdato og Ansvarsområde må rettes.</p>
+        </div>
+      </section>
+
+      <!-- Kildeutdrag -->
+      <section class="sone" aria-labelledby="f7a-kilder">
+        <div class="sone-hode">
+          <h2 id="f7a-kilder">Kildeutdrag (2)</h2>
+        </div>
+        <div class="utdrag-liste">
+          <article class="utdrag verifisert" aria-labelledby="f7a-utdrag1">
+            <h3 id="f7a-utdrag1">Utdrag 1</h3>
+            <p class="utdrag-status">Verifisert – Teksten finnes i dokumentet. Det betyr ikke at forslaget er riktig.</p>
+            <p class="utdrag-tekst">«Skytedag for troppen tirsdag 24. mars, ansvar 2. lag.»</p>
+          </article>
+          <article class="utdrag ikke-verifisert" aria-labelledby="f7a-utdrag2">
+            <h3 id="f7a-utdrag2">Utdrag 2</h3>
+            <p class="utdrag-status">Ikke verifisert – Teksten ble ikke funnet i dokumentet. Kontroller forslaget selv.</p>
+            <p class="utdrag-tekst">«Skyting avsluttes 20. mars.»</p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <!-- Handlingsrad -->
+    <div class="handlingsrad">
+      <button class="btn btn-sekundaer" type="button">Forkast gjennomgang</button>
+      <div class="midt">
+        <p class="arsak" id="f7a-oppsummering-arsak">Kan ikke gå videre: 8 forslag er ikke behandlet. 1 godkjent forslag har felt som må rettes.</p>
+        <button class="btn btn-sekundaer" type="button">Vis forslagene</button>
+      </div>
+      <button class="btn btn-primaer" type="button" aria-disabled="true" aria-describedby="f7a-oppsummering-arsak">Gå til oppsummering</button>
+    </div>
+  </div>
+</div>
+
+<p class="state-note">Hovedtilstand: gjennomgangen er aktiv etter analysen av et fiktivt dokument (15 aktivitetsforslag). Telleren «Godkjent 5 · Avvist 2 · Ubehandlet 8» er alltid synlig (FR-21, E9). Forslagsoversikten er synlig som standard og kan skjules med «Skjul» (se B). Hver rad viser nummer og kort tittel; linje 2 viser behandlingsstatus og problemmerker hver for seg («! 2 må rettes», «? Usikker», «Kilde ikke verifisert», «Ingen kilde»). Aktivt forslag (4 Skytedag) er markert nøytralt med 2 px kant, svak flate og ordet «Aktiv» – aldri oransje. Den statiske mocken viser bare forslag 1–8; forslag 9–15 finnes ikke i skissen og er ikke konstruert. I den planlagte applikasjonen kan listen rulles for å vise resten. Felt og kildeutdrag vises samtidig (FR-27). Forslaget har to blokkerende feil («! Må rettes:», tykk heltrukken ramme): sluttdato før startdato og manglende ansvarsområde. Kategorien er usikker («? Kontroller:», tynn stiplet ramme) og kan godkjennes uendret; kategorivalget bruker de ni vedtatte kategoriene som i F4. «Godkjenn» er synlig, men utilgjengelig, og årsaken står som tekst ved knappen – ikke som verktøytips. «Avvis» er tilgjengelig. Det finnes ingen «Godkjenn alle». Kildeutdragene vises som ren tekst: «Verifisert» betyr bare at teksten finnes i dokumentet, ikke at forslaget er riktig; «Ikke verifisert» blokkerer ikke godkjenning. «Gå til oppsummering» er utilgjengelig med årsak (E9); «Vis forslagene» viser hvilke forslag det gjelder. Godkjenning markerer bare forslaget i gjennomgangen – ingenting lagres i planen før «Fullfør og lagre» (FR-23, FR-26). Tegntelleren («68 tegn») viser bare antall tegn og fastsetter ingen maksimalgrense (OQ-8). Mocken viser vanlig modus; demo-modus-merket vises ikke (OQ-7). Ingen fokusring er tegnet, fordi skissen ikke angir hvor fokus står.</p>
+
+<!-- ===================================================================== -->
+<!-- B · OVERSIKT SKJULT AV BRUKEREN                                       -->
+<!-- ===================================================================== -->
+<h2 class="state-title">B · Oversikt skjult av brukeren – godkjenning og fullføring fortsatt sperret</h2>
+
+<div class="browser">
+  <div class="browser-chrome" aria-hidden="true">
+    <div class="browser-dots"><span></span><span></span><span></span></div>
+    <div class="browser-address">localhost</div>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <h1>Gjennomgang – Ordre_vinter_FIKTIV.docx</h1>
+      <button class="btn btn-sekundaer" type="button">← Til årshjulet</button>
+      <button class="btn btn-sekundaer" type="button" aria-expanded="false">Vis alle forslag (15)</button>
+      <span class="mellomrom"></span>
+      <p class="teller-gjennomgang" role="status">Godkjent 5 · Avvist 2 · Ubehandlet 8</p>
+    </header>
+
+    <div class="soner to">
+      <!-- Aktivt forslag -->
+      <section class="sone" aria-labelledby="f7b-aktivt">
+        <div class="sone-hode">
+          <h2 id="f7b-aktivt">Aktivt forslag 4 av 15</h2>
+          <div class="hoyre">
+            <button class="btn btn-sekundaer" type="button">◀ Forrige</button>
+            <button class="btn btn-sekundaer" type="button">Neste ▶</button>
+          </div>
+        </div>
+
+        <div class="feiloppsummering" role="group" aria-labelledby="f7b-oppsummering">
+          <p class="tittel" id="f7b-oppsummering">! 2 felt må rettes før godkjenning:</p>
+          <ul>
+            <li><a href="#f7b-sluttdato">Sluttdato</a></li>
+            <li><a href="#f7b-ansvar">Ansvarsområde</a></li>
+          </ul>
+        </div>
+
+        <form class="skjema" novalidate>
+          <div class="feltgruppe">
+            <label class="etikett" for="f7b-aktivitet">Tittel (obligatorisk)</label>
+            <input class="felt" id="f7b-aktivitet" type="text" value="Skytedag">
+          </div>
+
+          <div class="rad2">
+            <div class="feltgruppe">
+              <label class="etikett" for="f7b-startdato">Startdato (obligatorisk)</label>
+              <div class="datofelt">
+                <input class="felt" id="f7b-startdato" type="text" inputmode="numeric" value="24.03.2026">
+                <button class="datoknapp" type="button" aria-label="Åpne datovelger for startdato">▦</button>
+              </div>
+            </div>
+            <div class="feltgruppe">
+              <label class="etikett" for="f7b-sluttdato">Sluttdato (obligatorisk)</label>
+              <div class="ma-rettes">
+                <div class="datofelt">
+                  <input class="felt" id="f7b-sluttdato" type="text" inputmode="numeric" value="20.03.2026" aria-invalid="true" aria-describedby="f7b-sluttdato-feil">
+                  <button class="datoknapp" type="button" aria-label="Åpne datovelger for sluttdato">▦</button>
+                </div>
+                <p class="feilmelding" id="f7b-sluttdato-feil">! Må rettes: Ugyldig – sluttdato er før startdato</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="feltgruppe">
+            <label class="etikett" for="f7b-kategori">Kategori (obligatorisk)</label>
+            <div class="kontroller">
+              <button class="felt velg" id="f7b-kategori" type="button" aria-haspopup="listbox" aria-describedby="f7b-kategori-status">
+                <span>U – Utdanning og trening</span><span class="pil" aria-hidden="true">▾</span>
+              </button>
+              <p class="kontrollmelding" id="f7b-kategori-status">? Kontroller: Usikker – kontroller mot kildeutdraget</p>
+            </div>
+          </div>
+
+          <div class="feltgruppe">
+            <label class="etikett" for="f7b-ansvar">Ansvarsområde (obligatorisk)</label>
+            <div class="ma-rettes">
+              <input class="felt" id="f7b-ansvar" type="text" value="" aria-invalid="true" aria-describedby="f7b-ansvar-feil">
+              <p class="feilmelding" id="f7b-ansvar-feil">! Må rettes: Mangler – må fylles ut</p>
+            </div>
+          </div>
+
+          <div class="feltgruppe">
+            <label class="etikett" for="f7b-merknader">Merknader (valgfritt)</label>
+            <textarea class="felt" id="f7b-merknader" rows="3" aria-describedby="f7b-teller">Oppmøte på standplass kl. 0800.
+Husk hørselvern og ammunisjonsliste.</textarea>
+            <p class="teller" id="f7b-teller">68 tegn</p>
+          </div>
+        </form>
+
+        <div class="forslagshandlinger">
+          <button class="btn btn-primaer" type="button" aria-disabled="true" aria-describedby="f7b-godkjenn-arsak">Godkjenn</button>
+          <button class="btn btn-sekundaer" type="button">Avvis</button>
+          <p class="arsak" id="f7b-godkjenn-arsak">Kan ikke godkjennes ennå: Sluttdato og Ansvarsområde må rettes.</p>
+        </div>
+      </section>
+
+      <!-- Kildeutdrag -->
+      <section class="sone" aria-labelledby="f7b-kilder">
+        <div class="sone-hode">
+          <h2 id="f7b-kilder">Kildeutdrag (2)</h2>
+        </div>
+        <div class="utdrag-liste">
+          <article class="utdrag verifisert" aria-labelledby="f7b-utdrag1">
+            <h3 id="f7b-utdrag1">Utdrag 1</h3>
+            <p class="utdrag-status">Verifisert – Teksten finnes i dokumentet. Det betyr ikke at forslaget er riktig.</p>
+            <p class="utdrag-tekst">«Skytedag for troppen tirsdag 24. mars, ansvar 2. lag.»</p>
+          </article>
+          <article class="utdrag ikke-verifisert" aria-labelledby="f7b-utdrag2">
+            <h3 id="f7b-utdrag2">Utdrag 2</h3>
+            <p class="utdrag-status">Ikke verifisert – Teksten ble ikke funnet i dokumentet. Kontroller forslaget selv.</p>
+            <p class="utdrag-tekst">«Skyting avsluttes 20. mars.»</p>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <!-- Handlingsrad -->
+    <div class="handlingsrad">
+      <button class="btn btn-sekundaer" type="button">Forkast gjennomgang</button>
+      <div class="midt">
+        <p class="arsak" id="f7b-oppsummering-arsak">Kan ikke gå videre: 8 forslag er ikke behandlet. 1 godkjent forslag har felt som må rettes.</p>
+        <button class="btn btn-sekundaer" type="button">Vis forslagene</button>
+      </div>
+      <button class="btn btn-primaer" type="button" aria-disabled="true" aria-describedby="f7b-oppsummering-arsak">Gå til oppsummering</button>
+    </div>
+  </div>
+</div>
+
+<p class="state-note">Alternativ tilstand fra F7-skissen (v3, B): brukeren har skjult forslagsoversikten. Den er lukket til knappen «Vis alle forslag (15)» i toppfeltet, og telleren står fortsatt ved siden av. Oversikten kan åpnes igjen med ett klikk eller én tast, og ser da ut som i A. Valget om å skjule oversikten huskes i den aktive gjennomgangen, ikke på tvers av gjennomganger. Det aktive forslaget og kildeutdragene får mer bredde. Godkjenningen er fortsatt sperret: feiloppsummeringen lister Sluttdato og Ansvarsområde, «Godkjenn» er utilgjengelig med årsak som tekst, og «Avvis» er tilgjengelig. Brukeren retter feltene i det aktive forslaget; avhengige felt vurderes på nytt når et felt forlates eller endres (rettes datoene, forsvinner sluttdato-feilen). Den usikre kategorien blokkerer ikke. I B ser brukeren ikke problemmerkene til de andre forslagene; telleren og årsaksteksten ved «Gå til oppsummering» viser fortsatt hva som gjenstår, og «Vis forslagene» åpner oversikten (E9). Ellers samme innhold, navigasjon, validering og automatisk videregang som i A. Godkjente forslag er ikke lagret før «Fullfør og lagre».</p>
+
+</body>
+</html>

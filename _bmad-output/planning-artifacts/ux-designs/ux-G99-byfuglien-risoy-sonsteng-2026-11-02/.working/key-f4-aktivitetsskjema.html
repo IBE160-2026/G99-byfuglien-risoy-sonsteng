@@ -32,8 +32,10 @@
     Bakgrunnen er F2 tilstand A (mars 2026) uendret, dempet bak modalen.
 
   Merknader:
-  - Tegngrensen for merknader er ikke fastsatt (OQ-8, arkitektur). «[grense]» står for
-    grensen; «120 tegn for mye» er et fiktivt tall fra skissen.
+  - Tegngrensen for merknader er ikke fastsatt (OQ-8, arkitektur). Tegntellerne («0 tegn»,
+    «120 tegn over grensen») illustrerer tegnantall og validering og fastsetter ingen
+    maksimalgrense; «120 tegn for mye» er et fiktivt tall fra skissen.
+  - Ansvarsområde i tilstand B inneholder tre faktiske mellomrom og ser derfor tomt ut.
   - Ordlyd er foreløpig og skal språkvaskes [FORELØPIG]. Fiktive data.
   - Dempingen bak modalen er utgangspunkt fra skissene, ikke validert [VALIDERES]. Den er laget
     som {colors.text} med gjennomsiktighet; det finnes ikke eget token for demping.
@@ -369,8 +371,6 @@ body {
   line-height: 1.5;
 }
 .felt::placeholder { color: var(--text-muted); opacity: 1; }
-/* Bare for å illustrere «bare mellomrom» i mocken (systemfonten mangler tegnet ␣) */
-.vis-mellomrom { font-family: "Segoe UI Symbol", var(--font); letter-spacing: 2px; }
 textarea.felt {
   padding: var(--s2) var(--s3);
   resize: vertical;
@@ -739,7 +739,7 @@ button:focus-visible, a:focus-visible, .vis-fokus {
           <div class="feltgruppe">
             <label class="etikett" for="f4a-merknader">Merknader (valgfritt)</label>
             <textarea class="felt" id="f4a-merknader" rows="4" placeholder="Flere avsnitt er mulig" aria-describedby="f4a-teller"></textarea>
-            <p class="teller" id="f4a-teller">0 / [grense] tegn</p>
+            <p class="teller" id="f4a-teller">0 tegn</p>
           </div>
         </form>
         <div class="handlinger">
@@ -791,7 +791,7 @@ button:focus-visible, a:focus-visible, .vis-fokus {
     </div>
   </div>
 </div>
-<p class="state-note">Hovedtilstand: «Ny aktivitet» i F2 åpner skjemaet som modal over dempet månedsvisning (mars 2026). Fem obligatoriske felt merket med ordet «(obligatorisk)» og ett valgfritt («Merknader (valgfritt)»). «Tittel» har innledende fokus (fokusringen er tegnet statisk). Datoer skrives som dd.mm.åååå eller velges i datovelgeren, som åpner på vist måned uten forhåndsvalgt dato. «Kategori» er en nedtrekksliste med bare de ni vedtatte kategoriene – ingen fritekst og ingen «opprett ny». Tegntelleren viser «[grense]» fordi grensen ikke er fastsatt (OQ-8). «Lagre» kan alltid aktiveres. De to innfelte panelene til høyre er to separate øyeblikk, ikke åpne samtidig.</p>
+<p class="state-note">Hovedtilstand: «Ny aktivitet» i F2 åpner skjemaet som modal over dempet månedsvisning (mars 2026). Fem obligatoriske felt merket med ordet «(obligatorisk)» og ett valgfritt («Merknader (valgfritt)»). «Tittel» har innledende fokus (fokusringen er tegnet statisk). Datoer skrives som dd.mm.åååå eller velges i datovelgeren, som åpner på vist måned uten forhåndsvalgt dato. «Kategori» er en nedtrekksliste med bare de ni vedtatte kategoriene – ingen fritekst og ingen «opprett ny». Tegntelleren viser bare antall tegn («0 tegn») og fastsetter ingen maksimalgrense; tegngrensen er ikke fastsatt (OQ-8). «Lagre» kan alltid aktiveres. De to innfelte panelene til høyre er to separate øyeblikk, ikke åpne samtidig.</p>
 
 <!-- ===================================================================== -->
 <!-- B · LAGRING STOPPET – UGYLDIG SKJEMA                                  -->
@@ -945,7 +945,7 @@ button:focus-visible, a:focus-visible, .vis-fokus {
             <div class="feltgruppe">
               <label class="etikett" for="f4b-ansvar">Ansvarsområde (obligatorisk)</label>
               <div class="ma-rettes">
-                <input class="felt vis-mellomrom" id="f4b-ansvar" type="text" value="␣␣␣" aria-invalid="true" aria-describedby="f4b-ansvar-feil">
+                <input class="felt" id="f4b-ansvar" type="text" value="   " aria-invalid="true" aria-describedby="f4b-ansvar-feil">
                 <p class="feilmelding" id="f4b-ansvar-feil">! Må rettes: Mangler – feltet kan ikke bare inneholde mellomrom</p>
               </div>
             </div>
@@ -957,7 +957,7 @@ button:focus-visible, a:focus-visible, .vis-fokus {
               <textarea class="felt" id="f4b-merknader" rows="8" aria-invalid="true" aria-describedby="f4b-teller f4b-merknader-feil">Skytebane B er reservert. Ammunisjon hentes dagen før. Lagførerne melder antall skyttere til troppssjef senest to dager før skytedagen. Hørselsvern og vernebriller kontrolleres ved oppmøte.
 
 Ved dårlig vær gjennomføres skytingen likevel etter planen. Skyteprogrammet gjennomgås på oppstillingen om morgenen, og alle skal ha lest sikkerhetsbestemmelsene for banen før de møter. Materiell som er brukt, rengjøres og leveres tilbake samme dag.</textarea>
-              <p class="teller" id="f4b-teller">[grense] + 120 / [grense] tegn</p>
+              <p class="teller" id="f4b-teller">120 tegn over grensen</p>
               <p class="feilmelding" id="f4b-merknader-feil">! Må rettes: Ugyldig – 120 tegn for mye. Teksten forkortes ikke automatisk.</p>
             </div>
           </div>
@@ -970,7 +970,7 @@ Ved dårlig vær gjennomføres skytingen likevel etter planen. Skyteprogrammet g
     </div>
   </div>
 </div>
-<p class="state-note">Lagring stoppet: brukeren har valgt «Lagre» med feil i skjemaet. Ingenting er lagret, og planen er uendret. Feiloppsummeringen øverst lister de fire feltene som må rettes; hvert feltnavn er en lenke som flytter fokus til feltet. Fokus er flyttet til første relevante feil i feltrekkefølgen, «Sluttdato» (fokusringen er tegnet statisk). Hvert felt med feil har 4 px heltrukken ramme rundt felt og melding, og årsaken står i tekst rett under feltet: sluttdato før startdato (UJ-2 E2), manglende kategori (UJ-2 E1), ansvarsområde med bare mellomrom regnes som manglende (FR-2; «␣␣␣» illustrerer mellomrommene). Merknaden er over grensen og er ugyldig (M11-a): meldingen sier hvor mange tegn som må fjernes, og hele teksten står urørt i feltet – den forkortes aldri automatisk. Brukeren retter feltene, korter ned eller fjerner merknaden selv, og velger «Lagre» igjen; «Lagre» kan alltid aktiveres. Tegngrensen er ikke fastsatt (OQ-8); «120» er et fiktivt tall fra skissen, og merknadsteksten etter de to første setningene er fiktiv utfylling.</p>
+<p class="state-note">Lagring stoppet: brukeren har valgt «Lagre» med feil i skjemaet. Ingenting er lagret, og planen er uendret. Feiloppsummeringen øverst lister de fire feltene som må rettes; hvert feltnavn er en lenke som flytter fokus til feltet. Fokus er flyttet til første relevante feil i feltrekkefølgen, «Sluttdato» (fokusringen er tegnet statisk). Hvert felt med feil har 4 px heltrukken ramme rundt felt og melding, og årsaken står i tekst rett under feltet: sluttdato før startdato (UJ-2 E2), manglende kategori (UJ-2 E1), ansvarsområde med bare mellomrom regnes som manglende (FR-2; feltet inneholder tre faktiske mellomrom og ser derfor tomt ut). Merknaden er over grensen og er ugyldig (M11-a): meldingen sier hvor mange tegn som må fjernes, og hele teksten står urørt i feltet – den forkortes aldri automatisk. Brukeren retter feltene, korter ned eller fjerner merknaden selv, og velger «Lagre» igjen; «Lagre» kan alltid aktiveres. Tegngrensen er ikke fastsatt (OQ-8); tegntelleren «120 tegn over grensen» fastsetter ingen maksimalgrense, og «120» er et fiktivt tall fra skissen, og merknadsteksten etter de to første setningene er fiktiv utfylling.</p>
 
 </body>
 </html>
