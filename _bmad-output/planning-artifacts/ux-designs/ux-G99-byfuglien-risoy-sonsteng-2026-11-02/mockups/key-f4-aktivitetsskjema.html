@@ -27,14 +27,15 @@
     (A tomt skjema med innfelt datovelger og kategoriliste, B lagring stoppet).
     C–F (lagret, rediger, lagringsfeil, avbryt) vises ikke.
   - Memlog: F4 APPROVED 2026-11-09, 13 detaljer 2026-11-09, M11-a gruppevedtak 2026-11-11,
-    OQ-3 2026-11-11, OQ-7/OQ-8 2026-11-11.
+    OQ-3 2026-11-11, OQ-7/OQ-8 2026-11-11, gruppevedtak om AD-10–AD-12 (OQ-7/OQ-8 avklart) 2026-11-22.
   - Visuell konsistens: mockups/key-f1-arsvisning.html og mockups/key-f2-manedsvisning.html.
     Bakgrunnen er F2 tilstand A (mars 2026) uendret, dempet bak modalen.
 
   Merknader:
-  - Tegngrensen for merknader er ikke fastsatt (OQ-8, arkitektur). Tegntellerne («0 tegn»,
-    «120 tegn over grensen») illustrerer tegnantall og validering og fastsetter ingen
-    maksimalgrense; «120 tegn for mye» er et fiktivt tall fra skissen.
+  - Tegngrensen for merknader er 5 000 tegn, telt som Unicode-kodepunkter etter CRLF -> \n
+    (AD-12, gruppevedtak 2026-11-22). Tellerformuleringene «0 tegn» og «N tegn over grensen»
+    er godkjent; tillegget «· maks 5 000 tegn» er godkjent 2026-11-22. «120 tegn for mye»
+    er et fiktivt tall fra skissen, og merknadsteksten i tilstand B er forkortet i mocken.
   - Ansvarsområde i tilstand B inneholder tre faktiske mellomrom og ser derfor tomt ut.
   - Ordlyd er foreløpig og skal språkvaskes [FORELØPIG]. Fiktive data.
   - Dempingen bak modalen er utgangspunkt fra skissene, ikke validert [VALIDERES]. Den er laget
@@ -596,7 +597,7 @@ button:focus-visible, a:focus-visible, .vis-fokus {
 </head>
 <body>
 
-<p class="mock-banner"><strong>Nøkkelmock F4 Aktivitetsskjema</strong> – statisk illustrasjon, ikke endelig implementasjon. Fiktive data. Ordlyd foreløpig. Tegngrensen for merknader er ikke fastsatt (OQ-8). DESIGN.md og EXPERIENCE.md vinner ved konflikt. Ikke testet på projektor, med tastatur eller skjermleser.</p>
+<p class="mock-banner"><strong>Nøkkelmock F4 Aktivitetsskjema</strong> – statisk illustrasjon, ikke endelig implementasjon. Fiktive data. Ordlyd foreløpig. Tegngrensen for merknader er 5 000 tegn (AD-12). DESIGN.md og EXPERIENCE.md vinner ved konflikt. Ikke testet på projektor, med tastatur eller skjermleser.</p>
 
 <!-- ===================================================================== -->
 <!-- A · NY AKTIVITET – TOMT SKJEMA                                        -->
@@ -739,7 +740,7 @@ button:focus-visible, a:focus-visible, .vis-fokus {
           <div class="feltgruppe">
             <label class="etikett" for="f4a-merknader">Merknader (valgfritt)</label>
             <textarea class="felt" id="f4a-merknader" rows="4" placeholder="Flere avsnitt er mulig" aria-describedby="f4a-teller"></textarea>
-            <p class="teller" id="f4a-teller">0 tegn</p>
+            <p class="teller" id="f4a-teller">0 tegn · maks 5 000 tegn</p>
           </div>
         </form>
         <div class="handlinger">
@@ -791,7 +792,7 @@ button:focus-visible, a:focus-visible, .vis-fokus {
     </div>
   </div>
 </div>
-<p class="state-note">Hovedtilstand: «Ny aktivitet» i F2 åpner skjemaet som modal over dempet månedsvisning (mars 2026). Fem obligatoriske felt merket med ordet «(obligatorisk)» og ett valgfritt («Merknader (valgfritt)»). «Tittel» har innledende fokus (fokusringen er tegnet statisk). Datoer skrives som dd.mm.åååå eller velges i datovelgeren, som åpner på vist måned uten forhåndsvalgt dato. «Kategori» er en nedtrekksliste med bare de ni vedtatte kategoriene – ingen fritekst og ingen «opprett ny». Tegntelleren viser bare antall tegn («0 tegn») og fastsetter ingen maksimalgrense; tegngrensen er ikke fastsatt (OQ-8). «Lagre» kan alltid aktiveres. De to innfelte panelene til høyre er to separate øyeblikk, ikke åpne samtidig.</p>
+<p class="state-note">Hovedtilstand: «Ny aktivitet» i F2 åpner skjemaet som modal over dempet månedsvisning (mars 2026). Fem obligatoriske felt merket med ordet «(obligatorisk)» og ett valgfritt («Merknader (valgfritt)»). «Tittel» har innledende fokus (fokusringen er tegnet statisk). Datoer skrives som dd.mm.åååå eller velges i datovelgeren, som åpner på vist måned uten forhåndsvalgt dato. «Kategori» er en nedtrekksliste med bare de ni vedtatte kategoriene – ingen fritekst og ingen «opprett ny». Tegntelleren viser antall tegn («0 tegn») og grensen («maks 5 000 tegn», AD-12; ordlyden er godkjent 2026-11-22). Feltet har ingen maxlength, så innlimt tekst kuttes ikke. «Lagre» kan alltid aktiveres. De to innfelte panelene til høyre er to separate øyeblikk, ikke åpne samtidig.</p>
 
 <!-- ===================================================================== -->
 <!-- B · LAGRING STOPPET – UGYLDIG SKJEMA                                  -->
@@ -957,7 +958,7 @@ button:focus-visible, a:focus-visible, .vis-fokus {
               <textarea class="felt" id="f4b-merknader" rows="8" aria-invalid="true" aria-describedby="f4b-teller f4b-merknader-feil">Skytebane B er reservert. Ammunisjon hentes dagen før. Lagførerne melder antall skyttere til troppssjef senest to dager før skytedagen. Hørselsvern og vernebriller kontrolleres ved oppmøte.
 
 Ved dårlig vær gjennomføres skytingen likevel etter planen. Skyteprogrammet gjennomgås på oppstillingen om morgenen, og alle skal ha lest sikkerhetsbestemmelsene for banen før de møter. Materiell som er brukt, rengjøres og leveres tilbake samme dag.</textarea>
-              <p class="teller" id="f4b-teller">120 tegn over grensen</p>
+              <p class="teller" id="f4b-teller">120 tegn over grensen · maks 5 000 tegn</p>
               <p class="feilmelding" id="f4b-merknader-feil">! Må rettes: Ugyldig – 120 tegn for mye. Kort ned teksten eller fjern merknaden. Teksten forkortes ikke automatisk.</p>
             </div>
           </div>
@@ -970,7 +971,7 @@ Ved dårlig vær gjennomføres skytingen likevel etter planen. Skyteprogrammet g
     </div>
   </div>
 </div>
-<p class="state-note">Lagring stoppet: brukeren har valgt «Lagre» med feil i skjemaet. Ingenting er lagret, og planen er uendret. Feiloppsummeringen øverst lister de fire feltene som må rettes; hvert feltnavn er en lenke som flytter fokus til feltet. Fokus er flyttet til første relevante feil i feltrekkefølgen, «Sluttdato» (fokusringen er tegnet statisk). Hvert felt med feil har 4 px heltrukken ramme rundt felt og melding, og årsaken står i tekst rett under feltet: sluttdato før startdato (UJ-2 E2), manglende kategori (UJ-2 E1), ansvarsområde med bare mellomrom regnes som manglende (FR-2; feltet inneholder tre faktiske mellomrom og ser derfor tomt ut). Merknaden er over grensen og er ugyldig (M11-a): meldingen sier hvor mange tegn som må fjernes, og hele teksten står urørt i feltet – den forkortes aldri automatisk. Brukeren retter feltene, korter ned eller fjerner merknaden selv, og velger «Lagre» igjen; «Lagre» kan alltid aktiveres. Tegngrensen er ikke fastsatt (OQ-8); tegntelleren «120 tegn over grensen» fastsetter ingen maksimalgrense, og «120» er et fiktivt tall fra skissen, og merknadsteksten etter de to første setningene er fiktiv utfylling.</p>
+<p class="state-note">Lagring stoppet: brukeren har valgt «Lagre» med feil i skjemaet. Ingenting er lagret, og planen er uendret. Feiloppsummeringen øverst lister de fire feltene som må rettes; hvert feltnavn er en lenke som flytter fokus til feltet. Fokus er flyttet til første relevante feil i feltrekkefølgen, «Sluttdato» (fokusringen er tegnet statisk). Hvert felt med feil har 4 px heltrukken ramme rundt felt og melding, og årsaken står i tekst rett under feltet: sluttdato før startdato (UJ-2 E2), manglende kategori (UJ-2 E1), ansvarsområde med bare mellomrom regnes som manglende (FR-2; feltet inneholder tre faktiske mellomrom og ser derfor tomt ut). Merknaden er over grensen og er ugyldig (M11-a): meldingen sier hvor mange tegn som må fjernes, og hele teksten står urørt i feltet – den forkortes aldri automatisk. Brukeren retter feltene, korter ned eller fjerner merknaden selv, og velger «Lagre» igjen; «Lagre» kan alltid aktiveres. Grensen er 5 000 tegn (AD-12), så en merknad på 5 120 tegn er 120 tegn over grensen. «120» er et fiktivt tall fra skissen, og merknadsteksten er forkortet i mocken; teksten etter de to første setningene er fiktiv utfylling.</p>
 
 </body>
 </html>

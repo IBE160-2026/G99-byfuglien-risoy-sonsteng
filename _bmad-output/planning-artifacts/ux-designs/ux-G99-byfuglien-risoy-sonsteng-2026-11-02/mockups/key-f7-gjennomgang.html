@@ -31,18 +31,19 @@
   - Memlog: F7-rekkefølge, oversikt og aktivt forslag, etter godkjenn/avvis, problemmerker
     (2026-11-03); oversikt synlig som standard; «Godkjenn» utilgjengelig ved blokkerende feil,
     godkjenning endrer ikke planen (2026-11-03); valgt/aktiv-markering (2026-11-09);
-    OQ-3-presiseringer (2026-11-11); OQ-7/OQ-8 (2026-11-11).
+    OQ-3-presiseringer (2026-11-11); OQ-7/OQ-8 (2026-11-11); gruppevedtak om AD-10–AD-12
+    (OQ-7/OQ-8 avklart, 2026-11-22).
   - Visuell konsistens: mockups/key-f1-arsvisning.html, key-f2-manedsvisning.html og
     key-f4-aktivitetsskjema.html (tokener, knapper, felt, «Må rettes», feiloppsummering).
 
   Merknader:
   - Mocken viser vanlig modus. Demo-modus-merket (DEMO-MODUS i skissen) vises ikke: det vises
-    bare i demo-modus, og aktivering avhenger av OQ-7 (åpen).
+    bare når appen er startet i demo-modus (AD-10, gruppevedtak 2026-11-22).
   - Feltetikettene har «(obligatorisk)»/«(valgfritt)» etter DESIGN.md › Felt med etikett;
     skissen mangler dette. Feiloppsummeringen lister feltene som lenker etter
     DESIGN.md › Feiloppsummering.
-  - Tegntelleren («68 tegn») viser bare antall tegn i den fiktive merknaden og fastsetter
-    ingen maksimalgrense (OQ-8, åpen).
+  - Tegntelleren («68 tegn») viser antall tegn i den fiktive merknaden. Grensen er 5 000 tegn
+    (AD-12); tillegget «· maks 5 000 tegn» er godkjent 2026-11-22.
   - Forslag 9–15 finnes ikke i skissen og er ikke konstruert; den statiske mocken viser bare
     forslag 1–8. I den planlagte applikasjonen kan listen rulles for å vise resten.
   - Utilgjengelige knapper er vist med aria-disabled; valget mellom disabled og aria-disabled
@@ -588,7 +589,7 @@ button:focus-visible, a:focus-visible {
 </head>
 <body>
 
-<p class="mock-banner"><strong>Nøkkelmock F7 Gjennomgang</strong> – statisk illustrasjon, ikke endelig implementasjon. Fiktive data fra F7-skissen (v3). Ordlyd foreløpig. Vanlig modus – demo-modus-merket vises ikke (avhenger av OQ-7). Tegngrensen for merknader er ikke fastsatt (OQ-8). Godkjente forslag er ikke lagrede aktiviteter før «Fullfør og lagre». DESIGN.md og EXPERIENCE.md vinner ved konflikt. Ikke testet på projektor, med tastatur eller skjermleser.</p>
+<p class="mock-banner"><strong>Nøkkelmock F7 Gjennomgang</strong> – statisk illustrasjon, ikke endelig implementasjon. Fiktive data fra F7-skissen (v3). Ordlyd foreløpig. Vanlig modus – demo-modus-merket vises bare når appen er startet i demo-modus (AD-10). Tegngrensen for merknader er 5 000 tegn (AD-12). Godkjente forslag er ikke lagrede aktiviteter før «Fullfør og lagre». DESIGN.md og EXPERIENCE.md vinner ved konflikt. Ikke testet på projektor, med tastatur eller skjermleser.</p>
 
 <!-- ===================================================================== -->
 <!-- A · AKTIV GJENNOMGANG – OVERSIKT SYNLIG (STANDARD)                    -->
@@ -695,7 +696,7 @@ button:focus-visible, a:focus-visible {
             <label class="etikett" for="f7a-merknader">Merknader (valgfritt)</label>
             <textarea class="felt" id="f7a-merknader" rows="3" aria-describedby="f7a-teller">Oppmøte på standplass kl. 0800.
 Husk hørselvern og ammunisjonsliste.</textarea>
-            <p class="teller" id="f7a-teller">68 tegn</p>
+            <p class="teller" id="f7a-teller">68 tegn · maks 5 000 tegn</p>
           </div>
         </form>
 
@@ -738,7 +739,7 @@ Husk hørselvern og ammunisjonsliste.</textarea>
   </div>
 </div>
 
-<p class="state-note">Hovedtilstand: gjennomgangen er aktiv etter analysen av et fiktivt dokument (15 aktivitetsforslag). Telleren «Godkjent 5 · Avvist 2 · Ubehandlet 8» er alltid synlig (FR-21, E9). Forslagsoversikten er synlig som standard og kan skjules med «Skjul» (se B). Hver rad viser nummer og kort tittel; linje 2 viser behandlingsstatus og problemmerker hver for seg («! 2 må rettes», «? Usikker», «Kilde ikke verifisert», «Ingen kilde»). Aktivt forslag (4 Skytedag) er markert nøytralt med 2 px kant, svak flate og ordet «Aktiv» – aldri oransje. Den statiske mocken viser bare forslag 1–8; forslag 9–15 finnes ikke i skissen og er ikke konstruert. I den planlagte applikasjonen kan listen rulles for å vise resten. Felt og kildeutdrag vises samtidig (FR-27). Forslaget har to blokkerende feil («! Må rettes:», tykk heltrukken ramme): sluttdato før startdato og manglende ansvarsområde. Kategorien er usikker («? Kontroller:», tynn stiplet ramme) og kan godkjennes uendret; kategorivalget bruker de ni vedtatte kategoriene som i F4. «Godkjenn» er synlig, men utilgjengelig, og årsaken står som tekst ved knappen – ikke som verktøytips. «Avvis» er tilgjengelig. Det finnes ingen «Godkjenn alle». Kildeutdragene vises som ren tekst: «Verifisert» betyr bare at teksten finnes i dokumentet, ikke at forslaget er riktig; «Ikke verifisert» blokkerer ikke godkjenning. «Gå til oppsummering» er utilgjengelig med årsak (E9); «Vis forslagene» viser hvilke forslag det gjelder. Godkjenning markerer bare forslaget i gjennomgangen – ingenting lagres i planen før «Fullfør og lagre» (FR-23, FR-26). Tegntelleren («68 tegn») viser bare antall tegn og fastsetter ingen maksimalgrense (OQ-8). Mocken viser vanlig modus; demo-modus-merket vises ikke (OQ-7). Ingen fokusring er tegnet, fordi skissen ikke angir hvor fokus står.</p>
+<p class="state-note">Hovedtilstand: gjennomgangen er aktiv etter analysen av et fiktivt dokument (15 aktivitetsforslag). Telleren «Godkjent 5 · Avvist 2 · Ubehandlet 8» er alltid synlig (FR-21, E9). Forslagsoversikten er synlig som standard og kan skjules med «Skjul» (se B). Hver rad viser nummer og kort tittel; linje 2 viser behandlingsstatus og problemmerker hver for seg («! 2 må rettes», «? Usikker», «Kilde ikke verifisert», «Ingen kilde»). Aktivt forslag (4 Skytedag) er markert nøytralt med 2 px kant, svak flate og ordet «Aktiv» – aldri oransje. Den statiske mocken viser bare forslag 1–8; forslag 9–15 finnes ikke i skissen og er ikke konstruert. I den planlagte applikasjonen kan listen rulles for å vise resten. Felt og kildeutdrag vises samtidig (FR-27). Forslaget har to blokkerende feil («! Må rettes:», tykk heltrukken ramme): sluttdato før startdato og manglende ansvarsområde. Kategorien er usikker («? Kontroller:», tynn stiplet ramme) og kan godkjennes uendret; kategorivalget bruker de ni vedtatte kategoriene som i F4. «Godkjenn» er synlig, men utilgjengelig, og årsaken står som tekst ved knappen – ikke som verktøytips. «Avvis» er tilgjengelig. Det finnes ingen «Godkjenn alle». Kildeutdragene vises som ren tekst: «Verifisert» betyr bare at teksten finnes i dokumentet, ikke at forslaget er riktig; «Ikke verifisert» blokkerer ikke godkjenning. «Gå til oppsummering» er utilgjengelig med årsak (E9); «Vis forslagene» viser hvilke forslag det gjelder. Godkjenning markerer bare forslaget i gjennomgangen – ingenting lagres i planen før «Fullfør og lagre» (FR-23, FR-26). Tegntelleren viser antall tegn i den fiktive merknaden og grensen («68 tegn · maks 5 000 tegn», AD-12; tillegget om grensen er godkjent 2026-11-22). Mocken viser vanlig modus; demo-modus-merket vises bare når appen er startet i demo-modus (AD-10). Ingen fokusring er tegnet, fordi skissen ikke angir hvor fokus står.</p>
 
 <!-- ===================================================================== -->
 <!-- B · OVERSIKT SKJULT AV BRUKEREN                                       -->
@@ -827,7 +828,7 @@ Husk hørselvern og ammunisjonsliste.</textarea>
             <label class="etikett" for="f7b-merknader">Merknader (valgfritt)</label>
             <textarea class="felt" id="f7b-merknader" rows="3" aria-describedby="f7b-teller">Oppmøte på standplass kl. 0800.
 Husk hørselvern og ammunisjonsliste.</textarea>
-            <p class="teller" id="f7b-teller">68 tegn</p>
+            <p class="teller" id="f7b-teller">68 tegn · maks 5 000 tegn</p>
           </div>
         </form>
 
