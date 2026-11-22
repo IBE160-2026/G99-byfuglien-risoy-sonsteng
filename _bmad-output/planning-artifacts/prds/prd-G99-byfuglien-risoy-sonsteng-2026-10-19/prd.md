@@ -2,7 +2,7 @@
 title: "PRD – KI-assistert interaktivt årshjul"
 status: final
 created: 2026-10-19
-updated: 2026-11-05
+updated: 2026-11-11
 ---
 
 # PRD: KI-assistert interaktivt årshjul
@@ -73,7 +73,7 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
   - **Avslutning:** Når Berg åpner applikasjonen neste gang, ligger de godkjente aktivitetene der fortsatt, med eventuelle merknader. De behandles som vanlige aktiviteter, uten lagret KI-opprinnelse eller kildeutdrag. Verken dokumentet eller de avviste aktivitetsforslagene er lagret. Planen er klar til planleggingsmøtet.
   - **Edge cases:**
     - **E1:** Berg forsøker å godkjenne et aktivitetsforslag der et obligatorisk felt er manglende eller ugyldig, for eksempel en manglende kategori eller en sluttdato som er tidligere enn startdatoen. Godkjenningen stoppes, og applikasjonen viser hvilket felt som må rettes og hvorfor. Et felt som bare er usikkert, med gyldig verdi, stopper ikke godkjenningen.
-    - **E1a:** KI klarer ikke å identifisere en passende kategori fra dokumentet (manglende), eller foreslår en kategori fra kategorilisten, men er usikker på om den er riktig (usikker). Er kategorien manglende, må Berg velge en kategori fra kategorilisten før forslaget kan godkjennes. En usikker kategori kan godkjennes uendret etter Bergs kontroll.
+    - **E1a:** Dokumentet gir ikke grunnlag for å velge kategori (manglende), eller KI foreslår en kategori fra kategorilisten, men kategorivalget er tvetydig (usikker). «Annet» er en gyldig kategori for en aktivitet som er forstått, men ikke passer i noen annen kategori, og brukes ikke som erstatning for manglende informasjon eller usikkerhet (FR-17). Er kategorien manglende, må Berg velge en kategori fra kategorilisten før forslaget kan godkjennes. En usikker kategori kan godkjennes uendret etter Bergs kontroll.
     - **E2:** Berg laster opp en skannet PDF, et bilde eller et format som ikke støttes. Applikasjonen melder at dokumentet ikke kan leses, og ingen aktivitetsforslag genereres.
     - **E3:** Analysen finner ingen aktiviteter i dokumentet. Applikasjonen melder dette, og planen er uendret.
     - **E4:** Et aktivitetsforslag har et kildeutdrag som ikke er verifisert, eller ingen kildeutdrag. Applikasjonen viser tydelig at verifisering mangler, og presenterer ikke et ikke verifisert kildeutdrag som sikker kilde. Manglende verifisering blokkerer ikke godkjenning: Berg kan redigere og godkjenne forslaget etter egen kontroll, forutsatt at alle obligatoriske felt er gyldige, eller avvise det.
@@ -98,7 +98,7 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
     - Systemet må vise ett eller flere kildeutdrag per aktivitetsforslag når dette er tilgjengelig, hentet ordrett fra dokumentteksten og verifisert individuelt av applikasjonen mot den etter normalisering av mellomrom og linjeskift. Et kildeutdrag som ikke er verifisert, eller som mangler, skal markeres tydelig og ikke presenteres som sikker kilde, men skal ikke blokkere godkjenning. Ingen full dokumentviser, automatisk navigasjon eller markering i v1. → FR-27, FR-28, FR-29
     - Systemet må la brukeren redigere, komplettere, godkjenne eller avvise hvert aktivitetsforslag individuelt, inkludert å kontrollere, redigere eller fjerne merknader foreslått av KI, og la brukeren redigere og omgjøre godkjente og avviste forslag fram til fullføring. → FR-21, FR-22, FR-23, FR-24
     - Systemet må ikke lagre avviste aktivitetsforslag og skal forkaste dem uten historikk. → FR-24
-    - Systemet må blokkere godkjenning når et obligatorisk felt (tittel, startdato, sluttdato, kategori, ansvarsområde) er manglende eller ugyldig, eller når datoregelen brytes. Et usikkert felt med gyldig verdi kan godkjennes uendret. Samme valideringsregler gjelder som ved manuell opprettelse og redigering (UJ-2). → FR-2, FR-23
+    - Systemet må blokkere godkjenning når et obligatorisk felt (tittel, startdato, sluttdato, kategori, ansvarsområde) er manglende eller ugyldig, når datoregelen brytes, eller når en utfylt merknad er ugyldig fordi den overskrider tegngrensen. Et usikkert felt med gyldig verdi kan godkjennes uendret. Samme valideringsregler gjelder som ved manuell opprettelse og redigering (UJ-2). → FR-2, FR-6, FR-23
     - Systemet må aldri legge inn en KI-generert aktivitet uten brukerens eksplisitte godkjenning og fullføring. → FR-25
     - Systemet må kreve at alle aktivitetsforslag er godkjent eller avvist før brukeren eksplisitt kan fullføre og lagre, og må da lagre alle godkjente aktivitetsforslag samlet og atomisk. → FR-26, NFR-1
     - Systemet må beholde en aktiv gjennomgang med brukerens midlertidige valg i økten, uten permanent lagring, la brukeren forkaste den og hindre ny analyse mens den er aktiv. → FR-15, FR-26
@@ -125,7 +125,7 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
     - Systemet må la brukeren redigere og lagre en aktivitet, inkludert merknader, slik at årshjulet oppdateres. → FR-4, FR-6
     - Systemet må la brukeren slette en aktivitet etter bekreftelse (ingen angrefunksjon i v1). → FR-5
     - Systemet må behandle godkjente aktivitetsforslag som vanlige aktiviteter, uten lagring eller visning av KI-opprinnelse eller kildeutdrag. → FR-4, FR-23
-    - Systemet må blokkere lagring når et obligatorisk felt mangler eller datoregelen brytes. Merknader er ikke obligatorisk. Samme valideringsregler gjelder som ved godkjenning av aktivitetsforslag (UJ-1). → FR-2
+    - Systemet må blokkere lagring når et obligatorisk felt mangler eller datoregelen brytes, eller når en utfylt merknad er ugyldig fordi den overskrider tegngrensen. Merknader er ikke obligatorisk, og et tomt merknadsfelt er gyldig. Samme valideringsregler gjelder som ved godkjenning av aktivitetsforslag (UJ-1). → FR-2, FR-6
     - Systemet må lagre endringer slik at de er tilgjengelige når applikasjonen åpnes på nytt. → FR-7
 
 - **UJ-3. Troppssjef Berg bruker årshjulet til å forberede og gjennomføre et planleggingsmøte**
@@ -179,7 +179,7 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
 - **Datoregel** — Startdato og sluttdato er obligatoriske, og sluttdato kan aldri være tidligere enn startdato. Gjelder ved manuell opprettelse, redigering og godkjenning av aktivitetsforslag.
 - **Obligatoriske felt** — Tittel, startdato, sluttdato, kategori og ansvarsområde.
 - **Kategori** — Én verdi valgt fra kategorilisten. Kategorier utenfor kategorilisten kan ikke velges eller opprettes. Hver kategori har en fast visuell identitet som ikke er avhengig av farge alene.
-- **Kategoriliste** — Den forhåndsdefinerte, faste listen over kategorier. Innholdet fastsettes i UX-workflowen.
+- **Kategoriliste** — Den forhåndsdefinerte, faste listen over kategorier. Innholdet fastsettes i UX-workflowen og er vedtatt (OQ-3).
 - **Ansvarsområde** — Fritekstfelt som angir hvem som har ansvaret for aktiviteten.
 - **Merknader** — Valgfritt fritekstfelt på en aktivitet for lengre tekst med flere avsnitt: utfyllende informasjon, kladd, vurderinger, forberedelser og egne tanker. Lagres permanent sammen med aktiviteten.
 
@@ -191,7 +191,7 @@ Første versjon utvikles og testes med troppssjefer som primærmålgruppe. Andre
 - **Språkmodell** — Den ene eksterne KI-tjenesten som brukes via API.
 - **Demo-modus** — Kjøremodus der analysen gir forhåndsdefinerte aktivitetsforslag for støttede testdokumenter i stedet for å kalle språkmodellen, med samme brukerflyt.
 - **Aktivitetsforslag** — En foreslått aktivitet fra analysen. Har de samme feltene som en aktivitet, inkludert eventuelle merknader foreslått av KI, samt ett eller flere tilknyttede kildeutdrag når dette er tilgjengelig. Eksisterer bare under gjennomgangen og lagres ikke permanent. Blir en aktivitet først ved fullføring, og bare hvis det er godkjent.
-- **Feltstatus** — Markering av et felt i et aktivitetsforslag: *manglende* (ingen verdi), *ugyldig* (verdien bryter reglene, f.eks. brudd på datoregelen) eller *usikker* (analysen har oppgitt verdien som usikker). Et felt kan være usikkert uten å være ugyldig. Kategori kan bare ha status *manglende* eller *usikker*. Manglende eller ugyldige obligatoriske felt må rettes før godkjenning; et usikkert felt med gyldig verdi kan godkjennes uendret etter brukerens kontroll.
+- **Feltstatus** — Markering av et felt i et aktivitetsforslag: *manglende* (ingen verdi), *ugyldig* (verdien bryter reglene, f.eks. brudd på datoregelen) eller *usikker* (analysen har oppgitt verdien som usikker). Et felt kan være usikkert uten å være ugyldig. Kategori kan bare ha status *manglende* eller *usikker*. Manglende eller ugyldige obligatoriske felt må rettes før godkjenning. Også et valgfritt, utfylt felt kan være ugyldig og må da rettes før godkjenning, f.eks. en merknad over tegngrensen (FR-6); et usikkert felt med gyldig verdi kan godkjennes uendret etter brukerens kontroll.
 - **Kildeutdrag** — Tekst hentet ordrett fra dokumentteksten som et aktivitetsforslag bygger på. Er enten *verifisert* (finnes i dokumentteksten etter normalisering av mellomrom og linjeskift) eller *ikke verifisert*. Et aktivitetsforslag kan ha flere kildeutdrag, og applikasjonen verifiserer hvert for seg. Mangler kildeutdrag, eller er det ikke verifisert, markeres manglende verifisering tydelig; forslaget kan likevel godkjennes.
 - **Gjennomgang** — Steget der brukeren kontrollerer, redigerer, godkjenner eller avviser aktivitetsforslagene fra ett dokument. Er aktiv fra analysen har gitt aktivitetsforslag til den er fullført eller forkastet, eller økten slutter. Aktivitetsforslag og midlertidige valg beholdes i økten, men lagres ikke permanent. Det kan bare være én aktiv gjennomgang.
 - **Ubehandlet aktivitetsforslag** — Aktivitetsforslag i en aktiv gjennomgang som verken er godkjent eller avvist.
@@ -227,7 +227,7 @@ Brukeren kan opprette en aktivitet med tittel, startdato, sluttdato, kategori (v
 
 #### FR-2: Validering av aktivitet
 
-Systemet blokkerer lagring og godkjenning når et obligatorisk felt er manglende eller ugyldig, eller når datoregelen brytes. Realiserer UJ-1, UJ-2.
+Systemet blokkerer lagring og godkjenning når et obligatorisk felt er manglende eller ugyldig, når datoregelen brytes, eller når en merknad er ugyldig fordi den overskrider tegngrensen (FR-6). Realiserer UJ-1, UJ-2.
 
 **Consequences (testable):**
 - Mangler tittel, startdato, sluttdato, kategori eller ansvarsområde, lagres ikke aktiviteten, og applikasjonen viser hvilket felt det gjelder.
@@ -235,6 +235,7 @@ Systemet blokkerer lagring og godkjenning når et obligatorisk felt er manglende
 - Kategori kan bare velges fra kategorilisten. Kategorier utenfor kategorilisten kan ikke velges eller opprettes.
 - Er sluttdato tidligere enn startdato, lagres ikke aktiviteten, og applikasjonen forklarer hvorfor.
 - Tomme merknader blokkerer ikke lagring.
+- En utfylt merknad som overskrider tegngrensen, er *ugyldig* selv om feltet er valgfritt. Den blokkerer lagring og godkjenning til brukeren har kortet den ned eller fjernet den, og applikasjonen viser hvor mange tegn som må fjernes (FR-6).
 - De samme reglene, inkludert konsekvent bruk av kategorilisten, gjelder ved opprettelse (FR-1), redigering (FR-4) og godkjenning av aktivitetsforslag (§4.4).
 
 #### FR-3: Åpne aktivitet
@@ -269,12 +270,13 @@ Brukeren kan slette en aktivitet etter bekreftelse. Realiserer UJ-2.
 
 #### FR-6: Merknader
 
-Brukeren kan legge inn valgfrie merknader på en aktivitet som lengre fritekst over flere avsnitt. Feltet kan ha en romslig øvre tegngrense som hindrer urimelig store tekstmengder uten å hemme normal bruk. Grensen fastsettes i arkitekturen. Merknader lagres permanent sammen med aktiviteten. Realiserer UJ-2, UJ-3.
+Brukeren kan legge inn valgfrie merknader på en aktivitet som lengre fritekst over flere avsnitt. Feltet kan ha en romslig øvre tegngrense som hindrer urimelig store tekstmengder uten å hemme normal bruk. Den konkrete grensen fastsettes i arkitekturen (OQ-8). Merknader lagres permanent sammen med aktiviteten. Realiserer UJ-2, UJ-3.
 
 **Consequences (testable):**
 - Merknader med flere avsnitt lagres og vises igjen med bevart avsnittsinndeling.
 - Merknader kan legges til, endres og tømmes via redigering (FR-4).
-- En merknad som overskrider grensen, enten den er skrevet av brukeren eller foreslått av KI, forkortes ikke automatisk uten at brukeren informeres. Håndteringen avgjøres i UX-workflowen og arkitekturen.
+- En merknad som overskrider grensen, enten den er skrevet av brukeren eller foreslått av KI, forkortes aldri automatisk. Den er *ugyldig* og blokkerer lagring og godkjenning (FR-2, FR-23). Brukeren må selv korte ned eller fjerne den.
+- En merknad foreslått av KI bevares i sin helhet til brukeren eventuelt endrer eller fjerner den.
 
 #### FR-7: Varig lagring
 
@@ -402,7 +404,11 @@ Analysen genererer en liste med aktivitetsforslag fra dokumentteksten. Hvert for
 **Ønsket atferd fra språkmodellen**
 
 *Analysen instruerer språkmodellen om dette. Applikasjonen kan ikke garantere feilfri KI. Etterlevelse og kvalitet evalueres mot fasit i SM-3, ikke som bestått eller ikke bestått per kjøring. Brukeren kontrollerer alle forslag.*
-- Kategori foreslås bare fra kategorilisten. Uten passende kategori oppgis feltet som manglende. Ved tvil om en foreslått kategori oppgis den som usikker.
+- Kategori foreslås bare fra kategorilisten.
+  - «Annet» er en gyldig kategori når aktiviteten er forstått, men ingen annen kategori passer.
+  - Er kategorivalget tvetydig, oppgis den foreslåtte kategorien som usikker.
+  - Gir tilgjengelig informasjon ikke grunnlag for å velge kategori, oppgis feltet som manglende.
+  - «Annet» brukes ikke automatisk som erstatning for manglende informasjon eller usikkerhet.
 - Beskriver dokumentet tydelig en éndagsaktivitet eller en frist med én dato, foreslås samme dato som startdato og sluttdato. Fristen er et unntak fra regelen under.
 - KI antar ellers ikke at en aktivitet varer én dag bare fordi dokumentet angir én dato.
 - Gir dokumentet ingen holdepunkter for aktivitetens varighet, oppgis sluttdatoen som manglende.
@@ -465,7 +471,7 @@ Brukeren kan endre og fylle inn alle feltene i et aktivitetsforslag fram til ful
 
 **Consequences (testable):**
 - Alle felt kan endres. Kategori velges fra kategorilisten.
-- Et godkjent forslag som endres, må fortsatt oppfylle FR-2. Fullføring blokkeres så lenge et godkjent forslag har et manglende eller ugyldig obligatorisk felt, eller bryter datoregelen.
+- Et godkjent forslag som endres, må fortsatt oppfylle FR-2. Fullføring blokkeres så lenge et godkjent forslag har et manglende eller ugyldig obligatorisk felt, en ugyldig merknad (FR-6), eller bryter datoregelen.
 - Merknader foreslått av KI kan kortes ned, endres eller fjernes helt.
 - Når brukeren har endret eller fylt inn et felt, gjelder ikke lenger statusen KI satte for feltet.
 - Feltet valideres etter FR-2, og en verdi som er manglende eller ugyldig, markeres fortsatt.
@@ -475,7 +481,7 @@ Brukeren kan endre og fylle inn alle feltene i et aktivitetsforslag fram til ful
 Brukeren godkjenner hvert aktivitetsforslag individuelt. Godkjenningen er et midlertidig valg under gjennomgangen. Forslaget blir en aktivitet i planen først ved fullføring (FR-26). Realiserer UJ-1.
 
 **Consequences (testable):**
-- Godkjenning blokkeres når et obligatorisk felt er *manglende* eller *ugyldig*, eller når datoregelen brytes. Applikasjonen viser hvilket felt som må rettes, og hvorfor (FR-2).
+- Godkjenning blokkeres når et obligatorisk felt er *manglende* eller *ugyldig*, når datoregelen brytes, eller når en merknad er *ugyldig* fordi den overskrider tegngrensen (FR-6). Applikasjonen viser hvilket felt som må rettes, og hvorfor (FR-2).
 - Et felt med status *usikker* og gyldig verdi blokkerer ikke godkjenning.
 - Godkjenning alene endrer ikke planen.
 - Et godkjent forslag kan omgjøres til avvist fram til fullføring.
@@ -782,7 +788,7 @@ Samme planleggingsoppgave gjennomføres manuelt i Excel og i applikasjonen. For 
 
 | ID | Spørsmål | Krav |
 |---|---|---|
-| OQ-3 | **Prioritert:** innholdet i kategorilisten, inkludert behovet for en generell restkategori og om frister trenger egen kategori. Må avklares før implementering av aktivitetshåndtering, analyse og demo-modus. | FR-1, FR-12, FR-17, FR-18 |
+| OQ-3 | **Avklart 2026-11-11** (gruppevedtak i UX-workflowen): kategorilisten har ni kategorier med bokstavkoder, inkludert «Frister» og restkategorien «Annet», og aktiviteter klassifiseres etter primært formål. Listen og klassifiseringsreglene står i UX-spesifikasjonen (`EXPERIENCE.md`, «Kategoriliste og klassifisering») og gjentas ikke her. *Opprinnelig spørsmål:* innholdet i kategorilisten, inkludert behovet for en generell restkategori og om frister trenger egen kategori. | FR-1, FR-12, FR-17, FR-18 |
 | OQ-4 | Hvordan årsvisningen forblir lesbar når mange aktiviteter ligger i samme måned. | FR-13 |
 | OQ-5 | Visuell utforming av årshjulet og gjennomgangen. Det omfatter kategoriidentitet, tastaturbruk i hjulet, månedsnavigasjon, plassering av kildeutdrag, markering av demo-modus, informasjon om demo-modus ved feil, fullføring og forkasting av gjennomgang, navigasjon mellom gjennomgang og årshjul, informasjon om mulige duplikater og bekreftelser. | FR-8, FR-10, FR-12, FR-18, FR-20, FR-26, FR-27, NFR-7 |
 
@@ -792,7 +798,7 @@ Samme planleggingsoppgave gjennomføres manuelt i Excel og i applikasjonen. For 
 |---|---|---|
 | OQ-6 | Valg av språkmodell og leverandør, med begrunnelse. | C-2 |
 | OQ-7 | Hvordan demo-modus aktiveres, og hvordan støttede testdokumenter gjenkjennes. | FR-18 |
-| OQ-8 | Lagringsløsning, tidsgrense for analyse, maksimal dokumentstørrelse og hvilke nettlesere som støttes. | FR-7, NFR-2, NFR-3, NFR-8 |
+| OQ-8 | Lagringsløsning, tidsgrense for analyse, maksimal dokumentstørrelse, tegngrense for merknader og hvilke nettlesere som støttes. | FR-6, FR-7, NFR-2, NFR-3, NFR-8 |
 
 ### 10.5 Avklares i testplanen
 

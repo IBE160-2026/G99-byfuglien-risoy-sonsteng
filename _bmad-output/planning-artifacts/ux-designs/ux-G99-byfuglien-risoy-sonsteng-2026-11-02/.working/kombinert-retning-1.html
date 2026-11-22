@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1800">
+<title>Kombinert retning – foreløpig</title>
+<style>
+/*
+KOMBINERT RETNING – FORSLAG, IKKE BESLUTTET. Fiktive data.
+  bakgrunn: #FFFFFF
+  panel: #F3F5F8
+  tekst: #0B0B0B
+  dempet: #3E3E3E
+  linje: #BDBDBD
+  linje-sterk: #0B0B0B
+  prim: #0B0B0B
+  primtx: #FFFFFF
+  fokus: #C75000
+  blokk-tx: #7D1010
+  blokk-line: #0B0B0B
+  usik-tx: #5C4300
+  usik-line: #3E3E3E
+  dis-tx: #4A4A4A
+  dis-bg: #E6E6E6
+   Tekst på bakgrunn: #0B0B0B på #FFFFFF = 19.68:1 (projektoranslag 12.81:1)
+   Tekst på panel (tema 1): #0B0B0B på #F3F5F8 = 18.02:1 (projektoranslag 11.93:1)
+   Dempet tekst på bakgrunn: #3E3E3E på #FFFFFF = 10.70:1 (projektoranslag 6.73:1)
+   Dempet tekst på panel: #3E3E3E på #F3F5F8 = 9.79:1 (projektoranslag 6.27:1)
+   Primærknapp-tekst på primær: #FFFFFF på #0B0B0B = 19.68:1 (projektoranslag 12.81:1)
+   «Må rettes»-tekst på bakgrunn: #7D1010 på #FFFFFF = 10.75:1 (projektoranslag 7.57:1)
+   «Må rettes»-tekst på panel: #7D1010 på #F3F5F8 = 9.84:1 (projektoranslag 7.05:1)
+   «Kontroller»-tekst på bakgrunn: #5C4300 på #FFFFFF = 9.30:1 (projektoranslag 6.09:1)
+   «Kontroller»-tekst på panel: #5C4300 på #F3F5F8 = 8.52:1 (projektoranslag 5.67:1)
+   Deaktivert tekst på deaktivert flate: #4A4A4A på #E6E6E6 = 7.10:1 (projektoranslag 4.81:1)
+   Oransje fokus mot bakgrunn: #C75000 på #FFFFFF = 4.59:1 (projektoranslag 3.62:1)
+   Oransje fokus mot panel: #C75000 på #F3F5F8 = 4.20:1 (projektoranslag 3.38:1)
+   Oransje fokus mot svart primærknapp: #C75000 på #0B0B0B = 4.29:1 (projektoranslag 3.53:1)
+   Oransje fokus mot deaktivert flate: #C75000 på #E6E6E6 = 3.68:1 (projektoranslag 3.02:1)
+   Feltramme/sterk linje mot panel: #0B0B0B på #F3F5F8 = 18.02:1 (projektoranslag 11.93:1)
+   Panel mot bakgrunn: #F3F5F8 på #FFFFFF = 1.09:1 (projektoranslag 1.07:1)
+   Skillelinje mot bakgrunn: #BDBDBD på #FFFFFF = 1.88:1 (projektoranslag 1.69:1)
+*/
+
+
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:#E9EAEC;color:#111111;font-family:system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.45;font-size:18px}
+.side{width:1800px;margin:0 auto;padding:20px 20px 40px}
+.banner{background:#FFFFFF;color:#111111;border:3px dashed #111111;padding:14px 18px;font-weight:700;font-size:22px;margin:0 0 14px}
+.intro{margin:0 0 18px;max-width:110ch}
+.intro h1{margin:0 0 6px;font-size:30px}
+.intro p{margin:0 0 6px}
+.kolonner{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.tema{background:var(--bg);color:var(--tekst);padding:22px 20px 26px;border:1px solid #C9CCD1}
+.t-hode{margin:0 0 18px}
+.t-nr{margin:0;font-size:15px;color:var(--dempet);font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.t-hode h2{margin:2px 0 6px;font-size:38px;line-height:1.1;font-weight:var(--hw);letter-spacing:var(--ht)}
+.t-reg{margin:0 0 8px;font-size:20px}
+.t-henter,.t-aksent{margin:0 0 6px;font-size:16px;color:var(--dempet)}
+code{font-family:Consolas,"Cascadia Mono","Courier New",monospace;font-size:.88em}
+.snutt{margin:22px 0 0}
+.sn-tittel{margin:0 0 8px;font-size:16px;font-weight:700;color:var(--dempet);text-transform:uppercase;letter-spacing:.06em}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
+.chip{display:flex;gap:8px;align-items:center;font-size:15px;line-height:1.25}
+.chip .sw{flex:0 0 52px;height:36px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;border:1px solid rgba(0,0,0,.18);border-radius:var(--rf)}
+.chip .cl{display:flex;flex-direction:column}
+.chip small{color:var(--dempet);font-size:13px}
+.app{background:var(--bg);border-radius:var(--rk);overflow:hidden}
+.app.pad{padding:16px}
+.topp{padding:12px 14px}
+.topp-rad{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.topp-rad2{margin-top:10px}
+.app-navn{font-weight:var(--hw);font-size:21px;letter-spacing:var(--ht)}
+.arb{font-weight:400;color:var(--dempet);font-size:16px}
+.handl{display:flex;gap:8px}
+.knapp{display:inline-block;padding:9px 16px;border-radius:var(--r);font-weight:600;font-size:16px;line-height:1.2;border:2px solid transparent;white-space:nowrap}
+.knapp.prim{background:var(--prim);color:var(--primtx);border-color:var(--prim)}
+.knapp.sek{background:var(--sek-bg);color:var(--sek-tx);border-color:var(--sek-line)}
+.knapp.dis{background:var(--dis-bg);color:var(--dis-tx);border:2px dashed var(--dis-tx)}
+.fokus-vist{outline:4px solid var(--fokus);outline-offset:3px}
+.fokus-merk{font-size:14px;color:var(--dempet)}
+.aarnav{display:inline-flex;gap:10px;align-items:center;font-size:19px;font-weight:600}
+.aarnav .sep{color:var(--dempet);font-weight:400}
+.aarnav .pil{font-size:15px}
+.hjul-flate{padding:10px 14px 14px;text-align:center}
+.hjul{display:block;margin:0 auto;max-width:100%;height:auto}
+.w-mnd{font-size:19px;font-weight:700;fill:var(--tekst)}
+.w-ant{font-size:28px;font-weight:700;fill:var(--tekst)}
+.w-null{fill:var(--dempet)}
+.w-tom{font-size:13px;fill:var(--dempet);font-weight:600}
+.w-tag{font-size:14.5px;font-weight:700;fill:var(--tekst)}
+.w-aar{font-size:34px;font-weight:800;fill:var(--tekst)}
+.w-sum{font-size:14px;fill:var(--dempet);font-weight:600}
+.valgt{margin:8px 0 6px;font-size:18px}
+.kat-liste{list-style:none;padding:0;margin:6px 0 0;text-align:left;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:16px}
+.tag{display:inline-block;font-weight:700;font-size:15px;line-height:1.5;color:var(--tekst);white-space:nowrap}
+.merk{font-size:15px;color:var(--dempet);margin:8px 0 0;text-align:left}
+.teller{margin:0 0 10px;font-size:19px}
+.oversikt{list-style:none;padding:0;margin:0 0 12px}
+.oversikt li{display:flex;align-items:center;gap:10px;padding:8px 10px}
+.oversikt li>span:not(.nr):not(.st){flex:1;display:flex;flex-direction:column}
+.meta{font-size:15px;color:var(--dempet);font-weight:400}
+.st{font-size:15px;font-weight:700;padding:1px 8px;white-space:nowrap}
+.st-blokk{color:var(--blokk-tx);background:var(--blokk-bg);border:3px solid var(--blokk-line)}
+.st-usik{color:var(--usik-tx);background:var(--usik-bg);border:1.5px dashed var(--usik-line)}
+.st-ok{color:var(--tekst);border:1px solid var(--linje-sterk)}
+.felt{display:grid;grid-template-columns:110px 1fr;gap:2px 10px;padding:10px 12px;margin:0 0 10px;border-radius:var(--rf)}
+.felt .f-lab{font-weight:700}
+.felt .f-status{grid-column:1 / -1;font-size:17px}
+.felt.blokk{background:var(--blokk-bg);color:var(--blokk-tx);border:3px solid var(--blokk-line);border-left-width:8px}
+.felt.blokk .f-lab,.felt.blokk .f-verdi{color:var(--tekst)}
+.felt.blokk{background:var(--blokk-bg)}
+.felt.usik{background:var(--usik-bg);color:var(--usik-tx);border:1.5px dashed var(--usik-line)}
+.felt.usik .f-lab,.felt.usik .f-verdi{color:var(--tekst)}
+.utdrag{background:var(--panel);padding:10px 12px;margin:0 0 12px;border-radius:var(--rf);border-left:4px solid var(--linje-sterk)}
+.utdrag p{margin:0 0 4px}
+.u-status{font-size:16px}
+.u-tekst{font-style:italic}
+.beslutning{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.grunn{margin:8px 0 0;font-size:17px}
+.uke{display:grid;grid-template-columns:62px 1fr;gap:6px}
+.ukenr{font-weight:700;font-size:15px;padding-top:4px}
+.dager{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:30px 30px 30px 26px;gap:3px 0}
+.dag{grid-row:1 / span 4;padding:3px 4px;background:var(--panel)}
+.dag:nth-child(1){grid-column:1}.dag:nth-child(2){grid-column:2}.dag:nth-child(3){grid-column:3}.dag:nth-child(4){grid-column:4}.dag:nth-child(5){grid-column:5}.dag:nth-child(6){grid-column:6}.dag:nth-child(7){grid-column:7}
+.t1 .dag,.t3 .dag{border-right:2px solid var(--bg)}
+.dag.i-dag .dnr{font-weight:800;text-decoration:underline}
+.dnr{font-size:14px;font-weight:600}
+.bar{grid-row:2;align-self:stretch;margin:0 3px;padding:3px 7px;font-size:14px;font-weight:700;background:var(--bg);border:1px solid var(--linje-sterk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:1;color:var(--tekst)}
+.bar.b2{grid-row:3}
+.flere{grid-row:4;margin:0 3px;font-size:14px;font-weight:700;z-index:1;color:var(--tekst);text-decoration:underline}
+.t1 .flere,.t3 .flere{color:var(--prim)}
+.modal-bak{margin:16px 0 0;padding:18px;background:rgba(0,0,0,.08);border-radius:var(--rk)}
+.modal{background:var(--bg);padding:16px 18px;border-radius:var(--rk)}
+.m-over{margin:0;font-size:15px;font-weight:700;color:var(--dempet);text-transform:uppercase;letter-spacing:.06em}
+.m-tittel{margin:2px 0 2px;font-size:25px;font-weight:var(--hw);letter-spacing:var(--ht)}
+.modal .meta{margin:0 0 8px}
+.m-felt{display:grid;grid-template-columns:130px 1fr;gap:2px 10px;margin:0 0 12px;font-size:17px}
+.m-felt dt{font-weight:700}.m-felt dd{margin:0}
+.m-handl{display:flex;gap:8px;justify-content:flex-end}
+.kt{width:100%;border-collapse:collapse;font-size:14px}
+.kt code{font-size:12.5px}
+.kt th,.kt td{text-align:left;padding:4px 5px;border-bottom:1px solid var(--linje);vertical-align:top}
+.kt th{font-weight:700}
+.kt .tall{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
+.fot{margin:22px 0 0;font-size:16px;max-width:120ch}
+.t1{--bg:#FFFFFF;--panel:#F3F5F8;--tekst:#14171C;--dempet:#474D57;--linje:#D3D8DF;--linje-sterk:#7A828D;--prim:#1F4E8C;--primtx:#FFFFFF;--fokus:#1F4E8C;--sek-bg:#FFFFFF;--sek-tx:#14171C;--sek-line:#474D57;--blokk-tx:#8A1C1C;--blokk-bg:#FCEEEE;--blokk-line:#8A1C1C;--usik-tx:#6A4700;--usik-bg:#FFF6DD;--usik-line:#6A4700;--dis-tx:#4E5560;--dis-bg:#E7EAEE;--r:999px;--rk:16px;--rf:10px;--hw:600;--ht:-0.01em}
+.t2{--bg:#FFFFFF;--panel:#F4F4F4;--tekst:#0B0B0B;--dempet:#3E3E3E;--linje:#BDBDBD;--linje-sterk:#0B0B0B;--prim:#0B0B0B;--primtx:#FFFFFF;--fokus:#2B3FD6;--sek-bg:#FFFFFF;--sek-tx:#0B0B0B;--sek-line:#0B0B0B;--blokk-tx:#7D1010;--blokk-bg:#FFFFFF;--blokk-line:#0B0B0B;--usik-tx:#5C4300;--usik-bg:#FFFFFF;--usik-line:#3E3E3E;--dis-tx:#4A4A4A;--dis-bg:#E6E6E6;--r:0;--rk:0;--rf:0;--hw:500;--ht:0}
+.t3{--bg:#FAF8F4;--panel:#F0ECE5;--tekst:#1A1916;--dempet:#4B4740;--linje:#D8D1C5;--linje-sterk:#1A1916;--prim:#1A4F4A;--primtx:#FFFFFF;--fokus:#1A4F4A;--sek-bg:#FAF8F4;--sek-tx:#1A1916;--sek-line:#1A1916;--blokk-tx:#86200F;--blokk-bg:#F8E8E2;--blokk-line:#86200F;--usik-tx:#614600;--usik-bg:#F9F0D6;--usik-line:#614600;--dis-tx:#4E4A43;--dis-bg:#E4DED4;--r:4px;--rk:6px;--rf:4px;--hw:800;--ht:-0.025em}
+/* ---- Tema 1: Kjølig og luftig ---- */
+.t1 .app{border:none;box-shadow:0 1px 2px rgba(20,23,28,.06),0 4px 16px rgba(20,23,28,.06)}
+.t1 .topp{background:var(--bg);border-bottom:1px solid var(--linje)}
+.t1 .aarnav .naa{background:var(--prim);color:var(--primtx);padding:2px 14px;border-radius:999px}
+.t1 .tag{background:var(--panel);border:1px solid var(--linje);border-radius:999px;padding:1px 10px}
+.t1 .hjul-flate{background:var(--bg)}
+.t1 .lenke{color:var(--prim);font-weight:600}
+.t1 .oversikt li{border-radius:12px}
+.t1 .oversikt li.aktiv{background:var(--panel)}
+.t1 .modal{box-shadow:0 12px 40px rgba(20,23,28,.18)}
+.t1 .bar{border-radius:8px}
+.t1 .w-ant{font-weight:600}
+
+/* ---- Tema 2: Presis monokrom ---- */
+.t2 .app{border:1px solid var(--linje-sterk);box-shadow:none}
+.t2 .topp{border-bottom:1px solid var(--linje-sterk)}
+.t2 .aarnav .naa{border-bottom:3px solid var(--tekst);padding:0 6px 1px}
+.t2 .tag{border:1px solid var(--linje-sterk);padding:0 8px;background:var(--bg)}
+.t2 .lenke{color:var(--tekst);font-weight:600;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.t2 .oversikt{border-top:1px solid var(--linje-sterk)}
+.t2 .oversikt li{border-bottom:1px solid var(--linje);border-radius:0}
+.t2 .oversikt li.aktiv{border-left:4px solid var(--tekst);background:var(--panel)}
+.t2 .chips .sw{border:1px solid var(--linje)}
+.t2 .knapp{letter-spacing:.02em}
+.t2 .dager{border-left:1px solid var(--linje);border-top:1px solid var(--linje)}
+.t2 .dag{border-right:1px solid var(--linje);border-bottom:1px solid var(--linje);background:var(--bg)}
+.t2 .bar{border:1px solid var(--tekst);background:var(--bg)}
+.t2 .bar.b2{background:var(--tekst);color:var(--primtx)}
+.t2 .modal{border:1px solid var(--linje-sterk);box-shadow:none}
+.t2 .t-hode h2{font-weight:500;font-size:36px}
+.t2 .w-mnd{font-weight:500}
+.t2 .utdrag{border-left:1px solid var(--linje-sterk)}
+.t2 .felt.blokk{background:var(--blokk-bg)}
+
+/* ---- Tema 3: Redaksjonell lys ---- */
+.t3 .app{border:1px solid var(--linje);box-shadow:none}
+.t3 .topp{border-bottom:2px solid var(--tekst)}
+.t3 .app-navn{font-weight:800;letter-spacing:-.02em}
+.t3 .aarnav .naa{font-weight:800;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px}
+.t3 .tag{font-weight:700;padding:0 4px;border-bottom:2px solid var(--tekst)}
+.t3 .lenke{color:var(--prim);font-weight:700;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+.t3 .t-hode h2{font-size:42px}
+.t3 .oversikt li{border-bottom:1px solid var(--linje);border-radius:0}
+.t3 .oversikt li.aktiv{background:var(--panel)}
+.t3 .nr{font-variant-numeric:tabular-nums;font-weight:800;font-size:22px;color:var(--dempet);min-width:2.2ch}
+.t3 .meta{letter-spacing:.01em}
+.t3 .bar{border-left:5px solid var(--tekst);background:var(--panel)}
+.t3 .m-tittel{font-weight:800;letter-spacing:-.02em;font-size:28px}
+.t3 .w-ant{font-weight:800}
+
+
+.tk{--bg:#FFFFFF;--panel:#F3F5F8;--tekst:#0B0B0B;--dempet:#3E3E3E;--linje:#BDBDBD;--linje-sterk:#0B0B0B;--prim:#0B0B0B;--primtx:#FFFFFF;--fokus:#C75000;--sek-bg:#FFFFFF;--sek-tx:#0B0B0B;--sek-line:#0B0B0B;--blokk-tx:#7D1010;--blokk-bg:#FFFFFF;--blokk-line:#0B0B0B;--usik-tx:#5C4300;--usik-bg:#FFFFFF;--usik-line:#3E3E3E;--dis-tx:#4A4A4A;--dis-bg:#E6E6E6}
+.tk .lenke{color:var(--tekst);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.tk .fokus-vist{outline:3px solid var(--fokus);outline-offset:3px}
+.tk .app{box-shadow:none;border:1px solid var(--linje)}
+.side{width:1800px}
+.kolonner{grid-template-columns:1fr 1fr}
+.notat{background:#FFFFFF;color:#0B0B0B;padding:22px 24px;border:1px solid #C9CCD1}
+.notat h2{margin:0 0 10px;font-size:30px;font-weight:600;letter-spacing:-0.01em}
+.notat h3{margin:22px 0 8px;font-size:21px}
+.notat table{width:100%;border-collapse:collapse;font-size:16px}
+.notat th,.notat td{text-align:left;padding:6px 8px;border-bottom:1px solid #BDBDBD;vertical-align:top}
+.notat ol,.notat ul{margin:0;padding-left:22px}
+.notat li{margin:0 0 8px}
+.ring-demo{display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin:8px 0 4px;padding:14px;background:#F3F5F8}
+.ring-demo span{display:inline-block}
+</style>
+</head>
+<body>
+<div class="side">
+ <p class="banner">FORELØPIG KOMBINERT RETNING – til vurdering, ikke besluttet. Fiktive data. Hex-verdier er forslag.</p>
+ <div class="intro">
+  <h1>Kombinert retning for A «Lys, strukturert planleggingsverktøy»</h1>
+  <p>Formspråk fra tema 1 «Kjølig og luftig», fargetokens fra tema 2 «Presis monokrom», panelfarge fra tema 1 og oransje fokusfarge. Kategorier er plassholdere – OQ-3 er åpen. Inspirasjonen fra Apple, Polestar og Langsikt er retning, ikke mal.</p>
+ </div>
+ <div class="kolonner">
+<article class="tema t1 tk">
+ <header class="t-hode">
+  <p class="t-nr">Kombinert retning · forslag</p>
+  <h2>Kjølig og luftig + presis monokrom</h2>
+  <p class="t-reg">Formspråk fra tema 1, fargetokens fra tema 2, panel fra tema 1 og oransje fokus.</p>
+  <p class="t-henter">Apple: luft, tydelig hierarki og én primærhandling per flate. Polestar: presis struktur, hårfine skillelinjer og nøktern layout. Langsikt: tydelige metadata («18.03.2026 · Kat. C») og redaksjonelt hierarki.</p>
+  <p class="t-aksent">Oransje <code>#C75000</code> brukes bare som fokusmarkering – ikke til kategori, status eller feil. Primærhandling er svart.</p>
+ </header>
+ <section class="snutt"><h3 class="sn-tittel">Fargetokener (semantiske roller)</h3><div class="chips"><div class="chip"><span class="sw" style="background:#FFFFFF;"></span><span class="cl"><b>bakgrunn</b><code>#FFFFFF</code><small>tema 2</small></span></div><div class="chip"><span class="sw" style="background:#F3F5F8;"></span><span class="cl"><b>flate/panel</b><code>#F3F5F8</code><small>tema 1 (overstyrer)</small></span></div><div class="chip"><span class="sw" style="background:#FFFFFF;color:#0B0B0B;">Aa</span><span class="cl"><b>tekst</b><code>#0B0B0B / #FFFFFF</code><small>tema 2</small></span></div><div class="chip"><span class="sw" style="background:#FFFFFF;color:#3E3E3E;">Aa</span><span class="cl"><b>dempet tekst</b><code>#3E3E3E / #FFFFFF</code><small>tema 2</small></span></div><div class="chip"><span class="sw" style="background:#BDBDBD;"></span><span class="cl"><b>linje/skillelinje</b><code>#BDBDBD</code><small>tema 2 · sterk linje #0B0B0B</small></span></div><div class="chip"><span class="sw" style="background:#0B0B0B;"></span><span class="cl"><b>primærhandling</b><code>#0B0B0B</code><small>tema 2 (svart)</small></span></div><div class="chip"><span class="sw" style="background:#0B0B0B;color:#FFFFFF;">Aa</span><span class="cl"><b>primærhandling-tekst</b><code>#FFFFFF / #0B0B0B</code><small>tema 2</small></span></div><div class="chip"><span class="sw" style="background:#C75000;"></span><span class="cl"><b>fokus</b><code>#C75000</code><small>NY · oransje, bare fokus</small></span></div><div class="chip"><span class="sw" style="background:#FFFFFF;border:1px solid #C75000;"></span><span class="cl"><b>fokus-avstand</b><code>#FFFFFF</code><small>NY · 3 px hvit luft rundt</small></span></div><div class="chip"><span class="sw" style="background:#FFFFFF;color:#7D1010;border:1px solid #0B0B0B;">Aa</span><span class="cl"><b>«Må rettes»</b><code>#7D1010 / #FFFFFF</code><small>tema 2 · tykk heltrukken</small></span></div><div class="chip"><span class="sw" style="background:#FFFFFF;color:#5C4300;border:1px solid #3E3E3E;">Aa</span><span class="cl"><b>«Kontroller»</b><code>#5C4300 / #FFFFFF</code><small>tema 2 · tynn stiplet</small></span></div><div class="chip"><span class="sw" style="background:#E6E6E6;color:#4A4A4A;">Aa</span><span class="cl"><b>deaktivert</b><code>#4A4A4A / #E6E6E6</code><small>tema 2</small></span></div></div></section>
+ 
+<section class="snutt">
+ <h3 class="sn-tittel">Snutt 1 · F1 Årsvisning</h3>
+ <div class="app">
+  <div class="topp">
+   <div class="topp-rad">
+    <span class="app-navn">Årshjul <span class="arb">(arbeidstittel)</span></span>
+    <span class="handl"><span class="knapp sek">Last opp dokument</span><span class="knapp prim">Ny aktivitet</span></span>
+   </div>
+   <div class="topp-rad2"><span class="aarnav" aria-label="Velg kalenderår"><span class="pil">◀</span><span>2025</span><span class="sep">|</span><span class="naa" aria-current="true">2026</span><span class="sep">|</span><span>2027</span><span class="pil">▶</span></span></div>
+  </div>
+  <div class="hjul-flate">
+   <svg class="hjul" viewBox="0 0 500 500" width="500" height="500" role="img" aria-label="Årshjul 2026 med antall aktiviteter per måned. Mars er valgt.">
+<path d="M250.0 6.0 A244 244 0 0 1 372.0 38.7 L286.0 187.6 A72 72 0 0 0 250.0 178.0 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="291.4" y="79.5" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Jan</text>
+<text x="291.4" y="105.5" class="w-ant" text-anchor="middle" dominant-baseline="middle">4</text>
+<path d="M372.0 38.7 A244 244 0 0 1 461.3 128.0 L312.4 214.0 A72 72 0 0 0 286.0 187.6 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="363.1" y="120.9" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Feb</text>
+<text x="363.1" y="146.9" class="w-ant" text-anchor="middle" dominant-baseline="middle">6</text>
+<path d="M461.3 128.0 A244 244 0 0 1 494.0 250.0 L322.0 250.0 A72 72 0 0 0 312.4 214.0 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="3"/>
+<text x="404.5" y="178.6" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Mar</text>
+<text x="404.5" y="204.6" class="w-ant" text-anchor="middle" dominant-baseline="middle">20</text>
+<text x="404.5" y="228.6" class="w-tag" text-anchor="middle" dominant-baseline="middle">A 8 C 7</text>
+<text x="404.5" y="244.6" class="w-tag" text-anchor="middle" dominant-baseline="middle">F 5</text>
+<path d="M494.0 250.0 A244 244 0 0 1 461.3 372.0 L312.4 286.0 A72 72 0 0 0 322.0 250.0 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="404.5" y="267.4" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Apr</text>
+<text x="404.5" y="293.4" class="w-ant" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="404.5" y="317.4" class="w-tag" text-anchor="middle" dominant-baseline="middle">C 5 G 4</text>
+<path d="M461.3 372.0 A244 244 0 0 1 372.0 461.3 L286.0 312.4 A72 72 0 0 0 312.4 286.0 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="363.1" y="347.1" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Mai</text>
+<text x="363.1" y="373.1" class="w-ant" text-anchor="middle" dominant-baseline="middle">7</text>
+<path d="M372.0 461.3 A244 244 0 0 1 250.0 494.0 L250.0 322.0 A72 72 0 0 0 286.0 312.4 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="291.4" y="388.5" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Jun</text>
+<text x="291.4" y="414.5" class="w-ant" text-anchor="middle" dominant-baseline="middle">5</text>
+<path d="M250.0 494.0 A244 244 0 0 1 128.0 461.3 L214.0 312.4 A72 72 0 0 0 250.0 322.0 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="208.6" y="380.5" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Jul</text>
+<text x="208.6" y="406.5" class="w-ant w-null" text-anchor="middle" dominant-baseline="middle">0</text>
+<text x="208.6" y="429.5" class="w-tom" text-anchor="middle" dominant-baseline="middle">Ingen</text>
+<text x="208.6" y="443.5" class="w-tom" text-anchor="middle" dominant-baseline="middle">aktiviteter</text>
+<path d="M128.0 461.3 A244 244 0 0 1 38.7 372.0 L187.6 286.0 A72 72 0 0 0 214.0 312.4 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="136.9" y="347.1" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Aug</text>
+<text x="136.9" y="373.1" class="w-ant" text-anchor="middle" dominant-baseline="middle">3</text>
+<path d="M38.7 372.0 A244 244 0 0 1 6.0 250.0 L178.0 250.0 A72 72 0 0 0 187.6 286.0 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="95.5" y="267.4" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Sep</text>
+<text x="95.5" y="293.4" class="w-ant" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="95.5" y="317.4" class="w-tag" text-anchor="middle" dominant-baseline="middle">B 5 E 3</text>
+<path d="M6.0 250.0 A244 244 0 0 1 38.7 128.0 L187.6 214.0 A72 72 0 0 0 178.0 250.0 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="95.5" y="184.6" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Okt</text>
+<text x="95.5" y="210.6" class="w-ant" text-anchor="middle" dominant-baseline="middle">11</text>
+<text x="95.5" y="234.6" class="w-tag" text-anchor="middle" dominant-baseline="middle">A 6 D 5</text>
+<path d="M38.7 128.0 A244 244 0 0 1 128.0 38.7 L214.0 187.6 A72 72 0 0 0 187.6 214.0 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="136.9" y="120.9" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Nov</text>
+<text x="136.9" y="146.9" class="w-ant" text-anchor="middle" dominant-baseline="middle">6</text>
+<path d="M128.0 38.7 A244 244 0 0 1 250.0 6.0 L250.0 178.0 A72 72 0 0 0 214.0 187.6 Z" fill="#F3F5F8" stroke="#FFFFFF" stroke-width="3"/>
+<text x="208.6" y="79.5" class="w-mnd" text-anchor="middle" dominant-baseline="middle">Des</text>
+<text x="208.6" y="105.5" class="w-ant" text-anchor="middle" dominant-baseline="middle">4</text>
+<path d="M461.3 128.0 A244 244 0 0 1 494.0 250.0 L322.0 250.0 A72 72 0 0 0 312.4 214.0 Z" fill="none" stroke="#C75000" stroke-width="5" stroke-linejoin="round"/>
+<circle cx="250" cy="250" r="68" fill="#FFFFFF"/>
+<text x="250" y="244" class="w-aar" text-anchor="middle" dominant-baseline="middle">2026</text>
+<text x="250" y="276" class="w-sum" text-anchor="middle" dominant-baseline="middle">kalenderår</text>
+</svg>
+   <p class="valgt">Valgt: <b>Mars 2026</b> – 20 aktiviteter. <span class="lenke">Åpne månedsvisning</span></p>
+   <ul class="kat-liste"><li><b>Mar 20:</b> <span class="tag">A 8</span> <span class="tag">C 7</span> <span class="tag">F 5</span></li><li><b>Apr 9:</b> <span class="tag">C 5</span> <span class="tag">G 4</span></li><li><b>Sep 8:</b> <span class="tag">B 5</span> <span class="tag">E 3</span></li><li><b>Okt 11:</b> <span class="tag">A 6</span> <span class="tag">D 5</span></li></ul><p class="merk">Kategorier er plassholdere – OQ-3 er åpen. Kategori leses av bokstav + antall, ikke farge.</p>
+  </div>
+ </div>
+</section>
+ 
+<section class="snutt">
+ <h3 class="sn-tittel">Snutt 2 · F7 Gjennomgang (utsnitt)</h3>
+ <div class="app pad">
+  <p class="teller"><b>Godkjent 5</b> · <b>Avvist 2</b> · <b>Ubehandlet 8</b></p>
+  <ol class="oversikt"><li><span><b>Øvelse Nordlys</b><span class="meta">16.03.2026 · Kat. C</span></span><span class="st st-blokk">! Må rettes</span></li><li class="aktiv"><span><b>Vaktplan uke 12</b><span class="meta">18.03.2026 · Kat. C</span></span><span class="st st-usik">? Kontroller</span></li><li><span><b>Fagdag samband</b><span class="meta">24.03.2026 · Kat. A</span></span><span class="st st-ok">Godkjent</span></li></ol>
+  <div class="felt blokk">
+   <span class="f-lab">Sluttdato</span>
+   <span class="f-verdi">20.03.2026</span>
+   <span class="f-status"><b>! Må rettes:</b> Ugyldig – sluttdato er før startdato</span>
+  </div>
+  <div class="felt usik">
+   <span class="f-lab">Kategori</span>
+   <span class="f-verdi"><span class="tag">Kat. C</span></span>
+   <span class="f-status"><b>? Kontroller:</b> Usikker – kontroller mot kildeutdraget</span>
+  </div>
+  <div class="utdrag">
+   <p class="u-status"><b>Verifisert</b> – Teksten finnes i dokumentet. Det betyr ikke at forslaget er riktig.</p>
+   <p class="u-tekst">«Kompaniet gjennomfører øvelse i perioden 16.–20. mars. Troppene stiller …»</p>
+  </div>
+  <div class="beslutning">
+   <span class="knapp dis" aria-disabled="true">Godkjenn</span>
+   <span class="knapp sek fokus-vist">Avvis</span>
+   <span class="fokus-merk">(tastaturfokus vist på «Avvis» – oransje ring med hvit luft)</span>
+  </div>
+  <p class="grunn"><b>Kan ikke godkjennes ennå:</b> Sluttdato og Ansvarsområde må rettes.</p>
+ </div>
+</section>
+ 
+<section class="snutt">
+ <h3 class="sn-tittel">Snutt 3 · F2 Månedsvisning (én uke) og F3 Aktivitetsdetaljer</h3>
+ <div class="app pad">
+  <div class="uke">
+   <div class="ukenr">Uke 12</div>
+   <div class="dager">
+    <div class="dag"><span class="dnr">Man 16.</span></div><div class="dag"><span class="dnr">Tir 17.</span></div><div class="dag i-dag"><span class="dnr">Ons 18.</span></div><div class="dag"><span class="dnr">Tor 19.</span></div><div class="dag"><span class="dnr">Fre 20.</span></div><div class="dag"><span class="dnr">Lør 21.</span></div><div class="dag"><span class="dnr">Søn 22.</span></div>
+    <div class="bar b1" style="grid-column:1 / span 5">Øvelse Nordlys · C</div>
+    <div class="bar b2" style="grid-column:3 / span 1">Vakt · A</div>
+    <div class="flere" style="grid-column:3 / span 1">+3 flere</div>
+   </div>
+  </div>
+  <p class="merk">16.–22. mars 2026. «+3 flere» åpner dagsoversikt for 18.3.</p>
+  <div class="modal-bak">
+   <div class="modal" role="dialog" aria-label="Aktivitetsdetaljer">
+    <p class="m-over">Aktivitetsdetaljer</p>
+    <h4 class="m-tittel">Øvelse Nordlys</h4>
+    <p class="meta">16.03.2026–20.03.2026 · Aktivitet · Kat. C</p>
+    <dl class="m-felt">
+     <dt>Ansvarsområde</dt><dd>2. tropp</dd>
+     <dt>Notat</dt><dd>Fiktiv øvelse. Oppmøte kl. 07.30.</dd>
+    </dl>
+    <div class="m-handl"><span class="knapp sek">Rediger</span><span class="knapp sek">Slett</span><span class="knapp prim">Lukk</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+ 
+<section class="snutt">
+ <h3 class="sn-tittel">Kontrast (WCAG 2.1) og projektoranslag</h3>
+ <table class="kt">
+  <thead><tr><th>Par</th><th>Hex (forgrunn / bakgrunn)</th><th>Normal</th><th>Projektor*</th><th>Krav</th><th></th></tr></thead>
+  <tbody><tr><td>Tekst på bakgrunn</td><td><code>#0B0B0B</code> / <code>#FFFFFF</code></td><td class="tall">19.68:1</td><td class="tall">12.81:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>Tekst på panel (tema 1)</td><td><code>#0B0B0B</code> / <code>#F3F5F8</code></td><td class="tall">18.02:1</td><td class="tall">11.93:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>Dempet tekst på bakgrunn</td><td><code>#3E3E3E</code> / <code>#FFFFFF</code></td><td class="tall">10.70:1</td><td class="tall">6.73:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>Dempet tekst på panel</td><td><code>#3E3E3E</code> / <code>#F3F5F8</code></td><td class="tall">9.79:1</td><td class="tall">6.27:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>Primærknapp-tekst på primær</td><td><code>#FFFFFF</code> / <code>#0B0B0B</code></td><td class="tall">19.68:1</td><td class="tall">12.81:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>«Må rettes»-tekst på bakgrunn</td><td><code>#7D1010</code> / <code>#FFFFFF</code></td><td class="tall">10.75:1</td><td class="tall">7.57:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>«Må rettes»-tekst på panel</td><td><code>#7D1010</code> / <code>#F3F5F8</code></td><td class="tall">9.84:1</td><td class="tall">7.05:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>«Kontroller»-tekst på bakgrunn</td><td><code>#5C4300</code> / <code>#FFFFFF</code></td><td class="tall">9.30:1</td><td class="tall">6.09:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>«Kontroller»-tekst på panel</td><td><code>#5C4300</code> / <code>#F3F5F8</code></td><td class="tall">8.52:1</td><td class="tall">5.67:1</td><td>≥ 7 (min. 4,5)</td><td>OK</td></tr><tr><td>Deaktivert tekst på deaktivert flate</td><td><code>#4A4A4A</code> / <code>#E6E6E6</code></td><td class="tall">7.10:1</td><td class="tall">4.81:1</td><td>unntatt; ønsket ≥ 4,5</td><td>OK</td></tr><tr><td>Oransje fokus mot bakgrunn</td><td><code>#C75000</code> / <code>#FFFFFF</code></td><td class="tall">4.59:1</td><td class="tall">3.62:1</td><td>≥ 3 (1.4.11)</td><td>OK</td></tr><tr><td>Oransje fokus mot panel</td><td><code>#C75000</code> / <code>#F3F5F8</code></td><td class="tall">4.20:1</td><td class="tall">3.38:1</td><td>≥ 3 (1.4.11)</td><td>OK</td></tr><tr><td>Oransje fokus mot svart primærknapp</td><td><code>#C75000</code> / <code>#0B0B0B</code></td><td class="tall">4.29:1</td><td class="tall">3.53:1</td><td>≥ 3 (1.4.11)</td><td>OK</td></tr><tr><td>Oransje fokus mot deaktivert flate</td><td><code>#C75000</code> / <code>#E6E6E6</code></td><td class="tall">3.68:1</td><td class="tall">3.02:1</td><td>≥ 3 (1.4.11)</td><td>OK</td></tr><tr><td>Feltramme/sterk linje mot panel</td><td><code>#0B0B0B</code> / <code>#F3F5F8</code></td><td class="tall">18.02:1</td><td class="tall">11.93:1</td><td>≥ 3 (1.4.11)</td><td>OK</td></tr><tr><td>Panel mot bakgrunn</td><td><code>#F3F5F8</code> / <code>#FFFFFF</code></td><td class="tall">1.09:1</td><td class="tall">1.07:1</td><td>ingen krav – se problem 1</td><td>MERK</td></tr><tr><td>Skillelinje mot bakgrunn</td><td><code>#BDBDBD</code> / <code>#FFFFFF</code></td><td class="tall">1.88:1</td><td class="tall">1.69:1</td><td>ingen (dekor)</td><td>–</td></tr></tbody>
+ </table>
+ <p class="merk"><b>Laveste brødtekst:</b> 8.52:1 normalt · 5.67:1 projektoranslag («Kontroller»-tekst på panel).<br>
+ *Anslag, ikke måling: hver farge er kjørt gjennom <code>contrast(0.75) brightness(1.1)</code> i sRGB og kontrasten er regnet på nytt. Reelle projektorer varierer.</p>
+</section>
+</article>
+
+<article class="notat">
+ <h2>Tokens: hva kommer fra hvor</h2>
+ <table>
+  <thead><tr><th>Rolle</th><th>Verdi (forslag)</th><th>Kilde</th></tr></thead>
+  <tbody>
+   <tr><td>bakgrunn</td><td><code>#FFFFFF</code></td><td>Tema 2 beholdt (lik i tema 1)</td></tr>
+   <tr><td>flate/panel</td><td><code>#F3F5F8</code></td><td><b>Tema 1 overstyrer</b> tema 2 <code>#F4F4F4</code></td></tr>
+   <tr><td>tekst · dempet tekst</td><td><code>#0B0B0B</code> · <code>#3E3E3E</code></td><td>Tema 2 beholdt</td></tr>
+   <tr><td>skillelinje · sterk linje</td><td><code>#BDBDBD</code> · <code>#0B0B0B</code></td><td>Tema 2 beholdt</td></tr>
+   <tr><td>primærhandling · tekst</td><td><code>#0B0B0B</code> · <code>#FFFFFF</code></td><td>Tema 2 beholdt (svart, ikke blå)</td></tr>
+   <tr><td>«Må rettes» · «Kontroller»</td><td><code>#7D1010</code> · <code>#5C4300</code> på hvitt</td><td>Tema 2 beholdt, med tykk/stiplet ramme</td></tr>
+   <tr><td>deaktivert</td><td><code>#4A4A4A</code> / <code>#E6E6E6</code></td><td>Tema 2 beholdt</td></tr>
+   <tr><td>fokus</td><td><code>#C75000</code></td><td><b>Ny</b> – erstatter blå <code>#2B3FD6</code></td></tr>
+   <tr><td>fokus-avstand</td><td>3 px hvit (bakgrunn)</td><td><b>Ny</b> – skiller ringen fra svarte knapper og rammer</td></tr>
+   <tr><td>formspråk: hjørner, luft, vekt</td><td>pilleknapper, 16/10 px hjørner, halvfet</td><td>Tema 1 (ikke farge)</td></tr>
+  </tbody>
+ </table>
+ <h3>Fokus i praksis</h3>
+ <div class="ring-demo">
+  <span class="knapp prim fokus-vist" style="background:#0B0B0B;color:#FFF;border-radius:999px;padding:9px 16px;font-weight:600;outline:3px solid #C75000;outline-offset:3px">Ny aktivitet</span>
+  <span class="knapp" style="background:#FFF;color:#0B0B0B;border:2px solid #0B0B0B;border-radius:999px;padding:9px 16px;font-weight:600;outline:3px solid #C75000;outline-offset:3px">Last opp dokument</span>
+  <span style="background:#FFF;border:4px solid #0B0B0B;padding:8px 12px;color:#7D1010;font-weight:700">! Må rettes</span>
+  <span style="background:#FFF;border:4px solid #0B0B0B;padding:8px 12px;color:#7D1010;font-weight:700;outline:3px solid #C75000;outline-offset:3px">! Må rettes (i fokus)</span>
+ </div>
+ <p style="font-size:15px;color:#3E3E3E;margin:4px 0 0">Fokus vises som oransje ring med hvit luft. Status bæres av tekst og strektype, aldri av oransje.</p>
+ <h3>Reelle problemer før paletten godkjennes</h3>
+ <ol>
+  <li><b>Panel mot bakgrunn er svakt:</b> <code>#F3F5F8</code> mot hvitt er 1,09:1. Tema 1 skilte flater med skygge; på projektor forsvinner både skygge og panel. Flater bør i tillegg få hårfin linje (Polestar-grep).</li>
+  <li><b>Tykk svart ramme betyr to ting:</b> i tema 2 er «Må rettes» tykk svart ramme. Valgt måned og aktivt forslag må ha et eget kjennetegn (f.eks. fylt panel + tekst «Valgt»/«Aktiv»), ellers kan de forveksles.</li>
+  <li><b>Fokus og valgt må skilles:</b> oransje er bare fokus. Valgt måned i hjulet vises her med hvit flate; et eget «valgt»-token mangler.</li>
+  <li><b>Oransje har mindre margin på projektor:</b> 4,59:1 mot hvitt, anslått ca. 3,6:1 med projektorfilter. Over 3:1, men må testes på faktisk projektor.</li>
+  <li><b>Fargevarme:</b> tema 2 har nøytrale gråtoner, tema 1-panelet er svakt blått. Forskjellen er liten, men synlig ved deaktiverte knapper på panel (1,14:1).</li>
+  <li><b>Fargesvakhet:</b> ved simulert deuteranopi er «Må rettes»-rødt og «Kontroller»-brunt nesten like. Det er akseptabelt fordi status bæres av tekst og strektype (besluttet), men farge må aldri bli eneste skille.</li>
+ </ol>
+ <h3>Ikke besluttet</h3>
+ <ul>
+  <li>Eksakt oransje (forslag <code>#C75000</code>), ringbredde og avstand.</li>
+  <li>Endelig tokenpalett, typografi (skriftfamilie og størrelser) og komponentstil.</li>
+  <li>Kategoriidentitet – OQ-3 er åpen, kategoriene er plassholdere.</li>
+ </ul>
+</article>
+
+ </div>
+</div>
+</body>
+</html>
